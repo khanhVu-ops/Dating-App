@@ -12,6 +12,7 @@ class VerifyCodeViewController: BaseViewController {
     @IBOutlet weak var stvOTP: OTPStackView!
     @IBOutlet weak var btnAgree: UIButton!
     @IBOutlet weak var lbError: UILabel!
+    let verifyCodeViewModel = VerifyCodeViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,9 @@ class VerifyCodeViewController: BaseViewController {
     }
     
     override func setUpView() {
+        
+        verifyCodeViewModel.stvOTP = stvOTP
+        
         btnAgree.layer.cornerRadius = 25
         updateButtonUI(btnAgree, enable: false, color: .blue)
         showError(lbError: lbError, enable: false, text: "")
@@ -52,10 +56,10 @@ class VerifyCodeViewController: BaseViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func didTapBtnVerify(_ sender: Any) {
-        if stvOTP.getOTPString() == "111111" {
+        if verifyCodeViewModel.checkOTPSuccessfull() {
             showError(lbError: lbError, enable: false, text: "")
             let st = UIStoryboard(name: "Main", bundle: nil)
-            if DatabaseManager.shared.loginUser(phoneNumber: GobalData.userRegister.phoneNumber) {
+            if verifyCodeViewModel.checkAccountRegisted() {
                 let vcHome = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController
                 self.navigationController?.pushViewController(vcHome, animated: true)
             }else {

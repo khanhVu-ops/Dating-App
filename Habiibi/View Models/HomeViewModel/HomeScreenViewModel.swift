@@ -24,6 +24,8 @@ class HomeScreenViewModel {
     var user: UserModel?
     var imgAvt = UIImageView()
     let userActive = DatabaseManager.shared.fetchDataUser()
+    var from = 0
+    var destination = 100
     
     func getListUsers()  {
         
@@ -37,6 +39,8 @@ class HomeScreenViewModel {
 //               / print("IDDDD: \(id)")
                 self.items = self.items.filter() {$0.id != id}
             }
+            self.items = self.items.filter() {($0.age ?? 0) >= self.from }
+            self.items = self.items.filter() {($0.age ?? 0) <= self.destination }
             
                         DispatchQueue.main.async {
                 self.vKoloda.reloadData()

@@ -10,7 +10,7 @@ import UIKit
 
 extension String {
     func isValidPhoneNumber() -> Bool {
-        let regEx = "^[0-9+]{0,1}+[0-9]{9,10}$"
+        let regEx = "^[0-9+]{0,1}+[0-9]{8,11}$"
         
         let phoneCheck = NSPredicate(format: "SELF MATCHES[c] %@", regEx)
         return phoneCheck.evaluate(with: self)

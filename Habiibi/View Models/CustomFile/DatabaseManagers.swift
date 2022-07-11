@@ -17,8 +17,7 @@ protocol DatabaseManagerProtocol {
     func addListUserInteraction(id: Int, like: Bool)
     func addImgAvata(string: String)
     func updateProfileEditing(property: String, text: String)
-    func addListImage(imgStr: String)
-    func removeImage(index: Int)
+    func updateListImage(list: [String])
 }
 
 class DatabaseManager {
@@ -272,7 +271,7 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
         }
     }
     
-    func addListImage(imgStr: String) {
+    func updateListImage(list: [String]) {
         var users = [UserLogin]()
         do {
             // realm
@@ -286,7 +285,10 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
             for item in users {
                 
                 try! realm.write {
-                    item.listImage.append(imgStr)
+                    item.listImage.removeAll()
+                    for imgStr in list {
+                        item.listImage.append(imgStr)
+                    }
                     
                 }
                   
@@ -298,33 +300,5 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
             print(error)
         }
     }
-    
-    func removeImage(index: Int) {
-        var users = [UserLogin]()
-        do {
-            // realm
-            let realm = try Realm()
-            
-            // results
-            let results = realm.objects(UserLogin.self).filter("userActive = 1")
-            
-            // convert to array
-            users = Array(results)
-            for item in users {
-                
-                try! realm.write {
-                    item.listImage.remove(at: index)
-                    
-                }
-                  
-                
-            }
-            
-        } catch {
-            // call back
-            print(error)
-        }
-    }
-    
 }
 

@@ -23,13 +23,19 @@ class ProfileViewModel {
     var tfEditCountry: UITextField!
     var tbvListEdit: UITableView!
     var tbvListEducation: UITableView!
+    var btnSave: UIButton!
     var listEdit = [ModelSetUpTBV]()
     var listEducation = [ModelSetUpTBV]()
     var listImg = [String]()
-
+    var txtAboutMe: UITextView!
+    var txtFvrFood: UITextView!
+    var listItemWillSave = [ModelSetUpTBV]()
+//    let subject = BehaviorSubject<Bool>(value: true)
     func updateUI() {
         let text = userActive.firstName + " " + userActive.lastName
         lbName?.text = text
+        txtAboutMe.text = userActive.about_me
+        txtFvrFood.text = userActive.favorite_food
 //        lbCountry?.text = userActive.country
         if userActive.imgAvt == "img_avt_default" {
             imgAvata?.image = UIImage(named: "img_avt_default")
@@ -48,7 +54,7 @@ class ProfileViewModel {
         listEdit = [ModelSetUpTBV(title: "Country", tfText: userActive.country, imgStr: "country"),
                      ModelSetUpTBV(title: "Height", tfText: "\(userActive.height)", imgStr: "height"),
                      ModelSetUpTBV(title: "Children", tfText: "\(userActive.children)", imgStr: "children"),
-                     ModelSetUpTBV(title: "Marital Status", tfText: "\(userActive.material_status)", imgStr: "marital_status"),
+                     ModelSetUpTBV(title: "Marital Status", tfText: "\(userActive.material_status)", imgStr: "material_status"),
                      ModelSetUpTBV(title: "Smoker", tfText: userActive.smoker, imgStr: "smoker"),
                      ModelSetUpTBV(title: "Body Type", tfText: userActive.body_type, imgStr: "body_type")
         ]
@@ -65,11 +71,22 @@ class ProfileViewModel {
     }
     
     func getListImg() {
-        listImg.removeAll()
-        for item in userActive.listImage {
-            listImg.append(item)
+        if listImg.count == 0 {
+            for item in userActive.listImage {
+                listImg.append(item)
+            }
         }
+        
     }
+//    func setUpObservable() {
+//        subject.asObserver()
+//            .subscribe(onNext:{ [unowned self] value in
+//                btnSave.isEnabled = value
+//                btnSave.backgroundColor = value ? .gray : .gray.withAlphaComponent(0.3)
+//
+//            })
+//            .disposed(by: disposeBag)
+//    }
     
     
     

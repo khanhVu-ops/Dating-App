@@ -13,6 +13,8 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var tfEnter: UITextField!
     @IBOutlet weak var btnEdit: UIButton!
+    var editVC: EditingProfileViewController?
+
     
     var property = ""
     override func awakeFromNib() {
@@ -60,8 +62,9 @@ extension ProfileTableViewCell: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        
-        DatabaseManager.shared.updateProfileEditing(property: property, text: text)
+        print(property)
+        editVC?.profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: property, tfText: text, imgStr: ""))
+//        DatabaseManager.shared.updateProfileEditing(property: property, text: text)
     }
     
 }

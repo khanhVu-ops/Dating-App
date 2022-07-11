@@ -12,14 +12,14 @@ class GenderSignUpViewController: BaseViewController {
     @IBOutlet weak var btnMale: UIButton!
     @IBOutlet weak var btnFemale: UIButton!
     @IBOutlet weak var btnContinue: UIButton!
-    var didTapMale = false
-    var didTapFemale = false
+    let genderViewModel = GenderViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
         // Do any additional setup after loading the view.
     }
     override func setUpView() {
+        
         btnContinue.layer.cornerRadius = 25
         
         btnMale.layer.cornerRadius = 30
@@ -49,19 +49,19 @@ class GenderSignUpViewController: BaseViewController {
     
     @IBAction func didTapBtnMale(_ sender: Any) {
         
-        if !didTapMale {
+        if !genderViewModel.didTapMale {
             UIView.animate(withDuration: 0.3) { [self] in
                 self.btnMale.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 self.btnFemale.transform = .identity
-                self.didTapMale = true
-                self.didTapFemale = false
+                genderViewModel.didTapMale = true
+                genderViewModel.didTapFemale = false
                 updateButtonUI(btnContinue, enable: true, color: .blue)
             }
             
         }else {
             UIView.animate(withDuration: 0.3) { [self] in
                 self.btnMale.transform = .identity
-                self.didTapMale = false
+                genderViewModel.didTapMale = false
                 updateButtonUI(btnContinue, enable: false, color: .blue)
 //                self.btnFemale.transform = CGAffineTransform(scaleX: 2, y: 2)
             }
@@ -71,19 +71,19 @@ class GenderSignUpViewController: BaseViewController {
     
     @IBAction func didTapBtnFemale(_ sender: Any) {
         
-        if !didTapFemale {
+        if !genderViewModel.didTapFemale {
             UIView.animate(withDuration: 0.3) { [self] in
                 self.btnFemale.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 self.btnMale.transform = .identity
-                self.didTapFemale = true
-                self.didTapMale = false
+                genderViewModel.didTapFemale = true
+                genderViewModel.didTapMale = false
                 updateButtonUI(btnContinue, enable: true, color: .blue)
             }
             
         }else {
             UIView.animate(withDuration: 0.3) { [self] in
                 self.btnFemale.transform = .identity
-                self.didTapFemale = false
+                genderViewModel.didTapFemale = false
                 updateButtonUI(btnContinue, enable: false, color: .blue)
                 
 //                self.btnMale.transform = CGAffineTransform(scaleX: 2, y: 2)
@@ -99,13 +99,7 @@ class GenderSignUpViewController: BaseViewController {
         let st = UIStoryboard(name: "Main", bundle: nil)
         let vc = st.instantiateViewController(withIdentifier: "FillNameSignUpViewController") as! FillNameSignUpViewController
         
-        if didTapMale {
-            GobalData.userRegister.gender = "Male"
-           
-        }else if didTapFemale {
-            GobalData.userRegister.gender = "Female"
-            
-        }
+        genderViewModel.saveDataToGobalData()
        
         self.navigationController?.pushViewController(vc, animated: true)
     }

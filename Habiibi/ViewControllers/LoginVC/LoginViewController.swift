@@ -14,7 +14,7 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var btnLoginWithFb: UIButton!
     @IBOutlet weak var tfPhoneNumber: UITextField!
     @IBOutlet weak var lbError: UILabel!
-    
+    let loginViewModel = LoginViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -38,6 +38,8 @@ class LoginViewController: BaseViewController {
         btnLoginWithFb.layer.cornerRadius = 20
         btnLoginWithFb.layer.borderWidth = 0.5
         btnLoginWithFb.layer.borderColor = UIColor.gray.cgColor
+        loginViewModel.tfEnter = tfPhoneNumber
+//        loginViewModel.btnContinue = btnContinue
         
     }
     @IBAction func didTapBtnBack(_ sender: Any) {
@@ -48,11 +50,7 @@ class LoginViewController: BaseViewController {
     
     @IBAction func didTapBtnContinue(_ sender: Any) {
         
-        guard let phoneNumber = tfPhoneNumber.text else {
-            return
-        }
-        if phoneNumber.isValidPhoneNumber() {
-            GobalData.userRegister.phoneNumber = phoneNumber
+        if loginViewModel.checkPhoneNumberIsValid() {
             let st = UIStoryboard(name: "Main", bundle: nil)
             let vcVerify = st.instantiateViewController(withIdentifier: "VerifyCodeViewController") as! VerifyCodeViewController
             self.navigationController?.pushViewController(vcVerify, animated: true)

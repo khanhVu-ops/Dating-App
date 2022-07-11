@@ -46,6 +46,12 @@
 		339148212869688900495999 /* GobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339148202869688900495999 /* GobalData.swift */; };
 		3391482528696C9400495999 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391482428696C9400495999 /* ProfileViewController.swift */; };
 		33BFAC7C287BC45D00F95F1F /* ListUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 33BFAC7B287BC45D00F95F1F /* ListUser.json */; };
+		33BFAC80287C031200F95F1F /* CustomNavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC7F287C031200F95F1F /* CustomNavigationVC.swift */; };
+		33BFAC83287C0DB000F95F1F /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC82287C0DB000F95F1F /* FilterViewController.swift */; };
+		33BFAC86287C0FEE00F95F1F /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC85287C0FEE00F95F1F /* FilterViewModel.swift */; };
+		33BFAC91287C24BF00F95F1F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC90287C24BF00F95F1F /* LoginViewModel.swift */; };
+		33BFAC94287C28AD00F95F1F /* VerifyCodeviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC93287C28AD00F95F1F /* VerifyCodeviewModel.swift */; };
+		33BFAC97287C29C900F95F1F /* GenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC96287C29C900F95F1F /* GenderViewModel.swift */; };
 		33D45C1F287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D45C1D287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift */; };
 		33D45C20287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33D45C1E287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -92,6 +98,12 @@
 		339148202869688900495999 /* GobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GobalData.swift; sourceTree = "<group>"; };
 		3391482428696C9400495999 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		33BFAC7B287BC45D00F95F1F /* ListUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListUser.json; sourceTree = "<group>"; };
+		33BFAC7F287C031200F95F1F /* CustomNavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationVC.swift; sourceTree = "<group>"; };
+		33BFAC82287C0DB000F95F1F /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		33BFAC85287C0FEE00F95F1F /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
+		33BFAC90287C24BF00F95F1F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		33BFAC93287C28AD00F95F1F /* VerifyCodeviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyCodeviewModel.swift; sourceTree = "<group>"; };
+		33BFAC96287C29C900F95F1F /* GenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderViewModel.swift; sourceTree = "<group>"; };
 		33D45C1D287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		33D45C1E287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TakePhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		48EC358BCBDC09537E0DF874 /* Pods-Habiibi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Habiibi.debug.xcconfig"; path = "Target Support Files/Pods-Habiibi/Pods-Habiibi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -206,6 +218,7 @@
 				33390DAE2862F53D00B5B072 /* OTPStackView.swift */,
 				33113B8E2862D51E00C0CD7F /* CustomTextField.swift */,
 				331693F328783E510044D44F /* Gradient.swift */,
+				33BFAC7F287C031200F95F1F /* CustomNavigationVC.swift */,
 			);
 			path = CustomFile;
 			sourceTree = "<group>";
@@ -216,6 +229,7 @@
 				33D45C1A287ADE4A003443A8 /* Cells */,
 				3391482428696C9400495999 /* ProfileViewController.swift */,
 				334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */,
+				33BFAC82287C0DB000F95F1F /* FilterViewController.swift */,
 			);
 			path = ProfileVC;
 			sourceTree = "<group>";
@@ -271,9 +285,8 @@
 			isa = PBXGroup;
 			children = (
 				332EE8B62876C118008C0BEA /* CustomFile */,
-				33282F9A286AD69B00E6F16D /* OnboardingViewModel.swift */,
-				33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */,
-				337EEC1128752BC20084726F /* ProfileViewModel.swift */,
+				33BFAC8C287C247100F95F1F /* LoginViewModel */,
+				33BFAC88287C245D00F95F1F /* HomeViewModel */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -285,6 +298,27 @@
 				33113B582862AFFB00C0CD7F /* SceneDelegate.swift */,
 			);
 			path = Apps;
+			sourceTree = "<group>";
+		};
+		33BFAC88287C245D00F95F1F /* HomeViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				337EEC1128752BC20084726F /* ProfileViewModel.swift */,
+				33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */,
+				33BFAC85287C0FEE00F95F1F /* FilterViewModel.swift */,
+			);
+			path = HomeViewModel;
+			sourceTree = "<group>";
+		};
+		33BFAC8C287C247100F95F1F /* LoginViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				33282F9A286AD69B00E6F16D /* OnboardingViewModel.swift */,
+				33BFAC90287C24BF00F95F1F /* LoginViewModel.swift */,
+				33BFAC93287C28AD00F95F1F /* VerifyCodeviewModel.swift */,
+				33BFAC96287C29C900F95F1F /* GenderViewModel.swift */,
+			);
+			path = LoginViewModel;
 			sourceTree = "<group>";
 		};
 		33D45C1A287ADE4A003443A8 /* Cells */ = {
@@ -443,12 +477,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				33113B922862D5A900C0CD7F /* VerifyCodeViewController.swift in Sources */,
+				33BFAC97287C29C900F95F1F /* GenderViewModel.swift in Sources */,
 				33113B8F2862D51E00C0CD7F /* CustomTextField.swift in Sources */,
 				33113B812862C81200C0CD7F /* LoginViewController.swift in Sources */,
 				331693E328781DC70044D44F /* ModelSetUpTBV.swift in Sources */,
 				33390DAF2862F53D00B5B072 /* OTPStackView.swift in Sources */,
 				338AC71028640F3B00215A06 /* GenderSignUpViewController.swift in Sources */,
 				337EEC1228752BC20084726F /* ProfileViewModel.swift in Sources */,
+				33BFAC86287C0FEE00F95F1F /* FilterViewModel.swift in Sources */,
+				33BFAC91287C24BF00F95F1F /* LoginViewModel.swift in Sources */,
 				33113B5B2862AFFB00C0CD7F /* BaseViewController.swift in Sources */,
 				33113B572862AFFB00C0CD7F /* AppDelegate.swift in Sources */,
 				331693F428783E510044D44F /* Gradient.swift in Sources */,
@@ -461,7 +498,9 @@
 				3391481C2869611A00495999 /* CustomTabbarController.swift in Sources */,
 				33631832287574E100A03242 /* ListImageTableViewCell.swift in Sources */,
 				339148212869688900495999 /* GobalData.swift in Sources */,
+				33BFAC94287C28AD00F95F1F /* VerifyCodeviewModel.swift in Sources */,
 				33282F9E286ADD4E00E6F16D /* Extensions+String.swift in Sources */,
+				33BFAC83287C0DB000F95F1F /* FilterViewController.swift in Sources */,
 				33113B772862B89900C0CD7F /* OnboardingViewController.swift in Sources */,
 				338AC716286411F300215A06 /* Extentions+UIView.swift in Sources */,
 				33D45C1F287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift in Sources */,
@@ -469,6 +508,7 @@
 				33282F9B286AD69B00E6F16D /* OnboardingViewModel.swift in Sources */,
 				3300F7D0286BF366009CDE07 /* APIService.swift in Sources */,
 				338AC71A2864248B00215A06 /* FillNameSignUpViewController.swift in Sources */,
+				33BFAC80287C031200F95F1F /* CustomNavigationVC.swift in Sources */,
 				33113B7B2862BBE200C0CD7F /* HomeScreenViewController.swift in Sources */,
 				3314FD552864674400B1AB1D /* UserLogin.swift in Sources */,
 				336318522875A1B200A03242 /* Extensions+UIImage+UIImageView.swift in Sources */,

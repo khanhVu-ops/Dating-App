@@ -39,79 +39,63 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B8F65565-9F90-4621-B016-26731D0A561E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Habiibi/ViewControllers/ProfileVC/Cells/EditProfileTBVC/EditProfileCollectionViewCell.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "blureImage()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B8F65565-9F90-4621-B016-26731D0A561E - 985824bd3112c959"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Habiibi.EditProfileCollectionViewCell.blureImage() -&gt; ()"
-                  moduleName = "Habiibi"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/khanhvu/Desktop/git/Dating%20App/Habiibi/ViewControllers/ProfileVC/Cells/EditProfileTBVC/EditProfileCollectionViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42"
-                  offsetFromSymbolStart = "1673">
-               </Location>
-               <Location
-                  uuid = "B8F65565-9F90-4621-B016-26731D0A561E - 985824bd3112c959"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Habiibi.EditProfileCollectionViewCell.blureImage() -&gt; ()"
-                  moduleName = "Habiibi"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/khanhvu/Desktop/git/Dating%20App/Habiibi/ViewControllers/ProfileVC/Cells/EditProfileTBVC/EditProfileCollectionViewCell.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42"
-                  offsetFromSymbolStart = "4309">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "74156705-38F8-4E7D-AB2B-4D8EAD8C30EF"
-            shouldBeEnabled = "Yes"
+            uuid = "B608732D-6685-4AAF-A73F-C53A52E979D1"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Habiibi/ViewControllers/ProfileVC/EditingProfileViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "collectionView(_:cellForItemAt:)"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C2E11A1E-2F52-49AA-B7BD-172F9D915B63"
-            shouldBeEnabled = "Yes"
+            uuid = "10B59F97-EC06-4B3C-BF52-DBF00DC12C6B"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Habiibi/ViewControllers/ProfileVC/EditingProfileViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "collectionView(_:numberOfItemsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7DAE1ABB-8A48-4CB5-946D-EA8ECF64972F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habiibi/ViewControllers/ProfileVC/EditingProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "collectionView(_:numberOfItemsInSection:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F054F213-0EB6-4948-BF6C-128F502F35C3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habiibi/ViewControllers/ProfileVC/EditingProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>

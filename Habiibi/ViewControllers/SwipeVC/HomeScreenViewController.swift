@@ -22,7 +22,7 @@ class HomeScreenViewController: BaseViewController {
     @IBOutlet weak var btnRight: UIButton!
     @IBOutlet weak var btnLeft: UIButton!
     @IBOutlet weak var lbNoPerson: UILabel!
-    
+    @IBOutlet weak var btnFilter: UIButton!
     let homeViewModel = HomeScreenViewModel()
     
     override func viewDidLoad() {
@@ -32,7 +32,11 @@ class HomeScreenViewController: BaseViewController {
 
     }
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewDidAppear(true)
+        homeViewModel.getListUsers()
+        lbName.text = "-__-"
+        lbDescrip.text = ""
         DispatchQueue.main.async {
             self.vKoloda.reloadData()
         }
@@ -56,7 +60,7 @@ class HomeScreenViewController: BaseViewController {
         btnRight.layer.borderColor = UIColor.white.cgColor
         
         homeViewModel.setUpObservable()
-        homeViewModel.getListUsers()
+        
         vKoloda.delegate = self
         vKoloda.dataSource = self
         tbvImage.delegate = self
@@ -72,6 +76,12 @@ class HomeScreenViewController: BaseViewController {
         
     }
     
+    @IBAction func didTapBtnFilter(_ sender: Any) {
+        let st = UIStoryboard(name: "Main", bundle: nil)
+        let vc = st.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        vc.homeVC = self
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     @IBAction func didTapBtnReload(_ sender: Any) {
         homeViewModel.getListUsers()
         DispatchQueue.main.async {

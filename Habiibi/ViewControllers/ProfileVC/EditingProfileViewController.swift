@@ -22,7 +22,13 @@ class EditingProfileViewController: BaseViewController {
     @IBOutlet weak var btnEditAboutMe: UIButton!
     @IBOutlet weak var btnEditFvrFood: UIButton!
     @IBOutlet weak var btnBack: UIButton!
-    @IBOutlet weak var switchBlure: UISwitch!
+    @IBOutlet weak var btnSave: UIButton!
+    @IBOutlet weak var vBasicInfo: UIView!
+    @IBOutlet weak var vEducation: UIView!
+    @IBOutlet weak var tbvBasicInfo: UITableView!
+    @IBOutlet weak var tbvEducation: UITableView!
+    @IBOutlet weak var heightTbvInfoConstraint: NSLayoutConstraint!
+    @IBOutlet weak var heightTbvEducationConstraint: NSLayoutConstraint!
     
     
     let profileViewModel = ProfileViewModel()
@@ -46,6 +52,26 @@ class EditingProfileViewController: BaseViewController {
         cltvImage.register(UINib(nibName: "EditProfileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EditProfileCollectionViewCell")
         cltvImage.register(UINib(nibName: "TakePhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TakePhotoCollectionViewCell")
         cltvImage.backgroundColor = .clear
+        
+        vBasicInfo.layer.cornerRadius = 20
+        vBasicInfo.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        vBasicInfo.layer.shadowOpacity = 0.3
+        vBasicInfo.layer.shadowColor = UIColor.gray.cgColor
+        vBasicInfo.layer.shadowRadius = 10
+        vEducation.layer.cornerRadius = 20
+        vEducation.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        vEducation.layer.shadowOpacity = 0.3
+        vEducation.layer.shadowColor = UIColor.gray.cgColor
+        vEducation.layer.shadowRadius = 10
+        
+        tbvBasicInfo.delegate = self
+        tbvBasicInfo.dataSource = self
+        tbvBasicInfo.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
+        tbvBasicInfo.backgroundColor = .clear
+        tbvEducation.delegate = self
+        tbvEducation.dataSource = self
+        tbvEducation.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
+        
         heightTxtAboutMe.isActive = false
         heightTxtFvrFood.isActive = false
         txtAboutMe.isScrollEnabled = false
@@ -86,10 +112,16 @@ class EditingProfileViewController: BaseViewController {
         txtFavoriteFood.becomeFirstResponder()
     }
     
-    @IBAction func didTapSwitch(_ sender: Any) {
-        DispatchQueue.main.async {
-            self.cltvImage.reloadData()
+    @IBAction func didTapBtnSave(_ sender: Any) {
+        DatabaseManager.shared.updateListImage(list: profileViewModel.listImg)
+        let listWillSave = profileViewModel.listItemWillSave
+        
+        for item in listWillSave {
+            DatabaseManager.shared.updateProfileEditing(property: item.title, text: item.tfText)
         }
+        navigationController?.popViewController(animated: true)
+//        DatabaseManager.shared.updateProfileEditing(property: <#T##String#>, text: <#T##String#>)
+        
     }
     
 }
@@ -108,7 +140,8 @@ extension EditingProfileViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let count = profileViewModel.listImg.count
         if indexPath.item < count {
-            DatabaseManager.shared.removeImage(index: indexPath.item)
+//            DatabaseManager.shared.removeImage(index: indexPath.item)
+            profileViewModel.listImg.remove(at: indexPath.item)
             cltvImage.deleteItems(at: [indexPath])
         }
         
@@ -116,7 +149,7 @@ extension EditingProfileViewController: UICollectionViewDelegate, UICollectionVi
 }
 extension EditingProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        profileViewModel.getListImg()
+//        profileViewModel.getListImg()
         let count = profileViewModel.listImg.count
         let height = (self.view.frame.width - 60)/3
         if count < 6 {
@@ -145,9 +178,7 @@ extension EditingProfileViewController: UICollectionViewDataSource {
             if indexPath.item < count{
                 let imgStr = profileViewModel.listImg[indexPath.item]
                 cell.confifure(imgStr: imgStr)
-                if switchBlure.isOn {
-                    cell.blureImage()
-                }
+                
             }else {
                 cell.confifure(imgStr: "")
             }
@@ -166,16 +197,48 @@ extension EditingProfileViewController: UITextViewDelegate {
             return
         }
         if textView == txtAboutMe {
-            DatabaseManager.shared.updateProfileEditing(property: "about_me", text: text)
+            profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "about_me", tfText: text, imgStr: ""))
+//            DatabaseManager.shared.updateProfileEditing(property: "about_me", text: text)
 
         }else {
-            DatabaseManager.shared.updateProfileEditing(property: "favorite_food", text: text)
+            profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "favorite_food", tfText: text, imgStr: ""))
+//            DatabaseManager.shared.updateProfileEditing(property: "favorite_food", text: text)
 
         }
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+    }
 }
 
+extension EditingProfileViewController: UITableViewDelegate {
 
+}
+extension EditingProfileViewController: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        heightTbvInfoConstraint.constant = CGFloat(6*120 + 60)
+        heightTbvEducationConstraint.constant = CGFloat(2*120+60)
+        profileViewModel.setUpTBV()
+        if tableView == tbvEducation {
+            return 2
+        }else {
+            return 6
+        }
+        
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileTableViewCell", for: indexPath) as! ProfileTableViewCell
+        cell.editVC = self
+        if tableView == tbvBasicInfo {
+            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEdit)
+        }else {
+            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEducation)
+        }
+        return cell
+    }
+
+
+}
 
 
 

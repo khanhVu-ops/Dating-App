@@ -29,13 +29,13 @@
                                 </constraints>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small" weight="ultraLight"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="12a-bz-k1O">
-                                <rect key="frame" x="90" y="10" width="91" height="29"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Country" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="12a-bz-k1O">
+                                <rect key="frame" x="90" y="10" width="295" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BCq-QS-fPF">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BCq-QS-fPF">
                                 <rect key="frame" x="90" y="39" width="344" height="46"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -62,6 +62,7 @@
                             <constraint firstAttribute="bottom" secondItem="CRx-vs-DbY" secondAttribute="bottom" constant="10" id="Q4T-nh-gjx"/>
                             <constraint firstItem="12a-bz-k1O" firstAttribute="top" secondItem="UgH-HC-rlk" secondAttribute="top" constant="10" id="S53-x3-yYa"/>
                             <constraint firstItem="BCq-QS-fPF" firstAttribute="leading" secondItem="CRx-vs-DbY" secondAttribute="trailing" constant="10" id="YBv-b0-BPe"/>
+                            <constraint firstItem="seb-lk-jGB" firstAttribute="leading" secondItem="12a-bz-k1O" secondAttribute="trailing" constant="20" id="ckT-fS-qsA"/>
                             <constraint firstItem="seb-lk-jGB" firstAttribute="top" secondItem="UgH-HC-rlk" secondAttribute="top" id="h4M-j7-9Nj"/>
                             <constraint firstItem="CRx-vs-DbY" firstAttribute="top" secondItem="UgH-HC-rlk" secondAttribute="top" constant="10" id="nQd-rz-nYU"/>
                             <constraint firstAttribute="bottom" secondItem="BCq-QS-fPF" secondAttribute="bottom" constant="15" id="o0j-zf-zKh"/>

@@ -33,10 +33,11 @@ extension TakePhotoCollectionViewCell: UIImagePickerControllerDelegate, UINaviga
             let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
             let imgStr = img?.toJpegString(compressionQuality: 0) ?? ""
             if imgStr.count > 0 {
-                profileViewModel.listImg.append(imgStr)
+//                profileViewModel.listImg.append(imgStr)
+                vc?.profileViewModel.listImg.append(imgStr)
 //                print(profileViewModel.listImg.count)
-                DatabaseManager.shared.addListImage(imgStr: imgStr)
-                print(profileViewModel.userActive.listImage.count)
+//                DatabaseManager.shared.addListImage(imgStr: imgStr)
+//                print(profileViewModel.userActive.listImage.count)
                 DispatchQueue.main.async {
                     self.vc?.cltvImage.reloadData()
                 }
