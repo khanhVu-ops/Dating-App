@@ -18,6 +18,7 @@ extension UIImage {
         let data = self.jpegData(compressionQuality: cq)
         return data?.base64EncodedString(options: .endLineWithLineFeed)
     }
+    
 }
 extension UIImageView {
   func setImageColor(color: UIColor) {

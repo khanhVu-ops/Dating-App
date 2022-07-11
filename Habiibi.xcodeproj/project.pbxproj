@@ -32,8 +32,6 @@
 		33282F9E286ADD4E00E6F16D /* Extensions+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33282F9D286ADD4E00E6F16D /* Extensions+String.swift */; };
 		33282FAB286AFA7000E6F16D /* HomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */; };
 		33390DAF2862F53D00B5B072 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33390DAE2862F53D00B5B072 /* OTPStackView.swift */; };
-		33494C7D2872E94400CEFEE2 /* User_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 33494C762872E94400CEFEE2 /* User_1.json */; };
-		33494C7E2872E94400CEFEE2 /* ListUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 33494C772872E94400CEFEE2 /* ListUser.json */; };
 		334FA2AB28767FDD0060C7F3 /* EditingProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */; };
 		33631832287574E100A03242 /* ListImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33631830287574E100A03242 /* ListImageTableViewCell.swift */; };
 		33631833287574E100A03242 /* ListImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33631831287574E100A03242 /* ListImageTableViewCell.xib */; };
@@ -47,6 +45,7 @@
 		3391481C2869611A00495999 /* CustomTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391481B2869611A00495999 /* CustomTabbarController.swift */; };
 		339148212869688900495999 /* GobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339148202869688900495999 /* GobalData.swift */; };
 		3391482528696C9400495999 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391482428696C9400495999 /* ProfileViewController.swift */; };
+		33BFAC7C287BC45D00F95F1F /* ListUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 33BFAC7B287BC45D00F95F1F /* ListUser.json */; };
 		33D45C1F287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D45C1D287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift */; };
 		33D45C20287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33D45C1E287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -79,8 +78,6 @@
 		33282F9D286ADD4E00E6F16D /* Extensions+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+String.swift"; sourceTree = "<group>"; };
 		33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewModel.swift; sourceTree = "<group>"; };
 		33390DAE2862F53D00B5B072 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
-		33494C762872E94400CEFEE2 /* User_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = User_1.json; path = "../../../../c++/User_1.json"; sourceTree = "<group>"; };
-		33494C772872E94400CEFEE2 /* ListUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = ListUser.json; path = "../../../../c++/ListUser.json"; sourceTree = "<group>"; };
 		334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileViewController.swift; sourceTree = "<group>"; };
 		33631830287574E100A03242 /* ListImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListImageTableViewCell.swift; sourceTree = "<group>"; };
 		33631831287574E100A03242 /* ListImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListImageTableViewCell.xib; sourceTree = "<group>"; };
@@ -94,6 +91,7 @@
 		3391481B2869611A00495999 /* CustomTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabbarController.swift; sourceTree = "<group>"; };
 		339148202869688900495999 /* GobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GobalData.swift; sourceTree = "<group>"; };
 		3391482428696C9400495999 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		33BFAC7B287BC45D00F95F1F /* ListUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListUser.json; sourceTree = "<group>"; };
 		33D45C1D287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		33D45C1E287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TakePhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		48EC358BCBDC09537E0DF874 /* Pods-Habiibi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Habiibi.debug.xcconfig"; path = "Target Support Files/Pods-Habiibi/Pods-Habiibi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,8 +114,7 @@
 		3300F7C9286BF1E9009CDE07 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				33494C772872E94400CEFEE2 /* ListUser.json */,
-				33494C762872E94400CEFEE2 /* User_1.json */,
+				33BFAC7B287BC45D00F95F1F /* ListUser.json */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -386,10 +383,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				331693EA28783A0E0044D44F /* EditProfileCollectionViewCell.xib in Resources */,
-				33494C7E2872E94400CEFEE2 /* ListUser.json in Resources */,
 				33D45C20287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib in Resources */,
+				33BFAC7C287BC45D00F95F1F /* ListUser.json in Resources */,
 				33113B632862AFFD00C0CD7F /* LaunchScreen.storyboard in Resources */,
-				33494C7D2872E94400CEFEE2 /* User_1.json in Resources */,
 				33113B602862AFFD00C0CD7F /* Assets.xcassets in Resources */,
 				33631833287574E100A03242 /* ListImageTableViewCell.xib in Resources */,
 				33113B5E2862AFFB00C0CD7F /* Main.storyboard in Resources */,

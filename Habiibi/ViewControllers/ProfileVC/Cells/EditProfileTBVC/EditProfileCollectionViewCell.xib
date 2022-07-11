@@ -35,7 +35,7 @@
                             <constraint firstItem="ELK-zD-6nz" firstAttribute="centerX" secondItem="Aj3-D9-i7o" secondAttribute="centerX" id="kUp-l7-DOu"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UFo-Ii-5Ei">
+                    <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UFo-Ii-5Ei">
                         <rect key="frame" x="0.0" y="0.0" width="220" height="164"/>
                     </imageView>
                 </subviews>

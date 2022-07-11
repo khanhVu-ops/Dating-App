@@ -18,7 +18,7 @@ protocol DatabaseManagerProtocol {
     func addImgAvata(string: String)
     func updateProfileEditing(property: String, text: String)
     func addListImage(imgStr: String)
-    
+    func removeImage(index: Int)
 }
 
 class DatabaseManager {
@@ -299,6 +299,32 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
         }
     }
     
+    func removeImage(index: Int) {
+        var users = [UserLogin]()
+        do {
+            // realm
+            let realm = try Realm()
+            
+            // results
+            let results = realm.objects(UserLogin.self).filter("userActive = 1")
+            
+            // convert to array
+            users = Array(results)
+            for item in users {
+                
+                try! realm.write {
+                    item.listImage.remove(at: index)
+                    
+                }
+                  
+                
+            }
+            
+        } catch {
+            // call back
+            print(error)
+        }
+    }
     
 }
 

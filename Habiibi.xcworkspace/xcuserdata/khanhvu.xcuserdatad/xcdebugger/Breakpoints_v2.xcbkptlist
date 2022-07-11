@@ -36,5 +36,85 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B8F65565-9F90-4621-B016-26731D0A561E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habiibi/ViewControllers/ProfileVC/Cells/EditProfileTBVC/EditProfileCollectionViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "blureImage()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B8F65565-9F90-4621-B016-26731D0A561E - 985824bd3112c959"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Habiibi.EditProfileCollectionViewCell.blureImage() -&gt; ()"
+                  moduleName = "Habiibi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/khanhvu/Desktop/git/Dating%20App/Habiibi/ViewControllers/ProfileVC/Cells/EditProfileTBVC/EditProfileCollectionViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "1673">
+               </Location>
+               <Location
+                  uuid = "B8F65565-9F90-4621-B016-26731D0A561E - 985824bd3112c959"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Habiibi.EditProfileCollectionViewCell.blureImage() -&gt; ()"
+                  moduleName = "Habiibi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/khanhvu/Desktop/git/Dating%20App/Habiibi/ViewControllers/ProfileVC/Cells/EditProfileTBVC/EditProfileCollectionViewCell.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "4309">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74156705-38F8-4E7D-AB2B-4D8EAD8C30EF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habiibi/ViewControllers/ProfileVC/EditingProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C2E11A1E-2F52-49AA-B7BD-172F9D915B63"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Habiibi/ViewControllers/ProfileVC/EditingProfileViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

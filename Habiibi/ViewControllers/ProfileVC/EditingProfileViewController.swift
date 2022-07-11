@@ -22,6 +22,7 @@ class EditingProfileViewController: BaseViewController {
     @IBOutlet weak var btnEditAboutMe: UIButton!
     @IBOutlet weak var btnEditFvrFood: UIButton!
     @IBOutlet weak var btnBack: UIButton!
+    @IBOutlet weak var switchBlure: UISwitch!
     
     
     let profileViewModel = ProfileViewModel()
@@ -37,7 +38,7 @@ class EditingProfileViewController: BaseViewController {
     }
     
     override func setUpView() {
-        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
+//        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
         vTopGradient.layer.cornerRadius = vTopGradient.frame.width/3
         
         cltvImage.dataSource = self
@@ -85,6 +86,12 @@ class EditingProfileViewController: BaseViewController {
         txtFavoriteFood.becomeFirstResponder()
     }
     
+    @IBAction func didTapSwitch(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.cltvImage.reloadData()
+        }
+    }
+    
 }
 extension EditingProfileViewController: UITextFieldDelegate {
     
@@ -97,6 +104,14 @@ extension EditingProfileViewController: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 15
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let count = profileViewModel.listImg.count
+        if indexPath.item < count {
+            DatabaseManager.shared.removeImage(index: indexPath.item)
+            cltvImage.deleteItems(at: [indexPath])
+        }
+        
     }
 }
 extension EditingProfileViewController: UICollectionViewDataSource {
@@ -130,6 +145,9 @@ extension EditingProfileViewController: UICollectionViewDataSource {
             if indexPath.item < count{
                 let imgStr = profileViewModel.listImg[indexPath.item]
                 cell.confifure(imgStr: imgStr)
+                if switchBlure.isOn {
+                    cell.blureImage()
+                }
             }else {
                 cell.confifure(imgStr: "")
             }
@@ -138,6 +156,8 @@ extension EditingProfileViewController: UICollectionViewDataSource {
         }
         
     }
+    
+    
     
 }
 extension EditingProfileViewController: UITextViewDelegate {

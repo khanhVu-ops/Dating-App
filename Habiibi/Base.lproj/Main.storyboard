@@ -7,7 +7,6 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -697,7 +696,7 @@
                                             <action selector="didTapBtnBack:" destination="LZx-Xv-R0I" eventType="touchUpInside" id="gTf-mH-dDo"/>
                                         </connections>
                                     </button>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pdv-PP-1RX">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pdv-PP-1RX">
                                         <rect key="frame" x="15" y="104.5" width="384" height="250"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
@@ -709,16 +708,7 @@
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gza-3U-Fu9">
-                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="dJG-xF-JR3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </collectionViewCellContentView>
-                                            </collectionViewCell>
-                                        </cells>
+                                        <cells/>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blure my photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRb-PE-WZo">
                                         <rect key="frame" x="20" y="434.5" width="175.5" height="30"/>
@@ -728,6 +718,9 @@
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zgj-2C-SNi">
                                         <rect key="frame" x="335" y="434" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="didTapSwitch:" destination="LZx-Xv-R0I" eventType="valueChanged" id="Cmm-2r-z61"/>
+                                        </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="About me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ih4-bc-6P6">
                                         <rect key="frame" x="20" y="504.5" width="105" height="30"/>
@@ -873,6 +866,7 @@
                         <outlet property="heightCltvConstraint" destination="eEn-v6-vW8" id="zEC-aV-2Wc"/>
                         <outlet property="heightTxtAboutMe" destination="R2X-Yy-ATA" id="hzi-l5-ZjJ"/>
                         <outlet property="heightTxtFvrFood" destination="fu1-2f-XW7" id="gkr-uC-aFC"/>
+                        <outlet property="switchBlure" destination="Zgj-2C-SNi" id="ZFy-Ij-dJm"/>
                         <outlet property="txtAboutMe" destination="ENp-1k-Xev" id="UzY-PQ-GLO"/>
                         <outlet property="txtFavoriteFood" destination="koJ-Kf-dR0" id="l67-dv-Pfl"/>
                         <outlet property="vTopGradient" destination="oQb-pS-ZEi" id="qA1-QZ-oZ0"/>

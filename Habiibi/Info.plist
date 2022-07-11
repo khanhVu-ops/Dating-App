@@ -82,7 +82,5 @@
 		<string>fbapi</string>
 		<string>fb-messenger-share-api</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow to take a picture for this video!</string>
 </dict>
 </plist>
