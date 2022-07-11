@@ -14,6 +14,7 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var btnLoginWithFb: UIButton!
     @IBOutlet weak var tfPhoneNumber: UITextField!
     @IBOutlet weak var lbError: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -23,7 +24,9 @@ class LoginViewController: BaseViewController {
     
     override func setUpView() {
         showError(lbError: lbError, enable: false, text: "")
+        updateButtonUI(btnContinue, enable: false, color: .blue)
         tfPhoneNumber.becomeFirstResponder()
+        tfPhoneNumber.delegate = self
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
         vEnterNumber.layer.cornerRadius = 15
         vEnterNumber.layer.shadowOffset = CGSize(width: 1, height: 1)
@@ -57,11 +60,36 @@ class LoginViewController: BaseViewController {
             showError(lbError: lbError, enable: true, text: "Phone number is invalid!")
         }
         
-
-        
     }
     
     
     @IBAction func didTapBtnLoginWithFb(_ sender: Any) {
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard  let text = textField.text else {
+            return false
+        }
+        let full_text = text + string
+        if full_text.first == "0" {
+            if full_text.count > 9 {
+                updateButtonUI(btnContinue, enable: true, color: .blue)
+            }else {
+                updateButtonUI(btnContinue, enable: false, color: .blue)
+            }
+            
+        }else {
+            if full_text.count >= 9 {
+                updateButtonUI(btnContinue, enable: true, color: .blue)
+            }else {
+                updateButtonUI(btnContinue, enable: false, color: .blue)
+            }
+        }
+        return true
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        tfPhoneNumber.resignFirstResponder()
     }
 }

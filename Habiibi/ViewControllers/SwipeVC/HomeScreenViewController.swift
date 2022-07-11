@@ -21,6 +21,7 @@ class HomeScreenViewController: BaseViewController {
     @IBOutlet weak var btnMid: UIButton!
     @IBOutlet weak var btnRight: UIButton!
     @IBOutlet weak var btnLeft: UIButton!
+    @IBOutlet weak var lbNoPerson: UILabel!
     
     let homeViewModel = HomeScreenViewModel()
     
@@ -39,6 +40,7 @@ class HomeScreenViewController: BaseViewController {
     }
     
     override func setUpView() {
+        lbNoPerson.isHidden = true
         vKoloda.layer.cornerRadius = 20
 //        vKoloda.layer.masksToBounds = true
         
@@ -64,7 +66,9 @@ class HomeScreenViewController: BaseViewController {
         homeViewModel.vKoloda = vKoloda
         homeViewModel.heightTbvConstraint = heightTbvConstraint
         homeViewModel.tbvImg = tbvImage
-        
+        vKoloda.layer.cornerRadius = 20
+        vKoloda.layer.borderWidth = 1
+        vKoloda.layer.borderColor = UIColor.systemPink.cgColor
         
     }
     
@@ -99,14 +103,17 @@ extension HomeScreenViewController: KolodaViewDelegate {
 }
 extension HomeScreenViewController: KolodaViewDataSource {
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int {
-//        print(homeViewModel.items.count)
-        return homeViewModel.items.count
+        let count = homeViewModel.items.count
+        if count == 0 {
+            lbNoPerson.isHidden = false
+        }
+        return count
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
         let view = UIImageView()
         view.layer.cornerRadius = 20
-        view.layer.borderWidth = 4
+        view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.systemPink.cgColor
         view.layer.masksToBounds = true
         homeViewModel.imgAvt = view
@@ -118,16 +125,15 @@ extension HomeScreenViewController: KolodaViewDataSource {
         switch direction {
         case .left:
             print("LEFT")
-            DatabaseManager.shared.addListUserInteraction(id: GobalData.id + 1, like: false)
+            DatabaseManager.shared.addListUserInteraction(id: homeViewModel.items[index].id ?? -1, like: false)
         default:
             print("Right")
-            DatabaseManager.shared.addListUserInteraction(id: GobalData.id + 1, like: true)
+            DatabaseManager.shared.addListUserInteraction(id: homeViewModel.items[index].id ?? -1, like: true)
             
         }
 
     }
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int) {
-//        print("Show: \(index)")
         GobalData.id = index
         let count = homeViewModel.items[index].listImg?.count ?? 0
         heightTbvConstraint.constant = CGFloat(count*540)

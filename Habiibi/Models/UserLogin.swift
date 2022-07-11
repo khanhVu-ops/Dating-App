@@ -15,7 +15,17 @@ final class UserLogin: Object {
     @objc dynamic var firstName = ""
     @objc dynamic var lastName = ""
     @objc dynamic var imgAvt = "img_avt_default"
-    @objc dynamic var country = "Country"
+    @objc dynamic var country = ""
+    @objc dynamic var height = ""
+    @objc dynamic var children = ""
+    @objc dynamic var material_status = ""
+    @objc dynamic var smoker = ""
+    @objc dynamic var body_type = ""
+    @objc dynamic var education = ""
+    @objc dynamic var profession = ""
+    @objc dynamic var about_me = "Please enter in your information!!"
+    @objc dynamic var favorite_food = "Please enter your favorite food"
+    
     let listLiked = List<Int>()
     let listDisLiked = List<Int>()
     let listImage = List<String>()

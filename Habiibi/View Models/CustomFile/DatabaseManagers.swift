@@ -16,7 +16,8 @@ protocol DatabaseManagerProtocol {
     func checkUserActive() -> Bool
     func addListUserInteraction(id: Int, like: Bool)
     func addImgAvata(string: String)
-    func updateProfileEditing(firstName: String, lastName: String, country: String, listImg: [String])
+    func updateProfileEditing(property: String, text: String)
+    func addListImage(imgStr: String)
     
 }
 
@@ -163,9 +164,27 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
                 
                 try! realm.write {
                     if like {
-                        item.listLiked.append(id)
+                        var bool = true
+                        for i in item.listLiked {
+                            if id == i {
+                                bool = false
+                            }
+                        }
+                        if bool {
+                            item.listLiked.append(id)
+                        }
+                        
                     }else {
-                        item.listDisLiked.append(id)
+                        var bool = true
+                        for i in item.listDisLiked {
+                            if id == i {
+                                bool = false
+                            }
+                        }
+                        if bool {
+                            item.listDisLiked.append(id)
+                        }
+                        
                     }
                     
                 }
@@ -206,9 +225,8 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
             print(error)
         }
     }
-    func updateProfileEditing(firstName: String, lastName: String, country: String, listImg: [String]) {
+    func updateProfileEditing(property: String, text: String) {
         var users = [UserLogin]()
-        let fullName = firstName + " " + lastName
         do {
             // realm
             let realm = try Realm()
@@ -221,15 +239,58 @@ class RealmDatabaseManager: DatabaseManagerProtocol {
             for item in users {
                 
                 try! realm.write {
-                    item.firstName = firstName
-                    item.lastName = lastName
-                    item.country = country
-                    item.listImage.removeAll()
-                    for img in listImg {
-                        item.listImage.append(img)
+                    switch property {
+                    case "country":
+                        item.country = text
+                    case "height":
+                        item.height = text
+                    case "children":
+                        item.children = text
+                    case "material_status":
+                        item.material_status = text
+                    case "smoker":
+                        item.smoker = text
+                    case "body_type":
+                        item.body_type = text
+                    case "education":
+                        item.education = text
+                    case "about_me":
+                        item.about_me = text
+                    case "favorite_food":
+                        item.favorite_food = text
+                    default:
+                        item.profession = text
                     }
+                
                     
                 }
+            }
+            
+        } catch {
+            // call back
+            print(error)
+        }
+    }
+    
+    func addListImage(imgStr: String) {
+        var users = [UserLogin]()
+        do {
+            // realm
+            let realm = try Realm()
+            
+            // results
+            let results = realm.objects(UserLogin.self).filter("userActive = 1")
+            
+            // convert to array
+            users = Array(results)
+            for item in users {
+                
+                try! realm.write {
+                    item.listImage.append(imgStr)
+                    
+                }
+                  
+                
             }
             
         } catch {

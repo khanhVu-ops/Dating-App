@@ -9,17 +9,33 @@ import Foundation
 import FBSDKLoginKit
 
 class OnboardingViewModel {
+    
+    weak var vc:  OnboardingViewController?
+    
+    init(vc: OnboardingViewController) {
+        self.vc = vc
+    }
+    
     func checkAccountActive() -> Bool{
         if DatabaseManager.shared.checkUserActive() {
             return true
-        }else if let token = AccessToken.current,
+        }
+        
+        if let token = AccessToken.current,
                  !token.isExpired {
             return true
         }
+        
         return false
     }
     
-    func loginWithFb(controller: UIViewController, completion: @escaping (Bool)->Void) {
+    //NOTE: nên bắn cả error ra ngoài completion
+    func loginWithFb(completion: @escaping ((Bool)->Void)) {
+        guard let vc = vc else {
+            completion(false)
+            return
+        }
+        
         let loginManager = LoginManager()
         
         if let _ = AccessToken.current {
@@ -29,7 +45,7 @@ class OnboardingViewModel {
             print("Log out FB")
         } else {
             // Login Fb
-            loginManager.logIn(permissions: ["public_profile", "email"], from: controller) { result, error in
+            loginManager.logIn(permissions: ["public_profile", "email"], from: vc) { result, error in
                 // Check for error
                 guard error == nil else {
                     // Error occurred

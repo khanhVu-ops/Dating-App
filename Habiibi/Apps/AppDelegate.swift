@@ -7,7 +7,7 @@
 
 import UIKit
 import FBSDKCoreKit
-
+import IQKeyboardManagerSwift
 @main
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     application,
                     didFinishLaunchingWithOptions: launchOptions
                 )
+        IQKeyboardManager.shared.enable = true
         // Override point for customization after application launch.
         return true
     }

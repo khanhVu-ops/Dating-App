@@ -11,14 +11,21 @@ import FBSDKLoginKit
 class ProfileViewController: BaseViewController {
     @IBOutlet weak var imgAvt: UIImageView!
     @IBOutlet weak var lbName: UILabel!
-    @IBOutlet weak var lbCountry: UILabel!
+//    @IBOutlet weak var lbCountry: UILabel!
     @IBOutlet weak var btnEditing: UIButton!
-    @IBOutlet weak var tbvListImage: UITableView!
+    @IBOutlet weak var tbvListEdit: UITableView!
+    @IBOutlet weak var tbvListEducation: UITableView!
     @IBOutlet weak var vAvata: UIView!
     @IBOutlet weak var heightTbvConstraint: NSLayoutConstraint!
-   
-    @IBOutlet weak var scrView: UIScrollView!
+    @IBOutlet weak var heightTbvEducation: NSLayoutConstraint!
+    @IBOutlet weak var vInfo: UIView!
+    @IBOutlet weak var vEducation: UIView!
     
+    @IBOutlet weak var scrView: UIScrollView!
+    @IBOutlet weak var vTopCorner: Gradient!
+    @IBOutlet weak var vBtnEdit: Gradient!
+    
+    @IBOutlet weak var btnLogOut: UIButton!
     var imagePickerController = UIImagePickerController()
     
     let profileViewModel = ProfileViewModel()
@@ -33,40 +40,63 @@ class ProfileViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         profileViewModel.updateUI()
-        DispatchQueue.main.async {
-            self.tbvListImage.reloadData()
-        }
+//        DispatchQueue.main.async {
+//            self.tbvListImage.reloadData()
+//        }
     }
     
     override func setUpView() {
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
+        vTopCorner.layer.cornerRadius = vTopCorner.frame.width/3
+        vInfo.layer.cornerRadius = 20
+        vInfo.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        vInfo.layer.shadowOpacity = 0.3
+        vInfo.layer.shadowColor = UIColor.gray.cgColor
+        vInfo.layer.shadowRadius = 10
+        vEducation.layer.cornerRadius = 20
+        vEducation.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        vEducation.layer.shadowOpacity = 0.3
+        vEducation.layer.shadowColor = UIColor.gray.cgColor
+        vEducation.layer.shadowRadius = 10
+        
+        imgAvt.layer.cornerRadius = imgAvt.frame.height/2
         vAvata.layer.cornerRadius = vAvata.frame.height/2
         vAvata.layer.masksToBounds = true
-        vAvata.layer.borderWidth = 4
-        vAvata.layer.borderColor = UIColor.systemPink.cgColor
-        btnEditing.layer.cornerRadius = btnEditing.frame.height/2
-        tbvListImage.delegate = self
-        tbvListImage.dataSource = self
-        tbvListImage.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
-        tbvListImage.backgroundColor = .clear
+        
+        vBtnEdit.layer.cornerRadius = vBtnEdit.frame.height/2
+        vBtnEdit.layer.masksToBounds = true
+        
+        
+        tbvListEdit.delegate = self
+        tbvListEdit.dataSource = self
+        tbvListEdit.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
+        tbvListEdit.backgroundColor = .clear
+        tbvListEducation.delegate = self
+        tbvListEducation.dataSource = self
+        tbvListEducation.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
+        tbvListEducation.backgroundColor = .clear
         profileViewModel.lbName = lbName
-        profileViewModel.lbCountry = lbCountry
         profileViewModel.imgAvata = imgAvt
         profileViewModel.updateAvata()
-        
+        btnLogOut.layer.cornerRadius = 20
     }
     
+   
     
     @IBAction func didTapLogOut(_ sender: Any) {
         let loginManager = LoginManager()
         loginManager.logOut()
         DatabaseManager.shared.logOutUser()
         let st = UIStoryboard(name: "Main", bundle: nil)
-        _ = st.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
-        self.navigationController?.popToRootViewController(animated: true)
+        let vc = st.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
+        self.navigationController?.setViewControllers([vc], animated: true)
+
+//        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func didTapBtnEditAvata(_ sender: Any) {
         self.imagePickerController.sourceType = .photoLibrary
+//        self.imagePickerController.sourceType = .camera
         self.present(self.imagePickerController, animated: true, completion: nil)
     }
     
@@ -83,14 +113,24 @@ extension ProfileViewController: UITableViewDelegate {
 }
 extension ProfileViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = profileViewModel.userActive.listImage.count
-        heightTbvConstraint.constant = CGFloat(count*420)
-        return count
+        heightTbvConstraint.constant = CGFloat(6*120 + 60)
+        heightTbvEducation.constant = CGFloat(2*120+60)
+        profileViewModel.setUpTBV()
+        if tableView == tbvListEducation {
+            return 2
+        }else {
+            return 6
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tbvListImage.dequeueReusableCell(withIdentifier: "ProfileTableViewCell", for: indexPath) as! ProfileTableViewCell
-        cell.configure(imgStr: profileViewModel.userActive.listImage[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileTableViewCell", for: indexPath) as! ProfileTableViewCell
+        if tableView == tbvListEdit {
+            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEdit)
+        }else {
+            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEducation)
+        }
         return cell
     }
 
@@ -109,6 +149,15 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 //            pr/int("IMG: \(String(describing: imgStr))")
             imgAvt?.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         }
+//        else if picker.sourceType == .camera {
+//            let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+//            let imgStr = img?.toJpegString(compressionQuality: 0) ?? ""
+//            if imgStr.count > 0 {
+//                DatabaseManager.shared.addImgAvata(string: imgStr)
+//            }
+////            pr/int("IMG: \(String(describing: imgStr))")
+//            imgAvt?.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+//        }
         
         picker.dismiss(animated: true, completion: nil)
     }

@@ -18,3 +18,10 @@ extension UIView {
         layer.borderWidth = toValue
       }
 }
+//extension UITextView {
+//    func adjustUITextViewHeight() {
+//        self.translatesAutoresizingMaskIntoConstraints = true
+//        self.sizeToFit()
+//        self.isScrollEnabled = false
+//    }
+//}

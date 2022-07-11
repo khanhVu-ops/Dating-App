@@ -8,26 +8,33 @@
 import UIKit
 import FBSDKLoginKit
 
+protocol OnboardingViewControllerProtocol: UIViewController {
+    
+}
+
 class OnboardingViewController: BaseViewController {
     
+    //Note: Sửa tên property
     @IBOutlet weak var vBtnLoginFb: UIView!
     @IBOutlet weak var vLoginWithPhoneNumber: UIButton!
     
-    var onboardingViewModel = OnboardingViewModel()
+    var onboardingViewModel: OnboardingViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
-        
-        
     }
     override func setUpView() {
+        
+        onboardingViewModel = OnboardingViewModel(vc: self)
         
         if onboardingViewModel.checkAccountActive() {
             let st = UIStoryboard(name: "Main", bundle: nil)
             let vc = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController
             self.navigationController?.pushViewController(vc, animated: true)
+//            self.navigationController?.setViewControllers([vc], animated: true)
+            return
         }
         
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
@@ -43,17 +50,24 @@ class OnboardingViewController: BaseViewController {
     @IBAction func didTapBtnLoginPhoneNumber(_ sender: Any) {
         let st = UIStoryboard(name: "Main", bundle: nil)
         let vc = st.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.setViewControllers([vc], animated: true)
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func didTapBtnLoginFb(_ sender: Any) {
-        onboardingViewModel.loginWithFb(controller: self) { (bool) in
+        onboardingViewModel.loginWithFb { (bool) in
             if bool {
                 let st = UIStoryboard(name: "Main", bundle: nil)
                 let vc = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController
-                self.navigationController?.pushViewController(vc, animated: true)
+//                self.navigationController?.pushViewController(vc, animated: true)
+                self.navigationController?.setViewControllers([vc], animated: true)
+
             }
         }
     }
+    
+}
+
+extension OnboardingViewController: OnboardingViewControllerProtocol {
     
 }

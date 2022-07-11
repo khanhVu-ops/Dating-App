@@ -8,152 +8,154 @@
 import UIKit
 
 class EditingProfileViewController: BaseViewController {
-    @IBOutlet weak var btnSave: UIButton!
-    @IBOutlet weak var vEditFirstName: UIView!
-    @IBOutlet weak var vEditLastName: UIView!
-    @IBOutlet weak var vEditCountry: UIView!
-    @IBOutlet weak var btnAddPicture: UIButton!
-    @IBOutlet weak var tfEditFirstName: UITextField!
-    @IBOutlet weak var tfEditLastName: UITextField!
-    @IBOutlet weak var tfEditCountry: UITextField!
-    @IBOutlet weak var vAddPicture: UIView!
-    @IBOutlet weak var tbvImg: UITableView!
-    @IBOutlet weak var heightTbvConstraint: NSLayoutConstraint!
+
+
+    @IBOutlet weak var heightCltvConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cltvImage: UICollectionView!
+    @IBOutlet weak var txtAboutMe: UITextView!
+    @IBOutlet weak var txtFavoriteFood: UITextView!
+    @IBOutlet weak var heightTxtAboutMe: NSLayoutConstraint!
+    @IBOutlet weak var heightTxtFvrFood: NSLayoutConstraint!
+    @IBOutlet weak var vTopGradient: Gradient!
+    @IBOutlet weak var vTxtAboutMe: UIView!
+    @IBOutlet weak var vTxtFvrFood: UIView!
+    @IBOutlet weak var btnEditAboutMe: UIButton!
+    @IBOutlet weak var btnEditFvrFood: UIButton!
+    @IBOutlet weak var btnBack: UIButton!
     
-    var imagePickerController = UIImagePickerController()
     
     let profileViewModel = ProfileViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
-        imagePickerController.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        profileViewModel.getListImg()
     }
     
     override func setUpView() {
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
-        vAddPicture.layer.borderWidth = 2
-        vAddPicture.layer.borderColor = UIColor.systemPink.cgColor
-        vAddPicture.layer.cornerRadius = 20
-        vAddPicture.layer.masksToBounds = true
-        vEditFirstName.layer.borderWidth = 2
-        vEditFirstName.layer.borderColor = UIColor.systemPink.cgColor
-        vEditFirstName.layer.cornerRadius = 20
-        vEditLastName.layer.borderWidth = 2
-        vEditLastName.layer.borderColor = UIColor.systemPink.cgColor
-        vEditLastName.layer.cornerRadius = 20
-        vEditCountry.layer.borderWidth = 2
-        vEditCountry.layer.borderColor = UIColor.systemPink.cgColor
-        vEditCountry.layer.cornerRadius = 20
+        vTopGradient.layer.cornerRadius = vTopGradient.frame.width/3
         
-        btnSave.layer.borderWidth = 2
-        btnSave.layer.borderColor = UIColor.gray.cgColor
-        btnSave.layer.cornerRadius = 10
+        cltvImage.dataSource = self
+        cltvImage.delegate = self
+        cltvImage.register(UINib(nibName: "EditProfileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EditProfileCollectionViewCell")
+        cltvImage.register(UINib(nibName: "TakePhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TakePhotoCollectionViewCell")
+        cltvImage.backgroundColor = .clear
+        heightTxtAboutMe.isActive = false
+        heightTxtFvrFood.isActive = false
+        txtAboutMe.isScrollEnabled = false
+        txtAboutMe.sizeToFit()
+        txtFavoriteFood.isScrollEnabled = false
+        txtFavoriteFood.sizeToFit()
         
-//        btnUpdatePicture.layer.borderWidth = 2
-//        btnUpdatePicture.layer.borderColor = UIColor.gray.cgColor
-//        btnUpdatePicture.layer.cornerRadius = 20
-        tfEditFirstName.delegate = self
-        tfEditLastName.delegate = self
-        tfEditCountry.delegate = self
-        tbvImg.delegate = self
-        tbvImg.dataSource = self
-        tbvImg.register(UINib(nibName: "EditProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "EditProfileTableViewCell")
-        heightTbvConstraint.constant = CGFloat(0.0)
-        profileViewModel.tfEditCountry = tfEditCountry
-        profileViewModel.tfEditLastName = tfEditLastName
-        profileViewModel.tfEditFirstName = tfEditFirstName
-        profileViewModel.tbvImgEdit = tbvImg
+        vTxtAboutMe.layer.cornerRadius = 20
+        vTxtAboutMe.layer.masksToBounds = true
+        vTxtAboutMe.layer.borderWidth = 1
+        vTxtAboutMe.layer.borderColor = UIColor.gray.cgColor
+        btnEditAboutMe.layer.cornerRadius = 10
+        btnEditAboutMe.layer.borderWidth = 1
+
         
-        profileViewModel.setUpTextInTextField()
+        vTxtFvrFood.layer.cornerRadius = 20
+        vTxtFvrFood.layer.masksToBounds = true
+        vTxtFvrFood.layer.borderWidth = 1
+        vTxtFvrFood.layer.borderColor = UIColor.gray.cgColor
+        btnEditFvrFood.layer.cornerRadius = 10
+        btnEditFvrFood.layer.borderWidth = 1
+        btnBack.imageView?.setImageColor(color: .white)
+        
+        txtAboutMe.text = profileViewModel.userActive.about_me
+        txtFavoriteFood.text = profileViewModel.userActive.favorite_food
+        txtAboutMe.delegate = self
+        txtFavoriteFood.delegate = self
     }
 
     @IBAction func didTapBtnBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
-    @IBAction func didTapBtnSave(_ sender: Any) {
-        profileViewModel.saveDataEdited()
-        
-        self.navigationController?.popViewController(animated: true)
+   
+    @IBAction func didTapBtnEditAboutMe(_ sender: Any) {
+        txtAboutMe.becomeFirstResponder()
     }
-    @IBAction func didTapBtnAddPicture(_ sender: Any) {
-        self.imagePickerController.sourceType = .photoLibrary
-        self.present(self.imagePickerController, animated: true, completion: nil)
+    @IBAction func didTapBtnEditFvrFood(_ sender: Any) {
+        txtFavoriteFood.becomeFirstResponder()
     }
+    
 }
 extension EditingProfileViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        updateButtonUI(btnSave, enable: false, color: .systemPink)
-    }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        updateButtonUI(btnSave, enable: true, color: .systemPink)
-    }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case tfEditFirstName:
-            tfEditLastName.becomeFirstResponder()
-        case tfEditLastName:
-            tfEditCountry.becomeFirstResponder()
-        default:
-            tfEditCountry.resignFirstResponder()
-        }
-        return true
-    }
-}
-
-extension EditingProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        if picker.sourceType == .photoLibrary {
-            let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-            let imgStr = img?.toJpegString(compressionQuality: 0) ?? ""
-            if imgStr.count > 0 {
-                profileViewModel.listImg.append(imgStr)
-                DispatchQueue.main.async {
-                    self.tbvImg.reloadData()
-                }
-            }
-//            print("IMG: \(String(describing: imgStr))")
-//            imgAvt?.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-//            DatabaseManager.shared.addListImage(string: imgStr ?? "")
-        }
-        
-        picker.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension EditingProfileViewController: UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        true
+}
+
+extension EditingProfileViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: (self.view.frame.width - 60)/3, height: (self.view.frame.width - 60)/3)
     }
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            print("ROW: \(indexPath.row)")
-            profileViewModel.listImg.remove(at: indexPath.row)
-            tbvImg.reloadData()
-        }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
     }
 }
-extension EditingProfileViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension EditingProfileViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        profileViewModel.getListImg()
         let count = profileViewModel.listImg.count
-        heightTbvConstraint.constant = CGFloat(count*420)
-        return count
+        let height = (self.view.frame.width - 60)/3
+        if count < 6 {
+            heightCltvConstraint.constant = CGFloat(height*2 + 15)
+            return 6
+        }else {
+            let mul = count/3 + 1
+            heightCltvConstraint.constant = CGFloat(height * CGFloat(mul) + 15*CGFloat(mul-1))
+            return mul * 3
+        }
+        
         
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(indexPath.row)
-        let cell = tbvImg.dequeueReusableCell(withIdentifier: "EditProfileTableViewCell") as! EditProfileTableViewCell
-        cell.configure(imgStr: profileViewModel.listImg[indexPath.row])
-        return cell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let count = profileViewModel.listImg.count
+        
+        
+        if indexPath.item == count {
+            let cell = cltvImage.dequeueReusableCell(withReuseIdentifier: "TakePhotoCollectionViewCell", for: indexPath) as! TakePhotoCollectionViewCell
+            cell.vc = self
+            return cell
+        }else {
+            let cell = cltvImage.dequeueReusableCell(withReuseIdentifier: "EditProfileCollectionViewCell", for: indexPath) as! EditProfileCollectionViewCell
+            if indexPath.item < count{
+                let imgStr = profileViewModel.listImg[indexPath.item]
+                cell.confifure(imgStr: imgStr)
+            }else {
+                cell.confifure(imgStr: "")
+            }
+            
+            return cell
+        }
+        
     }
     
-    
-    
 }
+extension EditingProfileViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard  let text = textView.text else {
+            return
+        }
+        if textView == txtAboutMe {
+            DatabaseManager.shared.updateProfileEditing(property: "about_me", text: text)
+
+        }else {
+            DatabaseManager.shared.updateProfileEditing(property: "favorite_food", text: text)
+
+        }
+    }
+}
+
+
+
+
 

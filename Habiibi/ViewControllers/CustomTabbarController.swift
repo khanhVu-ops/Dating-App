@@ -19,6 +19,9 @@ class CustomTabbarController: UITabBarController {
         print("phone: \(userActive.userActive)")
         print("gender: \(userActive.gender)")
         print("first: \(userActive.firstName)")
+        for i in userActive.listDisLiked {
+            print("DISlike: \(i)")
+        }
         print("disLike: \(userActive.listDisLiked.count)")
         print("disLike: \(userActive.listLiked.count)")
     }

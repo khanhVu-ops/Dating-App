@@ -62,29 +62,27 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    
-    
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb709975086772118</string>
-      </array>
-      </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>709975086772118</string>
-    <key>FacebookClientToken</key>
-    <string>a752ab017b923e74b84e1ec6d7c99b8f</string>
-    <key>FacebookDisplayName</key>
-    <string>AppHabiibi</string>
-    
-    
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>fbapi</string>
-      <string>fb-messenger-share-api</string>
-    </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb709975086772118</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>709975086772118</string>
+	<key>FacebookClientToken</key>
+	<string>a752ab017b923e74b84e1ec6d7c99b8f</string>
+	<key>FacebookDisplayName</key>
+	<string>AppHabiibi</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow to take a picture for this video!</string>
 </dict>
 </plist>

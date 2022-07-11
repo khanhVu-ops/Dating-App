@@ -38,7 +38,7 @@ class HomeScreenViewModel {
                 self.items = self.items.filter() {$0.id != id}
             }
             
-            DispatchQueue.main.async {
+                        DispatchQueue.main.async {
                 self.vKoloda.reloadData()
                 self.tbvImg.reloadData()
             }

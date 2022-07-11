@@ -8,6 +8,7 @@ PODS:
   - FBSDKCoreKit_Basics (12.3.2)
   - FBSDKLoginKit (12.3.2):
     - FBSDKCoreKit (= 12.3.2)
+  - IQKeyboardManagerSwift (6.5.10)
   - Koloda (5.0.1):
     - pop (~> 1.0)
   - pop (1.0.12)
@@ -29,6 +30,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - FBSDKLoginKit
+  - IQKeyboardManagerSwift
   - Koloda
   - RealmSwift (~> 10.5.2)
   - RxCocoa (= 6.5.0)
@@ -42,6 +44,7 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
     - FBSDKLoginKit
+    - IQKeyboardManagerSwift
     - Koloda
     - pop
     - Realm
@@ -57,6 +60,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
   FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
   FBSDKLoginKit: 56d55e23fe66a6db045826190b0b4dbc0e1ca0a0
+  IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   Koloda: d07b9199a383abc5898b62aa945a599f5e7c0c4b
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   Realm: 2e1bc0d28301006176692da234deff51f867d5ae
@@ -66,6 +70,6 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SDWebImage: a47aea9e3d8816015db4e523daff50cfd294499d
 
-PODFILE CHECKSUM: 62cda8cf8bd779887682e1f22f2b481b9928b391
+PODFILE CHECKSUM: d09e2c7d99f3355ae222cf9fd08bc593a016b9e8
 
 COCOAPODS: 1.11.3
