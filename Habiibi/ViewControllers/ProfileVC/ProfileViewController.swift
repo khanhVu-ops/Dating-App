@@ -35,6 +35,9 @@ class ProfileViewController: BaseViewController {
     
     @IBOutlet weak var btnLogOut: UIButton!
     @IBOutlet weak var lbNoImage: UILabel!
+    @IBOutlet weak var vBorderCltvImage: UIView!
+    
+    
     var imagePickerController = UIImagePickerController()
     
     let profileViewModel = ProfileViewModel()
@@ -60,6 +63,9 @@ class ProfileViewController: BaseViewController {
     override func setUpView() {
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
         vTopCorner.layer.cornerRadius = vTopCorner.frame.width/3
+        vBorderCltvImage.layer.cornerRadius = 20
+        vBorderCltvImage.layer.borderWidth = 1
+        vBorderCltvImage.layer.borderColor = UIColor.gray.cgColor
         vInfo.layer.cornerRadius = 20
         vInfo.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         vInfo.layer.shadowOpacity = 0.3

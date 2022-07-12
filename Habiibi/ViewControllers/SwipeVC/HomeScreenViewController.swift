@@ -11,7 +11,7 @@ import RxCocoa
 import FBSDKLoginKit
 import Koloda
 class HomeScreenViewController: BaseViewController {
-
+    
     @IBOutlet weak var vKoloda: KolodaView!
     @IBOutlet weak var lbDescrip: UILabel!
     @IBOutlet weak var lbName: UILabel!
@@ -29,7 +29,7 @@ class HomeScreenViewController: BaseViewController {
         super.viewDidLoad()
         setUpView()
         
-
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         
@@ -46,7 +46,7 @@ class HomeScreenViewController: BaseViewController {
     override func setUpView() {
         lbNoPerson.isHidden = true
         vKoloda.layer.cornerRadius = 20
-//        vKoloda.layer.masksToBounds = true
+        //        vKoloda.layer.masksToBounds = true
         
         btnRight.layer.cornerRadius = btnRight.frame.height/2
         btnLeft.layer.cornerRadius = btnLeft.frame.height/2
@@ -60,7 +60,7 @@ class HomeScreenViewController: BaseViewController {
         btnRight.layer.borderColor = UIColor.white.cgColor
         
         homeViewModel.setUpObservable()
-        
+        homeViewModel.setUpObservableFilter()
         vKoloda.delegate = self
         vKoloda.dataSource = self
         tbvImage.delegate = self
@@ -78,9 +78,20 @@ class HomeScreenViewController: BaseViewController {
     
     @IBAction func didTapBtnFilter(_ sender: Any) {
         let st = UIStoryboard(name: "Main", bundle: nil)
-        let vc = st.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
-        vc.homeVC = self
-        self.navigationController?.pushViewController(vc, animated: true)
+        let popoverContent = st.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        popoverContent.homeVC = self
+//        popoverContent.delegate = self
+        popoverContent.modalPresentationStyle = .popover
+        if let popover = popoverContent.popoverPresentationController {
+            popover.delegate = self
+            let viewForSource = sender as! UIView
+            popover.sourceView = viewForSource
+            
+            popover.sourceRect = viewForSource.bounds
+            popoverContent.preferredContentSize = CGSize(width: 300, height: 300)
+            
+        }
+        self.present(popoverContent, animated: true, completion: nil)
     }
     @IBAction func didTapBtnReload(_ sender: Any) {
         homeViewModel.getListUsers()
@@ -92,7 +103,7 @@ class HomeScreenViewController: BaseViewController {
     @IBAction func didTapBtnMid(_ sender: Any) {
     }
     @IBAction func didTapBtnRight(_ sender: Any) {
-            vKoloda.swipe(.right)
+        vKoloda.swipe(.right)
         DatabaseManager.shared.addListUserInteraction(id: GobalData.id + 1, like: true)
     }
     
@@ -131,7 +142,7 @@ extension HomeScreenViewController: KolodaViewDataSource {
         return view
     }
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
-//        print("IDSWIPE: \(index)")
+        //        print("IDSWIPE: \(index)")
         switch direction {
         case .left:
             print("LEFT")
@@ -141,7 +152,7 @@ extension HomeScreenViewController: KolodaViewDataSource {
             DatabaseManager.shared.addListUserInteraction(id: homeViewModel.items[index].id ?? -1, like: true)
             
         }
-
+        
     }
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int) {
         GobalData.id = index
@@ -168,7 +179,7 @@ extension HomeScreenViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        print(indexPath.row)
+        //        print(indexPath.row)
         let cell = tbvImage.dequeueReusableCell(withIdentifier: "ListImageTableViewCell") as! ListImageTableViewCell
         cell.configure(item: homeViewModel.items[GobalData.id], row: indexPath.row)
         lbDescrip.text = homeViewModel.items[GobalData.id].descrip
@@ -181,4 +192,9 @@ extension HomeScreenViewController: UITableViewDataSource {
     
     
     
+}
+extension HomeScreenViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
 }

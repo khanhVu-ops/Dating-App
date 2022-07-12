@@ -78,6 +78,24 @@ class ProfileViewModel {
         }
         
     }
+    
+    func presentOptionsPopovered(vc: BaseViewController ,btn: UIButton) {
+        
+        let st = UIStoryboard(name: "Main", bundle: nil)
+        let popoverContent = st.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+//        popoverContent.delegate = self
+        popoverContent.modalPresentationStyle = .popover
+        if let popover = popoverContent.popoverPresentationController {
+//            popover.delegate = self
+            let viewForSource = btn as UIView
+            popover.sourceView = viewForSource
+            
+            popover.sourceRect = viewForSource.bounds
+            popoverContent.preferredContentSize = CGSize(width: 200, height: 100)
+            
+        }
+        vc.present(popoverContent, animated: true, completion: nil)
+    }
 //    func setUpObservable() {
 //        subject.asObserver()
 //            .subscribe(onNext:{ [unowned self] value in

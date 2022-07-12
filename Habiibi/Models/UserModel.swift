@@ -11,17 +11,19 @@ class UserModel: NSObject, JsonInitObject {
     var id: Int?
     var name: String?
     var age: Int?
+    var gender: String?
     var location: String?
     var descrip: String?
     var avata: String?
     var listImg: [String]?
     
-    convenience init(id: Int?, name: String?, age: Int?, location: String?, descrip: String?, avata: String?, listImg: [String]?) {
+    convenience init(id: Int?, name: String?, age: Int?, gender: String?, location: String?, descrip: String?, avata: String?, listImg: [String]?) {
         self.init()
         
         self.id = id
         self.name = name
         self.age = age
+        self.gender = gender
         self.location = location
         self.descrip = descrip
         self.avata = avata
@@ -41,6 +43,10 @@ class UserModel: NSObject, JsonInitObject {
             if key == "age", let wrapValue = value as? Int {
                 let jsonValue = wrapValue
                 self.age = jsonValue
+            }
+            if key == "gender", let wrapValue = value as? String {
+                let jsonValue = wrapValue
+                self.gender = jsonValue
             }
             if key == "location", let wrapValue = value as? String {
                 let jsonValue = wrapValue

@@ -9,11 +9,46 @@ import Foundation
 import UIKit
 
 class FilterViewModel {
-    var listAge = ["All ages", "From 0 to 14 years old", "From 15 to 18 years old", "From 19 to 22 years old", "From 23 to 26 years old", "From 27 to 30 years old", "Over 30 years old" ]
+    var item = FilterModel(gender: "", fromAge: "0", destinationAge: "100")
+    var tapFemale = false
+    var tapMale = false
+    var tfFrom: UITextField!
+    var tfDestination: UITextField!
     
-    let ages = [(0,100), (0,14), (15,18), (19,22), (23,26), (27,30), (30,100)]
+    func updateUIComponent() {
+        if item.fromAge == "0" {
+            tfFrom.text = ""
+        }else {
+            tfFrom.text = item.fromAge
+        }
+        if item.destinationAge == "0" || item.destinationAge == "100" {
+            tfDestination.text = ""
+        }else {
+            tfDestination.text = item.destinationAge
+        }
+        if item.gender == "Male" {
+            tapMale = true
+        }
+        if item.gender == "Female" {
+            tapFemale = true
+        }
+    }
     
-    var from = 0
-    var destination = 100
+    func configureBtnColor(btn: UIView, enable: Bool) {
+        btn.backgroundColor = enable ? .red : .white
+    }
+    
+    func getGender()  {
+        if tapMale {
+            item.gender = "Male"
+        }else if tapFemale {
+            item.gender = "Female"
+        }else {
+            item.gender = ""
+        }
+    }
+//    func getAge() {
+//        
+//    }
 }
 

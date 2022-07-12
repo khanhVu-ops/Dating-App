@@ -16,7 +16,7 @@ class BaseViewController: UIViewController {
             UIColor.init(hexString: "#FFA8B5"),
             UIColor.init(hexString: "#FFCCCB")
         ]
-        gradient.locations = [0.5,0.25]
+        gradient.locations = [0.5,0.75]
         return gradient
     }()
 

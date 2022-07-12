@@ -18,15 +18,13 @@ class HomeScreenViewModel {
     var tbvImg: UITableView!
     var heightTbvConstraint: NSLayoutConstraint!
     let disposeBag = DisposeBag()
-    let subject = BehaviorSubject<UserModel>(value: UserModel(id: 0, name: "___", age: 0, location: "___", descrip: "___", avata: "lisa", listImg: ["",""]))
-    
+    let subject = BehaviorSubject<UserModel>(value: UserModel(id: 0, name: "___", age: 0, gender: "", location: "___", descrip: "___", avata: "lisa", listImg: ["",""]))
+    let filterSubject = BehaviorSubject<FilterModel>(value: FilterModel(gender: "", fromAge: "", destinationAge: ""))
     var items = [UserModel]()
     var user: UserModel?
     var imgAvt = UIImageView()
     let userActive = DatabaseManager.shared.fetchDataUser()
-    var from = 0
-    var destination = 100
-    
+    var filterItem = FilterModel(gender: "", fromAge: "", destinationAge: "")
     func getListUsers()  {
         
 //        items.removeAll()
@@ -39,10 +37,8 @@ class HomeScreenViewModel {
 //               / print("IDDDD: \(id)")
                 self.items = self.items.filter() {$0.id != id}
             }
-            self.items = self.items.filter() {($0.age ?? 0) >= self.from }
-            self.items = self.items.filter() {($0.age ?? 0) <= self.destination }
             
-                        DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 self.vKoloda.reloadData()
                 self.tbvImg.reloadData()
             }
@@ -70,7 +66,37 @@ class HomeScreenViewModel {
         self.subject.onNext(data)
     }
     
-   
-    
+    func setUpObservableFilter() {
+        filterSubject.asObserver()
+            .subscribe(onNext: { [unowned self] value in
+                self.filterItem = value
+                APIService.requestListUsers { (data, error) in
+                    guard let data = data, error == nil else {
+                        return
+                    }
+                    self.items = data
+                    for id in self.userActive.listDisLiked {
+        //               / print("IDDDD: \(id)")
+                        self.items = self.items.filter() {$0.id != id}
+                    }
+                    self.items = self.items.filter() {($0.age ?? 0) >= Int(value.fromAge) ?? 0 }
+                    self.items = self.items.filter() {($0.age ?? 0) <= Int(value.destinationAge) ?? 100 }
+                    if value.gender != "" {
+                        self.items = self.items.filter() {$0.gender == value.gender}
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.vKoloda.reloadData()
+                        self.tbvImg.reloadData()
+                    }
+                    
+                }
+               
+            })
+            .disposed(by: disposeBag)
+    }
+    func notifiObserverFilter(data: FilterModel) {
+        self.filterSubject.onNext(data)
+    }
 }
 

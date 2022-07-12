@@ -33,6 +33,7 @@
 		33282FAB286AFA7000E6F16D /* HomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */; };
 		33390DAF2862F53D00B5B072 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33390DAE2862F53D00B5B072 /* OTPStackView.swift */; };
 		334FA2AB28767FDD0060C7F3 /* EditingProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */; };
+		335921A2287D6255002CBA52 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335921A1287D6255002CBA52 /* FilterModel.swift */; };
 		33631832287574E100A03242 /* ListImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33631830287574E100A03242 /* ListImageTableViewCell.swift */; };
 		33631833287574E100A03242 /* ListImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33631831287574E100A03242 /* ListImageTableViewCell.xib */; };
 		336318522875A1B200A03242 /* Extensions+UIImage+UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336318512875A1B200A03242 /* Extensions+UIImage+UIImageView.swift */; };
@@ -85,6 +86,7 @@
 		33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewModel.swift; sourceTree = "<group>"; };
 		33390DAE2862F53D00B5B072 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
 		334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileViewController.swift; sourceTree = "<group>"; };
+		335921A1287D6255002CBA52 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModel.swift; sourceTree = "<group>"; };
 		33631830287574E100A03242 /* ListImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListImageTableViewCell.swift; sourceTree = "<group>"; };
 		33631831287574E100A03242 /* ListImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListImageTableViewCell.xib; sourceTree = "<group>"; };
 		336318512875A1B200A03242 /* Extensions+UIImage+UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+UIImage+UIImageView.swift"; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				3314FD542864674400B1AB1D /* UserLogin.swift */,
 				3300F7CB286BF224009CDE07 /* UserModel.swift */,
 				331693E228781DC70044D44F /* ModelSetUpTBV.swift */,
+				335921A1287D6255002CBA52 /* FilterModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -216,9 +219,9 @@
 				339148202869688900495999 /* GobalData.swift */,
 				3314FD4F286466B500B1AB1D /* DatabaseManagers.swift */,
 				33390DAE2862F53D00B5B072 /* OTPStackView.swift */,
-				33113B8E2862D51E00C0CD7F /* CustomTextField.swift */,
 				331693F328783E510044D44F /* Gradient.swift */,
 				33BFAC7F287C031200F95F1F /* CustomNavigationVC.swift */,
+				33113B8E2862D51E00C0CD7F /* CustomTextField.swift */,
 			);
 			path = CustomFile;
 			sourceTree = "<group>";
@@ -229,7 +232,6 @@
 				33D45C1A287ADE4A003443A8 /* Cells */,
 				3391482428696C9400495999 /* ProfileViewController.swift */,
 				334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */,
-				33BFAC82287C0DB000F95F1F /* FilterViewController.swift */,
 			);
 			path = ProfileVC;
 			sourceTree = "<group>";
@@ -257,6 +259,7 @@
 			children = (
 				3363182F287574C300A03242 /* imageTBVC */,
 				33113B7A2862BBE200C0CD7F /* HomeScreenViewController.swift */,
+				33BFAC82287C0DB000F95F1F /* FilterViewController.swift */,
 			);
 			path = SwipeVC;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				339148212869688900495999 /* GobalData.swift in Sources */,
 				33BFAC94287C28AD00F95F1F /* VerifyCodeviewModel.swift in Sources */,
 				33282F9E286ADD4E00E6F16D /* Extensions+String.swift in Sources */,
+				335921A2287D6255002CBA52 /* FilterModel.swift in Sources */,
 				33BFAC83287C0DB000F95F1F /* FilterViewController.swift in Sources */,
 				33113B772862B89900C0CD7F /* OnboardingViewController.swift in Sources */,
 				338AC716286411F300215A06 /* Extentions+UIView.swift in Sources */,
