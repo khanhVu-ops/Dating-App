@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class FilterViewController: BaseViewController {
     @IBOutlet weak var vBtnFemaleBorder: UIView!
@@ -17,21 +19,24 @@ class FilterViewController: BaseViewController {
     @IBOutlet weak var btnSave: UIButton!
     
     let filterViewModel = FilterViewModel()
+    let homeViewModel = HomeScreenViewModel()
     var homeVC: HomeScreenViewController?
-   
+    let disposeBag = DisposeBag()
     var enable = false
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
+        bindTxtToViewModel()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        filterViewModel.item = homeVC?.homeViewModel.filterItem ?? FilterModel(gender: "", fromAge: "", destinationAge: "")
-        
+        guard let item = homeVC?.homeViewModel.filterRelay.value else {return}
+        filterViewModel.item = item
         filterViewModel.updateUIComponent()
         configureBtnColor(btn: vBtnMale, enable: filterViewModel.tapMale)
         configureBtnColor(btn: vBtnFemale, enable: filterViewModel.tapFemale)
-        
+        filterViewModel.txtFrom.bind(to: tfFrom.rx.text).disposed(by: disposeBag)
+        filterViewModel.txtDestination.bind(to: tfDestination.rx.text).disposed(by: disposeBag)
         
     }
     
@@ -54,12 +59,18 @@ class FilterViewController: BaseViewController {
         vBtnMale.backgroundColor = .red
         tfDestination.delegate = self
         tfFrom.delegate = self
-        filterViewModel.tfDestination = tfDestination
-        filterViewModel.tfFrom = tfFrom
+        
     }
     func configureBtnColor(btn: UIView, enable: Bool) {
         btn.backgroundColor = enable ? .red : .white
     }
+    
+    func bindTxtToViewModel() {
+        tfFrom.rx.text.orEmpty.bind(to: filterViewModel.txtFrom).disposed(by: disposeBag)
+        tfDestination.rx.text.orEmpty.bind(to: filterViewModel.txtDestination).disposed(by: disposeBag)
+    }
+    
+    
     
     @IBAction func didTapBtnFemale(_ sender: Any) {
         filterViewModel.tapFemale = !filterViewModel.tapFemale
@@ -80,27 +91,13 @@ class FilterViewController: BaseViewController {
         }
     }
     @IBAction func didTapBtnSave(_ sender: Any) {
-        filterViewModel.getGender()
-        homeVC?.homeViewModel.notifiObserverFilter(data: filterViewModel.item)
+        filterViewModel.getItems()
+        homeVC?.homeViewModel.filterRelay.accept(filterViewModel.item)
         self.dismiss(animated: true, completion: nil)
     }
 }
 
 extension FilterViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        updateButtonUI(btnSave, enable: false, color: .systemPink)
-    }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-        if textField == tfFrom {
-            filterViewModel.item.fromAge = text
-        }else {
-            filterViewModel.item.destinationAge = text
-        }
-        updateButtonUI(btnSave, enable: true, color: .systemPink)
-    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
     }

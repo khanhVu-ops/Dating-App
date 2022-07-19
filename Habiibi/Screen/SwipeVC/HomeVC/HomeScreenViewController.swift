@@ -23,12 +23,18 @@ class HomeScreenViewController: BaseViewController {
     @IBOutlet weak var btnLeft: UIButton!
     @IBOutlet weak var lbNoPerson: UILabel!
     @IBOutlet weak var btnFilter: UIButton!
+    
+    let disposeBag = DisposeBag()
     let homeViewModel = HomeScreenViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+     
         setUpView()
-        
+        subscribeToLoading()
+        setUpTableViewListImage()
+        subcribseToFilterVC()
+        bindToLabel()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +52,6 @@ class HomeScreenViewController: BaseViewController {
     override func setUpView() {
         lbNoPerson.isHidden = true
         vKoloda.layer.cornerRadius = 20
-        //        vKoloda.layer.masksToBounds = true
         
         btnRight.layer.cornerRadius = btnRight.frame.height/2
         btnLeft.layer.cornerRadius = btnLeft.frame.height/2
@@ -58,22 +63,60 @@ class HomeScreenViewController: BaseViewController {
         btnLeft.layer.borderColor = UIColor.white.cgColor
         btnRight.layer.borderWidth = 5
         btnRight.layer.borderColor = UIColor.white.cgColor
-        
-        homeViewModel.setUpObservable()
-        homeViewModel.setUpObservableFilter()
         vKoloda.delegate = self
         vKoloda.dataSource = self
-        tbvImage.delegate = self
-        tbvImage.dataSource = self
+        
         tbvImage.register(UINib(nibName: "ListImageTableViewCell", bundle: nil), forCellReuseIdentifier: "ListImageTableViewCell")
-        homeViewModel.controller = self
         homeViewModel.vKoloda = vKoloda
         homeViewModel.heightTbvConstraint = heightTbvConstraint
-        homeViewModel.tbvImg = tbvImage
         vKoloda.layer.cornerRadius = 20
         vKoloda.layer.borderWidth = 1
         vKoloda.layer.borderColor = UIColor.systemPink.cgColor
         
+    }
+    
+    func subscribeToLoading() {
+        homeViewModel.loadingBehavior.subscribe(onNext: { isLoading in
+            if isLoading {
+                self.showIndicator(withTitle: "", and: "")
+            }else{
+                self.hideIndicator()
+            }
+            
+        })
+        .disposed(by: disposeBag)
+    }
+    
+    func setUpTableViewListImage() {
+        homeViewModel.listImagesBehavior.bind(to: self.tbvImage.rx.items(cellIdentifier: "ListImageTableViewCell", cellType: ListImageTableViewCell.self)) { row, item, cell in
+            cell.configure(item: item, row: row)
+          
+        }
+        .disposed(by: disposeBag)
+    }
+    
+    func bindToLabel() {
+        homeViewModel.txtName.subscribe(onNext: { [weak self] txt in
+            self?.lbName.text = txt
+        })
+        .disposed(by: disposeBag)
+        
+        homeViewModel.txtDescrip.subscribe(onNext: { [weak self] txt in
+            self?.lbDescrip.text = txt
+        })
+        .disposed(by: disposeBag)
+    }
+    
+    
+    
+    func subcribseToFilterVC() {
+        homeViewModel.filterRelay.subscribe(onNext: { [weak self] _ in
+            
+            guard let self = self else {return}
+            self.homeViewModel.getListUsers()
+            
+        })
+        .disposed(by: disposeBag)
     }
     
     @IBAction func didTapBtnFilter(_ sender: Any) {
@@ -92,6 +135,7 @@ class HomeScreenViewController: BaseViewController {
             
         }
         self.present(popoverContent, animated: true, completion: nil)
+        
     }
     @IBAction func didTapBtnReload(_ sender: Any) {
         homeViewModel.getListUsers()
@@ -124,9 +168,10 @@ extension HomeScreenViewController: KolodaViewDelegate {
 }
 extension HomeScreenViewController: KolodaViewDataSource {
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int {
-        let count = homeViewModel.items.count
+        let count = homeViewModel.listItemsBehavior.value.count
         if count == 0 {
             lbNoPerson.isHidden = false
+            heightTbvConstraint.constant = CGFloat(0)
         }
         return count
     }
@@ -137,62 +182,51 @@ extension HomeScreenViewController: KolodaViewDataSource {
         view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.systemPink.cgColor
         view.layer.masksToBounds = true
-        homeViewModel.imgAvt = view
-        homeViewModel.notifiObserver(data: homeViewModel.items[index])
-        return view
+        let item = homeViewModel.listItemsBehavior.value
+        if index < item.count {
+            guard let avt = item[index].avata else {
+                return UIView()
+                
+            }
+            view.image = UIImage(named: avt)
+            return view
+        }
+        return UIView()
+        
     }
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
-        //        print("IDSWIPE: \(index)")
-        switch direction {
-        case .left:
-            print("LEFT")
-            DatabaseManager.shared.addListUserInteraction(id: homeViewModel.items[index].id ?? -1, like: false)
-        default:
-            print("Right")
-            DatabaseManager.shared.addListUserInteraction(id: homeViewModel.items[index].id ?? -1, like: true)
+                print("IDSWIPE: \(index)")
+        
+        heightTbvConstraint.constant = CGFloat(0*540)
+        let item = homeViewModel.listItemsBehavior.value
+        if index<item.count {
+            guard let id = homeViewModel.listItemsBehavior.value[index].id else {
+                return
+            }
             
+            switch direction {
+            case .left:
+                print("LEFT")
+                DatabaseManager.shared.addListUserInteraction(id: id, like: false)
+            default:
+                print("Right")
+                DatabaseManager.shared.addListUserInteraction(id: id, like: true)
+                
+            }
         }
+        
         
     }
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int) {
         GobalData.id = index
-        let count = homeViewModel.items[index].listImg?.count ?? 0
-        heightTbvConstraint.constant = CGFloat(count*540)
-        DispatchQueue.main.async {
-            self.tbvImage.reloadData()
-        }
+        
+        homeViewModel.emittedListimage(index: index)
+        
         
     }
+    
 }
 
-extension HomeScreenViewController: UITableViewDelegate {
-    
-    
-}
-extension HomeScreenViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if homeViewModel.items.count > 0 {
-            return homeViewModel.items[GobalData.id].listImg?.count ?? 0
-        }
-        return 0
-        
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        print(indexPath.row)
-        let cell = tbvImage.dequeueReusableCell(withIdentifier: "ListImageTableViewCell") as! ListImageTableViewCell
-        cell.configure(item: homeViewModel.items[GobalData.id], row: indexPath.row)
-        lbDescrip.text = homeViewModel.items[GobalData.id].descrip
-        let name = homeViewModel.items[GobalData.id].name ?? ""
-        let age = homeViewModel.items[GobalData.id].age ?? 0
-        let country = homeViewModel.items[GobalData.id].location ?? ""
-        lbName.text = "\(name), \(age) from \(country)"
-        return cell
-    }
-    
-    
-    
-}
 extension HomeScreenViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none

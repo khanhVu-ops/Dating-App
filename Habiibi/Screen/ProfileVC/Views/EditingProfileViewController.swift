@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class EditingProfileViewController: BaseViewController {
 
@@ -30,11 +32,13 @@ class EditingProfileViewController: BaseViewController {
     @IBOutlet weak var heightTbvInfoConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightTbvEducationConstraint: NSLayoutConstraint!
     
-    
+    let disposeBag = DisposeBag()
     let profileViewModel = ProfileViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        profileViewModel.setUpTBV()
+        setUpObsevableTableView()
         setUpView()
     }
     
@@ -64,12 +68,8 @@ class EditingProfileViewController: BaseViewController {
         vEducation.layer.shadowColor = UIColor.gray.cgColor
         vEducation.layer.shadowRadius = 10
         
-        tbvBasicInfo.delegate = self
-        tbvBasicInfo.dataSource = self
         tbvBasicInfo.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
         tbvBasicInfo.backgroundColor = .clear
-        tbvEducation.delegate = self
-        tbvEducation.dataSource = self
         tbvEducation.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
         
         heightTxtAboutMe.isActive = false
@@ -100,6 +100,31 @@ class EditingProfileViewController: BaseViewController {
         txtAboutMe.delegate = self
         txtFavoriteFood.delegate = self
     }
+    
+    func setUpObsevableTableView() {
+        heightTbvInfoConstraint.constant = CGFloat(6*120 + 60)
+        heightTbvEducationConstraint.constant = CGFloat(2*120+60)
+        
+        profileViewModel.listEdit.bind(to: self.tbvBasicInfo.rx.items(cellIdentifier: "ProfileTableViewCell", cellType: ProfileTableViewCell.self)) { [weak self] row, item, cell in
+            guard let item = self?.profileViewModel.listEdit.value[row] else {return}
+            cell.configure(item: item)
+            cell.editVC = self
+        }
+        .disposed(by: disposeBag)
+        
+        profileViewModel.listEducation.bind(to: self.tbvEducation.rx.items(cellIdentifier: "ProfileTableViewCell", cellType: ProfileTableViewCell.self)) { [weak self] row, item, cell in
+            
+            guard let item = self?.profileViewModel.listEducation.value[row] else {return}
+            cell.configure(item: item)
+            cell.editVC = self
+        }
+        .disposed(by: disposeBag)
+    }
+    
+    
+    func setUpUIListImage() {
+        
+    }
 
     @IBAction func didTapBtnBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -116,18 +141,17 @@ class EditingProfileViewController: BaseViewController {
         DatabaseManager.shared.updateListImage(list: profileViewModel.listImg)
         let listWillSave = profileViewModel.listItemWillSave
         
+        
         for item in listWillSave {
             DatabaseManager.shared.updateProfileEditing(property: item.title, text: item.tfText)
         }
+
         navigationController?.popViewController(animated: true)
-//        DatabaseManager.shared.updateProfileEditing(property: <#T##String#>, text: <#T##String#>)
         
     }
     
 }
-extension EditingProfileViewController: UITextFieldDelegate {
-    
-}
+
 
 extension EditingProfileViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -140,7 +164,6 @@ extension EditingProfileViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let count = profileViewModel.listImg.count
         if indexPath.item < count {
-//            DatabaseManager.shared.removeImage(index: indexPath.item)
             profileViewModel.listImg.remove(at: indexPath.item)
             cltvImage.deleteItems(at: [indexPath])
         }
@@ -149,7 +172,6 @@ extension EditingProfileViewController: UICollectionViewDelegate, UICollectionVi
 }
 extension EditingProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        profileViewModel.getListImg()
         let count = profileViewModel.listImg.count
         let height = (self.view.frame.width - 60)/3
         if count < 6 {
@@ -209,36 +231,3 @@ extension EditingProfileViewController: UITextViewDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
     }
 }
-
-extension EditingProfileViewController: UITableViewDelegate {
-
-}
-extension EditingProfileViewController: UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        heightTbvInfoConstraint.constant = CGFloat(6*120 + 60)
-        heightTbvEducationConstraint.constant = CGFloat(2*120+60)
-        profileViewModel.setUpTBV()
-        if tableView == tbvEducation {
-            return 2
-        }else {
-            return 6
-        }
-        
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileTableViewCell", for: indexPath) as! ProfileTableViewCell
-        cell.editVC = self
-        if tableView == tbvBasicInfo {
-            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEdit)
-        }else {
-            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEducation)
-        }
-        return cell
-    }
-
-
-}
-
-
-

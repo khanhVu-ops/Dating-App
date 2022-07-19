@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class LoginViewController: BaseViewController {
 
@@ -15,16 +17,17 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var tfPhoneNumber: UITextField!
     @IBOutlet weak var lbError: UILabel!
     let loginViewModel = LoginViewModel()
+    let disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
        
         setUpView()
+        bindToViewModel()
         // Do any additional setup after loading the view.
     }
     
     override func setUpView() {
-        showError(lbError: lbError, enable: false, text: "")
-        updateButtonUI(btnContinue, enable: false, color: .blue)
+        lbError.isHidden = true
         tfPhoneNumber.becomeFirstResponder()
         tfPhoneNumber.delegate = self
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
@@ -38,10 +41,23 @@ class LoginViewController: BaseViewController {
         btnLoginWithFb.layer.cornerRadius = 20
         btnLoginWithFb.layer.borderWidth = 0.5
         btnLoginWithFb.layer.borderColor = UIColor.gray.cgColor
-        loginViewModel.tfEnter = tfPhoneNumber
-//        loginViewModel.btnContinue = btnContinue
+
+       
+    }
+    
+    func bindToViewModel() {
+        _ = tfPhoneNumber.rx.text.map{$0 ?? ""}.bind(to: loginViewModel.txtPhoneNumber).disposed(by: disposeBag)
+        _ = loginViewModel.isValidPhoneNumber.subscribe({ [weak self] isValid in
+            guard let isValid = isValid.element else {
+                return
+            }
+            self?.btnContinue.isEnabled = isValid
+            self?.btnContinue.backgroundColor = isValid ? .blue : UIColor.blue.withAlphaComponent(0.3)
+        })
+        .disposed(by: disposeBag)
         
     }
+    
     @IBAction func didTapBtnBack(_ sender: Any) {
         let st = UIStoryboard(name: "Main", bundle: nil)
         let vc = st.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
@@ -50,13 +66,11 @@ class LoginViewController: BaseViewController {
     
     @IBAction func didTapBtnContinue(_ sender: Any) {
         
-        if loginViewModel.checkPhoneNumberIsValid() {
+        GobalData.userRegister.phoneNumber = tfPhoneNumber.text ?? ""
             let st = UIStoryboard(name: "Main", bundle: nil)
             let vcVerify = st.instantiateViewController(withIdentifier: "VerifyCodeViewController") as! VerifyCodeViewController
             self.navigationController?.pushViewController(vcVerify, animated: true)
-        }else {
-            showError(lbError: lbError, enable: true, text: "Phone number is invalid!")
-        }
+    
         
     }
     
@@ -66,27 +80,6 @@ class LoginViewController: BaseViewController {
 }
 
 extension LoginViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard  let text = textField.text else {
-            return false
-        }
-        let full_text = text + string
-        if full_text.first == "0" {
-            if full_text.count > 9 {
-                updateButtonUI(btnContinue, enable: true, color: .blue)
-            }else {
-                updateButtonUI(btnContinue, enable: false, color: .blue)
-            }
-            
-        }else {
-            if full_text.count >= 9 {
-                updateButtonUI(btnContinue, enable: true, color: .blue)
-            }else {
-                updateButtonUI(btnContinue, enable: false, color: .blue)
-            }
-        }
-        return true
-    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         tfPhoneNumber.resignFirstResponder()
     }

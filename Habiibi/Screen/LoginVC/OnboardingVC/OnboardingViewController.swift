@@ -29,14 +29,6 @@ class OnboardingViewController: BaseViewController {
         
         onboardingViewModel = OnboardingViewModel(vc: self)
         
-//        if onboardingViewModel.checkAccountActive() {
-//            let st = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController
-//            self.navigationController?.pushViewController(vc, animated: true)
-////            self.navigationController?.setViewControllers([vc], animated: true)
-//            return
-//        }
-        
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
         vBtnLoginFb.layer.cornerRadius = 25
         vBtnLoginFb.layer.masksToBounds = true

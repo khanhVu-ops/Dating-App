@@ -7,24 +7,28 @@
 
 import Foundation
 import UIKit
+import RxSwift
+import RxCocoa
 
 class FilterViewModel {
     var item = FilterModel(gender: "", fromAge: "0", destinationAge: "100")
     var tapFemale = false
     var tapMale = false
-    var tfFrom: UITextField!
-    var tfDestination: UITextField!
+    var txtFrom = BehaviorRelay<String>(value: "")
+    var txtDestination = BehaviorRelay<String>(value: "")
+    
+//    var isValidObserVable
     
     func updateUIComponent() {
         if item.fromAge == "0" {
-            tfFrom.text = ""
+            txtFrom.accept("")
         }else {
-            tfFrom.text = item.fromAge
+           txtFrom.accept(item.fromAge)
         }
         if item.destinationAge == "0" || item.destinationAge == "100" {
-            tfDestination.text = ""
+            txtDestination.accept("")
         }else {
-            tfDestination.text = item.destinationAge
+            txtDestination.accept(item.destinationAge)
         }
         if item.gender == "Male" {
             tapMale = true
@@ -38,7 +42,7 @@ class FilterViewModel {
         btn.backgroundColor = enable ? .red : .white
     }
     
-    func getGender()  {
+    func getItems()  {
         if tapMale {
             item.gender = "Male"
         }else if tapFemale {
@@ -46,9 +50,8 @@ class FilterViewModel {
         }else {
             item.gender = ""
         }
+        item.fromAge = txtFrom.value
+        item.destinationAge = txtDestination.value
     }
-//    func getAge() {
-//        
-//    }
 }
 

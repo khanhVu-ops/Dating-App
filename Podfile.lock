@@ -11,6 +11,7 @@ PODS:
   - IQKeyboardManagerSwift (6.5.10)
   - Koloda (5.0.1):
     - pop (~> 1.0)
+  - MBProgressHUD (1.2.0)
   - pop (1.0.12)
   - Realm (10.5.2):
     - Realm/Headers (= 10.5.2)
@@ -26,16 +27,19 @@ PODS:
   - SDWebImage (5.12.6):
     - SDWebImage/Core (= 5.12.6)
   - SDWebImage/Core (5.12.6)
+  - SwiftyJSON (5.0.1)
 
 DEPENDENCIES:
   - Alamofire
   - FBSDKLoginKit
   - IQKeyboardManagerSwift
   - Koloda
+  - MBProgressHUD (~> 1.2.0)
   - RealmSwift (~> 10.5.2)
   - RxCocoa (= 6.5.0)
   - RxSwift (= 6.5.0)
   - SDWebImage
+  - SwiftyJSON
 
 SPEC REPOS:
   trunk:
@@ -46,6 +50,7 @@ SPEC REPOS:
     - FBSDKLoginKit
     - IQKeyboardManagerSwift
     - Koloda
+    - MBProgressHUD
     - pop
     - Realm
     - RealmSwift
@@ -53,6 +58,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - SDWebImage
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
@@ -62,6 +68,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 56d55e23fe66a6db045826190b0b4dbc0e1ca0a0
   IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   Koloda: d07b9199a383abc5898b62aa945a599f5e7c0c4b
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   Realm: 2e1bc0d28301006176692da234deff51f867d5ae
   RealmSwift: a522ad39715e8b4e491af4460059bc32b84f5a9b
@@ -69,7 +76,8 @@ SPEC CHECKSUMS:
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SDWebImage: a47aea9e3d8816015db4e523daff50cfd294499d
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: d09e2c7d99f3355ae222cf9fd08bc593a016b9e8
+PODFILE CHECKSUM: 331d24e45b69768d14fdfaa3b28114253f7631fb
 
 COCOAPODS: 1.11.3

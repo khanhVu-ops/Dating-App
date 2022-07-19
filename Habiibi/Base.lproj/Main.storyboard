@@ -401,7 +401,7 @@
                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nbs-VV-erQ">
-                                        <rect key="frame" x="40" y="1841.5" width="334" height="40"/>
+                                        <rect key="frame" x="40" y="1851.5" width="334" height="40"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="lt4-OA-eYi"/>
@@ -632,16 +632,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="leM-id-N2x">
-                                        <rect key="frame" x="10" y="1701.5" width="394" height="100"/>
+                                        <rect key="frame" x="5" y="1701.5" width="404" height="110"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You don't have any photos yet!!!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Dl5-nD-s3c">
-                                                <rect key="frame" x="30" y="39.5" width="334" height="21"/>
+                                                <rect key="frame" x="30" y="44.5" width="344" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gTz-53-Hu4">
-                                                <rect key="frame" x="0.0" y="0.0" width="394" height="100"/>
+                                                <rect key="frame" x="5" y="10" width="394" height="100"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="5qL-bR-wTp"/>
@@ -658,10 +658,10 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="Dl5-nD-s3c" secondAttribute="trailing" constant="30" id="6GP-et-L1d"/>
-                                            <constraint firstAttribute="trailing" secondItem="gTz-53-Hu4" secondAttribute="trailing" id="9Ag-t2-BHi"/>
+                                            <constraint firstAttribute="trailing" secondItem="gTz-53-Hu4" secondAttribute="trailing" constant="5" id="9Ag-t2-BHi"/>
                                             <constraint firstAttribute="bottom" secondItem="gTz-53-Hu4" secondAttribute="bottom" id="Bf8-wg-gro"/>
-                                            <constraint firstItem="gTz-53-Hu4" firstAttribute="leading" secondItem="leM-id-N2x" secondAttribute="leading" id="I1y-lK-96u"/>
-                                            <constraint firstItem="gTz-53-Hu4" firstAttribute="top" secondItem="leM-id-N2x" secondAttribute="top" id="Nnc-XI-otC"/>
+                                            <constraint firstItem="gTz-53-Hu4" firstAttribute="leading" secondItem="leM-id-N2x" secondAttribute="leading" constant="5" id="I1y-lK-96u"/>
+                                            <constraint firstItem="gTz-53-Hu4" firstAttribute="top" secondItem="leM-id-N2x" secondAttribute="top" constant="10" id="Nnc-XI-otC"/>
                                             <constraint firstItem="Dl5-nD-s3c" firstAttribute="leading" secondItem="leM-id-N2x" secondAttribute="leading" constant="30" id="gvP-SA-zWC"/>
                                             <constraint firstItem="Dl5-nD-s3c" firstAttribute="centerY" secondItem="leM-id-N2x" secondAttribute="centerY" id="pVQ-Hd-TAW"/>
                                         </constraints>
@@ -674,7 +674,7 @@
                                     <constraint firstItem="lt3-oV-gMo" firstAttribute="leading" secondItem="YYl-Do-4AG" secondAttribute="leading" constant="20" id="5Tg-o7-Z14"/>
                                     <constraint firstAttribute="bottom" secondItem="nbs-VV-erQ" secondAttribute="bottom" constant="40" id="5mA-nA-3AZ"/>
                                     <constraint firstItem="oh4-zA-cV9" firstAttribute="bottom" secondItem="LUY-io-TVi" secondAttribute="bottom" id="837-de-xyN"/>
-                                    <constraint firstItem="leM-id-N2x" firstAttribute="leading" secondItem="YYl-Do-4AG" secondAttribute="leading" constant="10" id="8YV-OD-2SF"/>
+                                    <constraint firstItem="leM-id-N2x" firstAttribute="leading" secondItem="YYl-Do-4AG" secondAttribute="leading" constant="5" id="8YV-OD-2SF"/>
                                     <constraint firstItem="LUY-io-TVi" firstAttribute="top" secondItem="PSY-T6-AMu" secondAttribute="bottom" constant="20" id="8tp-FL-QNW"/>
                                     <constraint firstItem="oh4-zA-cV9" firstAttribute="top" secondItem="LUY-io-TVi" secondAttribute="top" id="9oJ-90-AZV"/>
                                     <constraint firstItem="eOC-pT-xPc" firstAttribute="top" secondItem="LRc-31-ZRe" secondAttribute="bottom" constant="20" id="AXi-xX-eMq"/>
@@ -696,7 +696,7 @@
                                     <constraint firstItem="leM-id-N2x" firstAttribute="top" secondItem="KPv-sb-Bw3" secondAttribute="bottom" constant="30" id="Snu-TS-IHC"/>
                                     <constraint firstItem="aeC-iH-DqW" firstAttribute="top" secondItem="YYl-Do-4AG" secondAttribute="top" id="Su7-5Z-kNS"/>
                                     <constraint firstItem="KjN-8l-dO6" firstAttribute="leading" secondItem="YYl-Do-4AG" secondAttribute="leading" constant="20" id="TDo-sT-ki9"/>
-                                    <constraint firstAttribute="trailing" secondItem="leM-id-N2x" secondAttribute="trailing" constant="10" id="UMy-Qr-xpn"/>
+                                    <constraint firstAttribute="trailing" secondItem="leM-id-N2x" secondAttribute="trailing" constant="5" id="UMy-Qr-xpn"/>
                                     <constraint firstItem="nbs-VV-erQ" firstAttribute="leading" secondItem="YYl-Do-4AG" secondAttribute="leading" constant="40" id="VDu-xS-6cr"/>
                                     <constraint firstItem="LRc-31-ZRe" firstAttribute="leading" secondItem="YYl-Do-4AG" secondAttribute="leading" constant="10" id="Vn8-Gf-vy8"/>
                                     <constraint firstAttribute="trailing" secondItem="LRc-31-ZRe" secondAttribute="trailing" constant="10" id="W2t-Ik-9Ee"/>
@@ -1336,9 +1336,6 @@
                                     <constraint firstAttribute="width" secondItem="k3d-N5-ppj" secondAttribute="height" multiplier="1:1" id="unq-So-QD2"/>
                                 </constraints>
                                 <state key="normal" backgroundImage="male"/>
-                                <connections>
-                                    <action selector="didTapBtnMale:" destination="aes-3X-qaC" eventType="touchUpInside" id="7BL-V1-Grv"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="du9-ZF-hMh">
                                 <rect key="frame" x="234" y="403" width="100" height="100"/>
@@ -1347,9 +1344,6 @@
                                     <constraint firstAttribute="width" secondItem="du9-ZF-hMh" secondAttribute="height" multiplier="1:1" id="1xA-yN-Djd"/>
                                 </constraints>
                                 <state key="normal" backgroundImage="female"/>
-                                <connections>
-                                    <action selector="didTapBtnFemale:" destination="aes-3X-qaC" eventType="touchUpInside" id="0IC-4j-XrH"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's your gender?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5Z-vj-U1D">
                                 <rect key="frame" x="40" y="134" width="280" height="150"/>
@@ -1445,9 +1439,6 @@
                                 <state key="normal" title="Continue">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <action selector="didTapBtnContinue:" destination="aes-3X-qaC" eventType="touchUpInside" id="AN2-xB-Yfr"/>
-                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KrV-5t-Sh0"/>
@@ -1580,9 +1571,6 @@
                                 <state key="normal" title="Next">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <action selector="didTapBtnNext:" destination="kxz-Ed-dAX" eventType="touchUpInside" id="nwR-9z-4hh"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TV5-tG-p0e">
                                 <rect key="frame" x="377.5" y="44" width="26.5" height="30"/>

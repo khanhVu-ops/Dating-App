@@ -31,6 +31,10 @@
 		33282F9B286AD69B00E6F16D /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33282F9A286AD69B00E6F16D /* OnboardingViewModel.swift */; };
 		33282F9E286ADD4E00E6F16D /* Extensions+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33282F9D286ADD4E00E6F16D /* Extensions+String.swift */; };
 		33282FAB286AFA7000E6F16D /* HomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */; };
+		33298DA0288516C400351F92 /* FillNameSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33298D9F288516C400351F92 /* FillNameSignUpViewModel.swift */; };
+		33298DBB28854CAC00351F92 /* ShowDiaLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33298DBA28854CAC00351F92 /* ShowDiaLog.swift */; };
+		33298DE22885525800351F92 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33298DE12885525800351F92 /* Constants.swift */; };
+		33298DE5288552D700351F92 /* DialogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33298DE4288552D700351F92 /* DialogHelper.swift */; };
 		33390DAF2862F53D00B5B072 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33390DAE2862F53D00B5B072 /* OTPStackView.swift */; };
 		334FA2AB28767FDD0060C7F3 /* EditingProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */; };
 		335921A2287D6255002CBA52 /* FilterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335921A1287D6255002CBA52 /* FilterModel.swift */; };
@@ -84,6 +88,10 @@
 		33282F9A286AD69B00E6F16D /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		33282F9D286ADD4E00E6F16D /* Extensions+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+String.swift"; sourceTree = "<group>"; };
 		33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenViewModel.swift; sourceTree = "<group>"; };
+		33298D9F288516C400351F92 /* FillNameSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillNameSignUpViewModel.swift; sourceTree = "<group>"; };
+		33298DBA28854CAC00351F92 /* ShowDiaLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDiaLog.swift; sourceTree = "<group>"; };
+		33298DE12885525800351F92 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		33298DE4288552D700351F92 /* DialogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogHelper.swift; sourceTree = "<group>"; };
 		33390DAE2862F53D00B5B072 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
 		334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingProfileViewController.swift; sourceTree = "<group>"; };
 		335921A1287D6255002CBA52 /* FilterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterModel.swift; sourceTree = "<group>"; };
@@ -166,28 +174,17 @@
 				33113B742862B6D600C0CD7F /* Habiibi.entitlements */,
 				33113B5A2862AFFB00C0CD7F /* BaseViewController.swift */,
 				339148132869445D00495999 /* Apps */,
+				3300F7C9286BF1E9009CDE07 /* Data */,
 				3314FD572864675000B1AB1D /* Models */,
 				3300F7CE286BF341009CDE07 /* Services */,
-				3300F7C9286BF1E9009CDE07 /* Data */,
-				339148122869444800495999 /* View Models */,
-				33113B7D2862BC0100C0CD7F /* ViewControllers */,
+				332EE8B62876C118008C0BEA /* CustomFile */,
+				33298DF92885534C00351F92 /* Screen */,
 				33113B5C2862AFFB00C0CD7F /* Main.storyboard */,
 				33113B5F2862AFFD00C0CD7F /* Assets.xcassets */,
 				33113B612862AFFD00C0CD7F /* LaunchScreen.storyboard */,
 				33113B642862AFFD00C0CD7F /* Info.plist */,
 			);
 			path = Habiibi;
-			sourceTree = "<group>";
-		};
-		33113B7D2862BC0100C0CD7F /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				332EE8B42876C0F8008C0BEA /* LoginVC */,
-				3391481B2869611A00495999 /* CustomTabbarController.swift */,
-				33631845287592E800A03242 /* SwipeVC */,
-				334FA2A828767FC00060C7F3 /* ProfileVC */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		3314FD572864675000B1AB1D /* Models */ = {
@@ -201,14 +198,115 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		332EE8B42876C0F8008C0BEA /* LoginVC */ = {
+		33298DF92885534C00351F92 /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				3391481B2869611A00495999 /* CustomTabbarController.swift */,
+				33298DFF288553E900351F92 /* SwipeVC */,
+				334FA2A828767FC00060C7F3 /* ProfileVC */,
+				33298E0A288554A200351F92 /* LoginVC */,
+			);
+			path = Screen;
+			sourceTree = "<group>";
+		};
+		33298DFA2885535F00351F92 /* OnboardingVC */ = {
+			isa = PBXGroup;
+			children = (
+				33282F9A286AD69B00E6F16D /* OnboardingViewModel.swift */,
 				33113B762862B89900C0CD7F /* OnboardingViewController.swift */,
+			);
+			path = OnboardingVC;
+			sourceTree = "<group>";
+		};
+		33298DFB2885537300351F92 /* PhoneNumberVC */ = {
+			isa = PBXGroup;
+			children = (
+				33BFAC90287C24BF00F95F1F /* LoginViewModel.swift */,
 				33113B802862C81200C0CD7F /* LoginViewController.swift */,
+			);
+			path = PhoneNumberVC;
+			sourceTree = "<group>";
+		};
+		33298DFC2885539300351F92 /* VerifyVC */ = {
+			isa = PBXGroup;
+			children = (
 				33113B912862D5A900C0CD7F /* VerifyCodeViewController.swift */,
+				33BFAC93287C28AD00F95F1F /* VerifyCodeviewModel.swift */,
+			);
+			path = VerifyVC;
+			sourceTree = "<group>";
+		};
+		33298DFD2885539500351F92 /* GenderVC */ = {
+			isa = PBXGroup;
+			children = (
+				33BFAC96287C29C900F95F1F /* GenderViewModel.swift */,
 				338AC70F28640F3B00215A06 /* GenderSignUpViewController.swift */,
+			);
+			path = GenderVC;
+			sourceTree = "<group>";
+		};
+		33298DFE2885539800351F92 /* FillNameVC */ = {
+			isa = PBXGroup;
+			children = (
+				33298D9F288516C400351F92 /* FillNameSignUpViewModel.swift */,
 				338AC7192864248B00215A06 /* FillNameSignUpViewController.swift */,
+			);
+			path = FillNameVC;
+			sourceTree = "<group>";
+		};
+		33298DFF288553E900351F92 /* SwipeVC */ = {
+			isa = PBXGroup;
+			children = (
+				3363182F287574C300A03242 /* imageTBVC */,
+				33298E052885546B00351F92 /* HomeVC */,
+				33298E072885547300351F92 /* FilterVC */,
+			);
+			path = SwipeVC;
+			sourceTree = "<group>";
+		};
+		33298E022885545600351F92 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3391482428696C9400495999 /* ProfileViewController.swift */,
+				334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		33298E032885546200351F92 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				337EEC1128752BC20084726F /* ProfileViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		33298E052885546B00351F92 /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				33113B7A2862BBE200C0CD7F /* HomeScreenViewController.swift */,
+				33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */,
+			);
+			path = HomeVC;
+			sourceTree = "<group>";
+		};
+		33298E072885547300351F92 /* FilterVC */ = {
+			isa = PBXGroup;
+			children = (
+				33BFAC85287C0FEE00F95F1F /* FilterViewModel.swift */,
+				33BFAC82287C0DB000F95F1F /* FilterViewController.swift */,
+			);
+			path = FilterVC;
+			sourceTree = "<group>";
+		};
+		33298E0A288554A200351F92 /* LoginVC */ = {
+			isa = PBXGroup;
+			children = (
+				33298DFE2885539800351F92 /* FillNameVC */,
+				33298DFD2885539500351F92 /* GenderVC */,
+				33298DFC2885539300351F92 /* VerifyVC */,
+				33298DFB2885537300351F92 /* PhoneNumberVC */,
+				33298DFA2885535F00351F92 /* OnboardingVC */,
 			);
 			path = LoginVC;
 			sourceTree = "<group>";
@@ -230,19 +328,19 @@
 			isa = PBXGroup;
 			children = (
 				33D45C1A287ADE4A003443A8 /* Cells */,
-				3391482428696C9400495999 /* ProfileViewController.swift */,
-				334FA2AA28767FDD0060C7F3 /* EditingProfileViewController.swift */,
+				33298E032885546200351F92 /* Models */,
+				33298E022885545600351F92 /* Views */,
 			);
 			path = ProfileVC;
 			sourceTree = "<group>";
 		};
-		334FA2AE2876989D0060C7F3 /* EditProfileTBVC */ = {
+		334FA2AE2876989D0060C7F3 /* ListImageEditProfileCLTVC */ = {
 			isa = PBXGroup;
 			children = (
 				331693E728783A0E0044D44F /* EditProfileCollectionViewCell.swift */,
 				331693E828783A0E0044D44F /* EditProfileCollectionViewCell.xib */,
 			);
-			path = EditProfileTBVC;
+			path = ListImageEditProfileCLTVC;
 			sourceTree = "<group>";
 		};
 		3363182F287574C300A03242 /* imageTBVC */ = {
@@ -252,16 +350,6 @@
 				33631831287574E100A03242 /* ListImageTableViewCell.xib */,
 			);
 			path = imageTBVC;
-			sourceTree = "<group>";
-		};
-		33631845287592E800A03242 /* SwipeVC */ = {
-			isa = PBXGroup;
-			children = (
-				3363182F287574C300A03242 /* imageTBVC */,
-				33113B7A2862BBE200C0CD7F /* HomeScreenViewController.swift */,
-				33BFAC82287C0DB000F95F1F /* FilterViewController.swift */,
-			);
-			path = SwipeVC;
 			sourceTree = "<group>";
 		};
 		337EEC1928753B600084726F /* ProfileTBVC */ = {
@@ -280,18 +368,11 @@
 				33282F9D286ADD4E00E6F16D /* Extensions+String.swift */,
 				336318512875A1B200A03242 /* Extensions+UIImage+UIImageView.swift */,
 				331693F028783D030044D44F /* Extensions+UIColor.swift */,
+				33298DBA28854CAC00351F92 /* ShowDiaLog.swift */,
+				33298DE12885525800351F92 /* Constants.swift */,
+				33298DE4288552D700351F92 /* DialogHelper.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		339148122869444800495999 /* View Models */ = {
-			isa = PBXGroup;
-			children = (
-				332EE8B62876C118008C0BEA /* CustomFile */,
-				33BFAC8C287C247100F95F1F /* LoginViewModel */,
-				33BFAC88287C245D00F95F1F /* HomeViewModel */,
-			);
-			path = "View Models";
 			sourceTree = "<group>";
 		};
 		339148132869445D00495999 /* Apps */ = {
@@ -303,44 +384,23 @@
 			path = Apps;
 			sourceTree = "<group>";
 		};
-		33BFAC88287C245D00F95F1F /* HomeViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				337EEC1128752BC20084726F /* ProfileViewModel.swift */,
-				33282FAA286AFA7000E6F16D /* HomeScreenViewModel.swift */,
-				33BFAC85287C0FEE00F95F1F /* FilterViewModel.swift */,
-			);
-			path = HomeViewModel;
-			sourceTree = "<group>";
-		};
-		33BFAC8C287C247100F95F1F /* LoginViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				33282F9A286AD69B00E6F16D /* OnboardingViewModel.swift */,
-				33BFAC90287C24BF00F95F1F /* LoginViewModel.swift */,
-				33BFAC93287C28AD00F95F1F /* VerifyCodeviewModel.swift */,
-				33BFAC96287C29C900F95F1F /* GenderViewModel.swift */,
-			);
-			path = LoginViewModel;
-			sourceTree = "<group>";
-		};
 		33D45C1A287ADE4A003443A8 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				337EEC1928753B600084726F /* ProfileTBVC */,
-				33D45C1B287ADE5C003443A8 /* CellTakePhoto */,
-				334FA2AE2876989D0060C7F3 /* EditProfileTBVC */,
+				33D45C1B287ADE5C003443A8 /* CellTakePhotoCLTVC */,
+				334FA2AE2876989D0060C7F3 /* ListImageEditProfileCLTVC */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		33D45C1B287ADE5C003443A8 /* CellTakePhoto */ = {
+		33D45C1B287ADE5C003443A8 /* CellTakePhotoCLTVC */ = {
 			isa = PBXGroup;
 			children = (
 				33D45C1D287ADFA0003443A8 /* TakePhotoCollectionViewCell.swift */,
 				33D45C1E287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib */,
 			);
-			path = CellTakePhoto;
+			path = CellTakePhotoCLTVC;
 			sourceTree = "<group>";
 		};
 		E3C00617571C267F32F3EFEC /* Pods */ = {
@@ -487,6 +547,7 @@
 				33390DAF2862F53D00B5B072 /* OTPStackView.swift in Sources */,
 				338AC71028640F3B00215A06 /* GenderSignUpViewController.swift in Sources */,
 				337EEC1228752BC20084726F /* ProfileViewModel.swift in Sources */,
+				33298DE22885525800351F92 /* Constants.swift in Sources */,
 				33BFAC86287C0FEE00F95F1F /* FilterViewModel.swift in Sources */,
 				33BFAC91287C24BF00F95F1F /* LoginViewModel.swift in Sources */,
 				33113B5B2862AFFB00C0CD7F /* BaseViewController.swift in Sources */,
@@ -502,6 +563,7 @@
 				33631832287574E100A03242 /* ListImageTableViewCell.swift in Sources */,
 				339148212869688900495999 /* GobalData.swift in Sources */,
 				33BFAC94287C28AD00F95F1F /* VerifyCodeviewModel.swift in Sources */,
+				33298DE5288552D700351F92 /* DialogHelper.swift in Sources */,
 				33282F9E286ADD4E00E6F16D /* Extensions+String.swift in Sources */,
 				335921A2287D6255002CBA52 /* FilterModel.swift in Sources */,
 				33BFAC83287C0DB000F95F1F /* FilterViewController.swift in Sources */,
@@ -513,9 +575,11 @@
 				3300F7D0286BF366009CDE07 /* APIService.swift in Sources */,
 				338AC71A2864248B00215A06 /* FillNameSignUpViewController.swift in Sources */,
 				33BFAC80287C031200F95F1F /* CustomNavigationVC.swift in Sources */,
+				33298DA0288516C400351F92 /* FillNameSignUpViewModel.swift in Sources */,
 				33113B7B2862BBE200C0CD7F /* HomeScreenViewController.swift in Sources */,
 				3314FD552864674400B1AB1D /* UserLogin.swift in Sources */,
 				336318522875A1B200A03242 /* Extensions+UIImage+UIImageView.swift in Sources */,
+				33298DBB28854CAC00351F92 /* ShowDiaLog.swift in Sources */,
 				337EEC1628753B5A0084726F /* ProfileTableViewCell.swift in Sources */,
 				3314FD50286466B600B1AB1D /* DatabaseManagers.swift in Sources */,
 			);

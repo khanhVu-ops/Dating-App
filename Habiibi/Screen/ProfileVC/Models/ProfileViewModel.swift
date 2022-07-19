@@ -15,22 +15,24 @@ class ProfileViewModel {
     var lbName: UILabel?
 //    var lbCountry: UILabel?
     let userActive = DatabaseManager.shared.fetchDataUser()
-    var listItem = [UserModel]()
+//    var listItem = [UserModel]()
     let disposeBag = DisposeBag()
     var imgAvata: UIImageView?
-    var tfEditFirstName: UITextField!
-    var tfEditLastName: UITextField!
-    var tfEditCountry: UITextField!
-    var tbvListEdit: UITableView!
-    var tbvListEducation: UITableView!
-    var btnSave: UIButton!
-    var listEdit = [ModelSetUpTBV]()
-    var listEducation = [ModelSetUpTBV]()
+//    var tfEditFirstName: UITextField!
+//    var tfEditLastName: UITextField!
+//    var tfEditCountry: UITextField!
+    
     var listImg = [String]()
     var txtAboutMe: UITextView!
     var txtFvrFood: UITextView!
     var listItemWillSave = [ModelSetUpTBV]()
 //    let subject = BehaviorSubject<Bool>(value: true)
+    
+    
+    
+    var listEdit = BehaviorRelay<[ModelSetUpTBV]>(value: [])
+    var listEducation = BehaviorRelay<[ModelSetUpTBV]>(value: [])
+    
     func updateUI() {
         let text = userActive.firstName + " " + userActive.lastName
         lbName?.text = text
@@ -51,17 +53,17 @@ class ProfileViewModel {
     
     
     func setUpTBV() {
-        listEdit = [ModelSetUpTBV(title: "Country", tfText: userActive.country, imgStr: "country"),
-                     ModelSetUpTBV(title: "Height", tfText: "\(userActive.height)", imgStr: "height"),
-                     ModelSetUpTBV(title: "Children", tfText: "\(userActive.children)", imgStr: "children"),
-                     ModelSetUpTBV(title: "Marital Status", tfText: "\(userActive.material_status)", imgStr: "material_status"),
-                     ModelSetUpTBV(title: "Smoker", tfText: userActive.smoker, imgStr: "smoker"),
-                     ModelSetUpTBV(title: "Body Type", tfText: userActive.body_type, imgStr: "body_type")
-        ]
+        listEdit.accept([ModelSetUpTBV(title: "Country", tfText: userActive.country, imgStr: "country"),
+                    ModelSetUpTBV(title: "Height", tfText: "\(userActive.height)", imgStr: "height"),
+                    ModelSetUpTBV(title: "Children", tfText: "\(userActive.children)", imgStr: "children"),
+                    ModelSetUpTBV(title: "Marital Status", tfText: "\(userActive.material_status)", imgStr: "material_status"),
+                    ModelSetUpTBV(title: "Smoker", tfText: userActive.smoker, imgStr: "smoker"),
+                    ModelSetUpTBV(title: "Body Type", tfText: userActive.body_type, imgStr: "body_type")
+       ])
         
-        listEducation = [ModelSetUpTBV(title: "Education", tfText: userActive.education, imgStr: "education"),
+        listEducation.accept([ModelSetUpTBV(title: "Education", tfText: userActive.education, imgStr: "education"),
                          ModelSetUpTBV(title: "Profession", tfText: userActive.profession, imgStr: "profession")
-        ]
+        ])
         
 
     }
@@ -78,6 +80,7 @@ class ProfileViewModel {
         }
         
     }
+    
     
     func presentOptionsPopovered(vc: BaseViewController ,btn: UIButton) {
         
@@ -96,37 +99,27 @@ class ProfileViewModel {
         }
         vc.present(popoverContent, animated: true, completion: nil)
     }
-//    func setUpObservable() {
-//        subject.asObserver()
-//            .subscribe(onNext:{ [unowned self] value in
-//                btnSave.isEnabled = value
-//                btnSave.backgroundColor = value ? .gray : .gray.withAlphaComponent(0.3)
-//
-//            })
-//            .disposed(by: disposeBag)
-//    }
-    
-    
-    
-    
-//    func saveDataEdited() {
-//        let firstName = tfEditFirstName.text ?? ""
-//        let lastName = tfEditLastName.text ?? ""
-//        let country = tfEditCountry.text ?? ""
-//        let list = listImg
-//
-//        DatabaseManager.shared.updateProfileEditing(firstName: firstName, lastName: lastName, country: country, listImg: list)
-//
-//    }
-    
-//    func getNameEdited(textField: UITextField) {
-//        let text = textField.text
-//
-//    }
-//    func getCountryEdited(textField: UITextField) {
-//
-//    }
-    
-    
-    
+//  
+    func configureHeightCltvImage(view: UIView) -> Int {
+        var res = 0
+        let count = userActive.listImage.count
+        
+        let height = (view.frame.width - 60)/3
+        let mul = count / 3
+        if count % 3 == 0 {
+            if mul == 1 {
+                res = mul * Int(height) + 10
+            }else {
+                res = mul * Int(height) + 20
+            }
+        }else {
+            if mul == 0 {
+                res = (mul + 1) * Int(height) + 10
+            }else {
+                res = (mul + 1) * Int(height) + 20
+            }
+            
+        }
+        return res
+    }
 }

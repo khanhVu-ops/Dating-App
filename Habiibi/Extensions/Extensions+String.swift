@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension String {
+    //Note: Can check lai sdt
     func isValidPhoneNumber() -> Bool {
         let regEx = "^[0-9+]{0,1}+[0-9]{8,11}$"
         

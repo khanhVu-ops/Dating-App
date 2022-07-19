@@ -24,8 +24,8 @@ class ListImageTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func configure(item: UserModel, row: Int) {
-        let imgStr = item.listImg?[row] ?? ""
+    func configure(item: String, row: Int) {
+        let imgStr = item 
 //        print(imgStr)
         img.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "img_placeHolder"))
     }

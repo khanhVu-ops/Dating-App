@@ -7,6 +7,8 @@
 
 import UIKit
 import FBSDKLoginKit
+import RxSwift
+import RxCocoa
 
 class ProfileViewController: BaseViewController {
     @IBOutlet weak var imgAvt: UIImageView!
@@ -39,13 +41,14 @@ class ProfileViewController: BaseViewController {
     
     
     var imagePickerController = UIImagePickerController()
-    
+    let disposeBag = DisposeBag()
     let profileViewModel = ProfileViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
-        //        profileViewModel.updateUI()
+        
+        setUpUIListBasicInfo()
         imagePickerController.delegate = self
     }
     
@@ -53,9 +56,8 @@ class ProfileViewController: BaseViewController {
         super.viewWillAppear(true)
         profileViewModel.updateUI()
         profileViewModel.getListImg()
+        profileViewModel.setUpTBV()
         DispatchQueue.main.async {
-            self.tbvListEdit.reloadData()
-            self.tbvListEducation.reloadData()
             self.cltvListImage.reloadData()
         }
     }
@@ -112,19 +114,36 @@ class ProfileViewController: BaseViewController {
         cltvListImage.dataSource = self
         cltvListImage.delegate = self
         cltvListImage.register(UINib(nibName: "EditProfileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EditProfileCollectionViewCell")
-        tbvListEdit.delegate = self
-        tbvListEdit.dataSource = self
         tbvListEdit.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
         tbvListEdit.backgroundColor = .clear
-        tbvListEducation.delegate = self
-        tbvListEducation.dataSource = self
         tbvListEducation.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
         tbvListEducation.backgroundColor = .clear
         cltvListImage.backgroundColor = .clear
     }
     
+    func setUpUIListBasicInfo() {
+        heightTbvConstraint.constant = CGFloat(6*120 + 60)
+        heightTbvEducation.constant = CGFloat(2*120+60)
+        
+        profileViewModel.listEdit.bind(to: self.tbvListEdit.rx.items(cellIdentifier: "ProfileTableViewCell", cellType: ProfileTableViewCell.self)) { [weak self] row, item, cell in
+            guard let item = self?.profileViewModel.listEdit.value[row] else {return}
+            cell.configure(item: item)
+            cell.btnEdit.isHidden = true
+            cell.tfEnter.isUserInteractionEnabled = false
+        }
+        .disposed(by: disposeBag)
+        
+        profileViewModel.listEducation.bind(to: self.tbvListEducation.rx.items(cellIdentifier: "ProfileTableViewCell", cellType: ProfileTableViewCell.self)) { [weak self] row, item, cell in
+            
+            guard let item = self?.profileViewModel.listEducation.value[row] else {return}
+            cell.configure(item: item)
+            cell.btnEdit.isHidden = true
+            cell.tfEnter.isUserInteractionEnabled = false
+        }
+        .disposed(by: disposeBag)
+    }
     
-    
+        
     @IBAction func didTapLogOut(_ sender: Any) {
         let loginManager = LoginManager()
         loginManager.logOut()
@@ -148,59 +167,10 @@ class ProfileViewController: BaseViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-}
-
-extension ProfileViewController: UITableViewDelegate {
-    
-}
-extension ProfileViewController: UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        heightTbvConstraint.constant = CGFloat(6*120 + 60)
-        heightTbvEducation.constant = CGFloat(2*120+60)
-        profileViewModel.setUpTBV()
-        if tableView == tbvListEducation {
-            return 2
-        }else {
-            return 6
-        }
-        
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileTableViewCell", for: indexPath) as! ProfileTableViewCell
-        if tableView == tbvListEdit {
-            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEdit)
-            cell.btnEdit.isHidden = true
-            cell.tfEnter.isUserInteractionEnabled = false
-        }else if tableView == tbvListEducation {
-            profileViewModel.setUpCell(cell: cell, index: indexPath.row, list: profileViewModel.listEducation)
-            cell.btnEdit.isHidden = true
-            cell.tfEnter.isUserInteractionEnabled = false
-        }
-        return cell
-    }
-    
+  
     
 }
 
-extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        if picker.sourceType == .photoLibrary {
-            let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-            let imgStr = img?.toJpegString(compressionQuality: 0) ?? ""
-            if imgStr.count > 0 {
-                DatabaseManager.shared.addImgAvata(string: imgStr)
-            }
-            imgAvt?.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-        }
-        
-        picker.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-}
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (self.view.frame.width - 60)/3, height: (self.view.frame.width - 60)/3)
@@ -220,9 +190,8 @@ extension ProfileViewController: UICollectionViewDataSource {
             
         }
         lbNoImage.isHidden = true
-        let height = (self.view.frame.width - 60)/3
-        let mul = count/3 + 1
-        heightCltvListImage.constant = CGFloat(Int(height)*mul + 15)
+        let height = profileViewModel.configureHeightCltvImage(view: self.view)
+        heightCltvListImage.constant = CGFloat(height)
         return count
     }
     
@@ -236,4 +205,22 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
 }
-
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if picker.sourceType == .photoLibrary {
+            let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            let imgStr = img?.toJpegString(compressionQuality: 0) ?? ""
+            if imgStr.count > 0 {
+                DatabaseManager.shared.addImgAvata(string: imgStr)
+            }
+            print(imgStr)
+            imgAvt?.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
