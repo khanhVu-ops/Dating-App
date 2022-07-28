@@ -10,6 +10,8 @@ import RxSwift
 import RxCocoa
 import FBSDKLoginKit
 import Koloda
+import FirebaseFirestore
+import FirebaseAuth
 class HomeScreenViewController: BaseViewController {
     
     @IBOutlet weak var vKoloda: KolodaView!
@@ -23,17 +25,20 @@ class HomeScreenViewController: BaseViewController {
     @IBOutlet weak var btnLeft: UIButton!
     @IBOutlet weak var lbNoPerson: UILabel!
     @IBOutlet weak var btnFilter: UIButton!
+    @IBOutlet weak var lbCountTym: UILabel!
     
     let disposeBag = DisposeBag()
     let homeViewModel = HomeScreenViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        print("UID: \(Auth.auth().currentUser?.uid)")
+
         setUpView()
         subscribeToLoading()
         setUpTableViewListImage()
         subcribseToFilterVC()
+        subscribeToCountTym()
         bindToLabel()
         
     }
@@ -41,6 +46,7 @@ class HomeScreenViewController: BaseViewController {
         
         super.viewDidAppear(true)
         homeViewModel.getListUsers()
+        homeViewModel.getListUserTym()
         lbName.text = "-__-"
         lbDescrip.text = ""
         DispatchQueue.main.async {
@@ -56,7 +62,8 @@ class HomeScreenViewController: BaseViewController {
         btnRight.layer.cornerRadius = btnRight.frame.height/2
         btnLeft.layer.cornerRadius = btnLeft.frame.height/2
         btnMid.layer.cornerRadius = btnMid.frame.height/2
-        
+        lbCountTym.layer.cornerRadius = lbCountTym.frame.width/2
+        lbCountTym.layer.masksToBounds = true
         btnMid.layer.borderWidth = 5
         btnMid.layer.borderColor = UIColor.white.cgColor
         btnLeft.layer.borderWidth = 5
@@ -73,8 +80,14 @@ class HomeScreenViewController: BaseViewController {
         vKoloda.layer.borderWidth = 1
         vKoloda.layer.borderColor = UIColor.systemPink.cgColor
         
+        
+        
+        
+        
+        
     }
     
+    //MARK: Subscriber
     func subscribeToLoading() {
         homeViewModel.loadingBehavior.subscribe(onNext: { isLoading in
             if isLoading {
@@ -119,6 +132,20 @@ class HomeScreenViewController: BaseViewController {
         .disposed(by: disposeBag)
     }
     
+    func subscribeToCountTym() {
+        homeViewModel.countTymBehavior.subscribe(onNext: { [weak self] value in
+            if value == 0 {
+                self?.lbCountTym.isHidden = true
+            }else {
+                self?.lbCountTym.isHidden = false
+            }
+            self?.lbCountTym.text = "\(value)"
+        })
+        .disposed(by: disposeBag)
+    }
+    
+    
+    //MARK: ACTION
     @IBAction func didTapBtnFilter(_ sender: Any) {
         let st = UIStoryboard(name: "Main", bundle: nil)
         let popoverContent = st.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
@@ -145,18 +172,26 @@ class HomeScreenViewController: BaseViewController {
     }
     
     @IBAction func didTapBtnMid(_ sender: Any) {
+        
+        let st = UIStoryboard(name: "Main", bundle: nil)
+        let vc = st.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        
+        vc.chatViewModel.user2UID = homeViewModel.getUidUserDidShow()
+        vc.chatViewModel.user2ImgUrl = homeViewModel.getAvataUrlUserDidShow()
+        vc.chatViewModel.user2Name = homeViewModel.getNameUserDidShow()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func didTapBtnRight(_ sender: Any) {
         vKoloda.swipe(.right)
-        DatabaseManager.shared.addListUserInteraction(id: GobalData.id + 1, like: true)
+        DatabaseManager.auth.addUserInteraction(uid: homeViewModel.getUidUserDidShow(),username: homeViewModel.getNameUserDidShow(), avata: homeViewModel.getAvataUrlUserDidShow(), like: true)
     }
     
     @IBAction func didTapBtnLeft(_ sender: Any) {
         vKoloda.swipe(.left)
-        DatabaseManager.shared.addListUserInteraction(id: GobalData.id + 1, like: false)
+        DatabaseManager.auth.addUserInteraction(uid: homeViewModel.getUidUserDidShow(),username: homeViewModel.getNameUserDidShow(), avata: homeViewModel.getAvataUrlUserDidShow(), like: false)
     }
 }
-
+//MARK: Extentions
 
 extension HomeScreenViewController: KolodaViewDelegate {
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
@@ -188,7 +223,8 @@ extension HomeScreenViewController: KolodaViewDataSource {
                 return UIView()
                 
             }
-            view.image = UIImage(named: avt)
+            guard let url = URL(string: avt) else{return UIView()}
+            view.sd_setImage(with: url, placeholderImage: UIImage(named: "img_placeHolder"))
             return view
         }
         return UIView()
@@ -200,17 +236,17 @@ extension HomeScreenViewController: KolodaViewDataSource {
         heightTbvConstraint.constant = CGFloat(0*540)
         let item = homeViewModel.listItemsBehavior.value
         if index<item.count {
-            guard let id = homeViewModel.listItemsBehavior.value[index].id else {
-                return
-            }
-            
+//            guard let id = homeViewModel.listItemsBehavior.value[index].age else {
+//                return
+//            }
+//            
             switch direction {
             case .left:
                 print("LEFT")
-                DatabaseManager.shared.addListUserInteraction(id: id, like: false)
+                DatabaseManager.auth.addUserInteraction(uid: homeViewModel.getUidUserDidShow(),username: homeViewModel.getNameUserDidShow(), avata: homeViewModel.getAvataUrlUserDidShow(), like: false)
             default:
                 print("Right")
-                DatabaseManager.shared.addListUserInteraction(id: id, like: true)
+                DatabaseManager.auth.addUserInteraction(uid: homeViewModel.getUidUserDidShow(),username: homeViewModel.getNameUserDidShow(), avata: homeViewModel.getAvataUrlUserDidShow(), like: true)
                 
             }
         }
@@ -219,7 +255,7 @@ extension HomeScreenViewController: KolodaViewDataSource {
     }
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int) {
         GobalData.id = index
-        
+        homeViewModel.setUserDidShow(index: index)
         homeViewModel.emittedListimage(index: index)
         
         

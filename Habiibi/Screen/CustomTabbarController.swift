@@ -6,24 +6,25 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 class CustomTabbarController: UITabBarController {
     
-    
+    var selectID = 1
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        selectedIndex = 1
-        let userActive = DatabaseManager.shared.fetchDataUser()
-        print("phone: \(userActive.phoneNumber)")
-        print("phone: \(userActive.userActive)")
-        print("gender: \(userActive.gender)")
-        print("first: \(userActive.firstName)")
-        for i in userActive.listDisLiked {
-            print("DISlike: \(i)")
+        selectedIndex = selectID
+        
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        
+        DatabaseManager.auth.fetchDataUser(uid: uid) { (user, error) in
+            guard let user = user , error == nil else{
+                return
+            }
+            ManagerUserdefaults.shared.updateInfoCurrentUser(with: user)
+            
         }
-        print("disLike: \(userActive.listDisLiked.count)")
-        print("disLike: \(userActive.listLiked.count)")
+        
     }
    
     override func viewWillDisappear(_ animated: Bool) {

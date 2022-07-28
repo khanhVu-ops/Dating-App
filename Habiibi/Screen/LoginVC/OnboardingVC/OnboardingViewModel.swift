@@ -16,19 +16,19 @@ class OnboardingViewModel {
         self.vc = vc
     }
     
-    func checkAccountActive() -> Bool{
-        if DatabaseManager.shared.checkUserActive() {
-            return true
-        }
-        
-        if let token = AccessToken.current,
-                 !token.isExpired {
-            return true
-        }
-        
-        return false
-    }
-    
+//    func checkAccountActive() -> Bool{
+//        if DatabaseManager.shared.checkUserActive() {
+//            return true
+//        }
+//        
+//        if let token = AccessToken.current,
+//                 !token.isExpired {
+//            return true
+//        }
+//        
+//        return false
+//    }
+//    
     //NOTE: nên bắn cả error ra ngoài completion
     func loginWithFb(completion: @escaping ((Bool)->Void)) {
         guard let vc = vc else {

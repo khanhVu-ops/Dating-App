@@ -26,7 +26,8 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
         if imgStr == "" {
             imvPicture.image = UIImage(named: "plus")
         }else {
-            imvPicture.image = imgStr.toImage()
+            guard let url = URL(string: imgStr) else{return}
+            imvPicture.sd_setImage(with: url, placeholderImage: UIImage(named: "img_placeHolder"))
         }
         
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 import FBSDKLoginKit
-
+import FirebaseAuth
 protocol OnboardingViewControllerProtocol: UIViewController {
     
 }
@@ -22,7 +22,7 @@ class OnboardingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(Auth.auth().currentUser?.uid ?? "nillll")
         setUpView()
     }
     override func setUpView() {

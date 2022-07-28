@@ -8,6 +8,9 @@
 import Foundation
 
 class GobalData {
-    static var userRegister = UserLogin()
+    static var phoneNumber = ""
+    static var firstName = ""
+    static var lastName = ""
+    static var gender = ""
     static var id = 0
 }

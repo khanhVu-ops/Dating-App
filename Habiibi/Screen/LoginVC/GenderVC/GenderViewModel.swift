@@ -28,10 +28,10 @@ class GenderViewModel {
     
     func saveDataToGobalData(){
         if didTapMale.value {
-            GobalData.userRegister.gender = "Male"
+            GobalData.gender = "Male"
 
         }else if didTapFemale.value {
-            GobalData.userRegister.gender = "Female"
+            GobalData.gender = "Female"
 
         }
     }

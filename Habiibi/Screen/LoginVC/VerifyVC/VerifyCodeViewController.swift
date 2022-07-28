@@ -6,17 +6,24 @@
 //
 
 import UIKit
-
+import FirebaseAuth
+import Firebase
+import Toast_Swift
+import FirebaseDatabase
+import RxSwift
 class VerifyCodeViewController: BaseViewController {
+    var ref: DatabaseReference!
 
+    
     @IBOutlet weak var stvOTP: OTPStackView!
     @IBOutlet weak var btnAgree: UIButton!
     @IBOutlet weak var lbError: UILabel!
     let verifyCodeViewModel = VerifyCodeViewModel()
-    
+    let disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
+        subscribeToLoading()
         // Do any additional setup after loading the view.
     }
     
@@ -44,10 +51,18 @@ class VerifyCodeViewController: BaseViewController {
         
         stvOTP.textFieldArray[0].becomeFirstResponder()
     }
-//    func updateButtonUI(_ btn: UIButton, enable: Bool, color: UIColor) {
-//        btn.isEnabled = enable
-//        btn.backgroundColor = enable ? color : color.withAlphaComponent(0.3)
-//    }
+    
+    func subscribeToLoading() {
+        verifyCodeViewModel.loadingBehavior.subscribe(onNext: { isLoading in
+            if isLoading {
+                self.showIndicator(withTitle: "", and: "")
+            }else{
+                self.hideIndicator()
+            }
+            
+        })
+        .disposed(by: disposeBag)
+    }
     
     
     @IBAction func didTapbtnBack(_ sender: Any) {
@@ -56,19 +71,7 @@ class VerifyCodeViewController: BaseViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func didTapBtnVerify(_ sender: Any) {
-        if verifyCodeViewModel.checkOTPSuccessfull() {
-            showError(lbError: lbError, enable: false, text: "")
-            let st = UIStoryboard(name: "Main", bundle: nil)
-            if verifyCodeViewModel.checkAccountRegisted() {
-                let vcHome = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController
-                self.navigationController?.pushViewController(vcHome, animated: true)
-            }else {
-                let vcGender = st.instantiateViewController(withIdentifier: "GenderSignUpViewController") as! GenderSignUpViewController
-               
-                self.navigationController?.pushViewController(vcGender, animated: true)
-            }
-        }else {
-            showError(lbError: lbError, enable: true, text: "Error: Verify code incorrect!")
-        }
+        verifyCodeViewModel.verifyPhoneNumber(vc: self)
+        
     }
 }

@@ -35,14 +35,22 @@ class FillNameSignUpViewModel {
     }
     
     func saveFullName() {
-        GobalData.userRegister.firstName = txtFirstName.value
-        GobalData.userRegister.lastName = txtLastName.value
+        GobalData.firstName = txtFirstName.value
+        GobalData.lastName = txtLastName.value
     }
     
-    func addUserLoginSuccessfully() {
+    func addUserRegister(VCC: BaseViewController) {
         loadingBehavior.accept(true)
-        print("GOBAL: \(GobalData.userRegister.phoneNumber)")
-        DatabaseManager.shared.addUser(userActive: 1, phoneNumber: GobalData.userRegister.phoneNumber, gender: GobalData.userRegister.gender, firstName: GobalData.userRegister.firstName, lastName: GobalData.userRegister.lastName)
+        print("GOBAL: \(GobalData.phoneNumber)")
+        DatabaseManager.auth.registerAccount { (bool) in
+            if bool {
+                let st = UIStoryboard(name: "Main", bundle: nil)
+                let vc = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController
+                VCC.navigationController?.setViewControllers([vc], animated: true)
+            }else {
+                print("aaaa")
+            }
+        }
         loadingBehavior.accept(false)
     }
 }

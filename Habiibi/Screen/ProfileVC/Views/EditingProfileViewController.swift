@@ -37,14 +37,17 @@ class EditingProfileViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        profileViewModel.setUpTBV()
+        
         setUpObsevableTableView()
+        subscribeToUpdateUI()
+        subscribeToLoading()
         setUpView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        profileViewModel.getListImg()
+        profileViewModel.fetchDataProfile()
+//        profileViewModel.getListImg()
     }
     
     override func setUpView() {
@@ -95,8 +98,7 @@ class EditingProfileViewController: BaseViewController {
         btnEditFvrFood.layer.borderWidth = 1
         btnBack.imageView?.setImageColor(color: .white)
         
-        txtAboutMe.text = profileViewModel.userActive.about_me
-        txtFavoriteFood.text = profileViewModel.userActive.favorite_food
+       
         txtAboutMe.delegate = self
         txtFavoriteFood.delegate = self
     }
@@ -121,10 +123,31 @@ class EditingProfileViewController: BaseViewController {
         .disposed(by: disposeBag)
     }
     
-    
-    func setUpUIListImage() {
-        
+    func subscribeToUpdateUI() {
+        profileViewModel.userActiveRelay.subscribe(onNext: { [weak self] data in
+            self?.profileViewModel.getListImg()
+            self?.profileViewModel.setUpTBV()
+            self?.txtAboutMe.text = self?.profileViewModel.userActiveRelay.value.descripInfo
+            self?.txtFavoriteFood.text = self?.profileViewModel.userActiveRelay.value.favoriteFood
+            DispatchQueue.main.async {
+                self?.cltvImage.reloadData()
+            }
+            
+        })
+        .disposed(by: disposeBag)
     }
+    func subscribeToLoading() {
+        profileViewModel.loadingBehavior.subscribe(onNext: { isLoading in
+            if isLoading {
+                self.showIndicator(withTitle: "", and: "")
+            }else{
+                self.hideIndicator()
+            }
+            
+        })
+        .disposed(by: disposeBag)
+    }
+    
 
     @IBAction func didTapBtnBack(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
@@ -138,12 +161,24 @@ class EditingProfileViewController: BaseViewController {
     }
     
     @IBAction func didTapBtnSave(_ sender: Any) {
-        DatabaseManager.shared.updateListImage(list: profileViewModel.listImg)
+        view.endEditing(true)
+        DatabaseManager.auth.updateListImage(list: profileViewModel.listImg) { (bool) in
+            if bool {
+                print("oke")
+            }else {
+                print("No")
+            }
+        }
+        
         let listWillSave = profileViewModel.listItemWillSave
-        
-        
         for item in listWillSave {
-            DatabaseManager.shared.updateProfileEditing(property: item.title, text: item.tfText)
+            DatabaseManager.auth.updateProfileEditing(property: item.title, text: item.tfText) { (bool) in
+                if bool {
+                    print("oke")
+                }else {
+                    print("No")
+                }
+            }
         }
 
         navigationController?.popViewController(animated: true)
@@ -219,15 +254,15 @@ extension EditingProfileViewController: UITextViewDelegate {
             return
         }
         if textView == txtAboutMe {
-            profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "about_me", tfText: text, imgStr: ""))
+            profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "descripInfo", tfText: text, imgStr: ""))
 //            DatabaseManager.shared.updateProfileEditing(property: "about_me", text: text)
 
         }else {
-            profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "favorite_food", tfText: text, imgStr: ""))
+            profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "favoriteFood", tfText: text, imgStr: ""))
 //            DatabaseManager.shared.updateProfileEditing(property: "favorite_food", text: text)
 
         }
     }
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//    }
 }

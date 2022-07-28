@@ -8,7 +8,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
-
+import FirebaseAuth
 class LoginViewController: BaseViewController {
 
     @IBOutlet weak var vEnterNumber: UIView!
@@ -23,6 +23,7 @@ class LoginViewController: BaseViewController {
        
         setUpView()
         bindToViewModel()
+        subscribeToLoading()
         // Do any additional setup after loading the view.
     }
     
@@ -45,6 +46,18 @@ class LoginViewController: BaseViewController {
        
     }
     
+    func subscribeToLoading() {
+        loginViewModel.loadingBehavior.subscribe(onNext: { isLoading in
+            if isLoading {
+                self.showIndicator(withTitle: "", and: "")
+            }else{
+                self.hideIndicator()
+            }
+            
+        })
+        .disposed(by: disposeBag)
+    }
+    
     func bindToViewModel() {
         _ = tfPhoneNumber.rx.text.map{$0 ?? ""}.bind(to: loginViewModel.txtPhoneNumber).disposed(by: disposeBag)
         _ = loginViewModel.isValidPhoneNumber.subscribe({ [weak self] isValid in
@@ -65,12 +78,7 @@ class LoginViewController: BaseViewController {
     }
     
     @IBAction func didTapBtnContinue(_ sender: Any) {
-        
-        GobalData.userRegister.phoneNumber = tfPhoneNumber.text ?? ""
-            let st = UIStoryboard(name: "Main", bundle: nil)
-            let vcVerify = st.instantiateViewController(withIdentifier: "VerifyCodeViewController") as! VerifyCodeViewController
-            self.navigationController?.pushViewController(vcVerify, animated: true)
-    
+        loginViewModel.signInWithPhoneNumber(vc: self)
         
     }
     

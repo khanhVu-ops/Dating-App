@@ -9,6 +9,7 @@ import UIKit
 import FBSDKLoginKit
 import RxSwift
 import RxCocoa
+import FirebaseAuth
 
 class ProfileViewController: BaseViewController {
     @IBOutlet weak var imgAvt: UIImageView!
@@ -46,16 +47,22 @@ class ProfileViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("UID: \(String(describing: Auth.auth().currentUser?.uid))")
+
         setUpView()
         
         setUpUIListBasicInfo()
+        subscribeToUpdateUI()
+        subscribeToLoading()
         imagePickerController.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        profileViewModel.fetchDataProfile()
         profileViewModel.updateUI()
-        profileViewModel.getListImg()
+//        profileViewModel.getListImg()
         profileViewModel.setUpTBV()
         DispatchQueue.main.async {
             self.cltvListImage.reloadData()
@@ -88,7 +95,7 @@ class ProfileViewController: BaseViewController {
         
         profileViewModel.lbName = lbName
         profileViewModel.imgAvata = imgAvt
-        profileViewModel.updateAvata()
+//        profileViewModel.updateAvata()
         btnLogOut.layer.cornerRadius = 20
         
         heightTxtAboutMe.isActive = false
@@ -143,14 +150,45 @@ class ProfileViewController: BaseViewController {
         .disposed(by: disposeBag)
     }
     
+    func subscribeToUpdateUI() {
+        profileViewModel.userActiveRelay.subscribe(onNext: { [weak self] data in
+            self?.profileViewModel.updateUI()
+//            self?.profileViewModel.getListImg()
+            self?.profileViewModel.setUpTBV()
+            DispatchQueue.main.async {
+                self?.cltvListImage.reloadData()
+            }
+        })
+        .disposed(by: disposeBag)
+    }
+    
+    func subscribeToLoading() {
+        profileViewModel.loadingBehavior.subscribe(onNext: { isLoading in
+            if isLoading {
+                self.showIndicator(withTitle: "", and: "")
+            }else{
+                self.hideIndicator()
+            }
+            
+        })
+        .disposed(by: disposeBag)
+    }
         
     @IBAction func didTapLogOut(_ sender: Any) {
-        let loginManager = LoginManager()
-        loginManager.logOut()
-        DatabaseManager.shared.logOutUser()
-        let st = UIStoryboard(name: "Main", bundle: nil)
-        let vc = st.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
-        self.navigationController?.setViewControllers([vc], animated: true)
+//        let loginManager = LoginManager()
+//        loginManager.logOut()
+//        DatabaseManager.shared.logOutUser()
+        
+        DatabaseManager.auth.logOutUser { (bool) in
+            if bool{
+                let st = UIStoryboard(name: "Main", bundle: nil)
+                let vc = st.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
+                self.navigationController?.setViewControllers([vc], animated: true)
+            }
+        }
+        
+        
+        
         
         //        self.navigationController?.popToRootViewController(animated: true)
     }
@@ -183,7 +221,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDeleg
 }
 extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = profileViewModel.userActive.listImage.count
+        guard let count = profileViewModel.userActiveRelay.value.listImages?.count else {return 0}
         if count == 0 {
             lbNoImage.isHidden = false
             return 0
@@ -198,9 +236,9 @@ extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = cltvListImage.dequeueReusableCell(withReuseIdentifier: "EditProfileCollectionViewCell", for: indexPath) as! EditProfileCollectionViewCell
-        let imgStr = self.profileViewModel.userActive.listImage[indexPath.item]
-        cell.confifure(imgStr: imgStr)
-        
+        if let imgStr = self.profileViewModel.userActiveRelay.value.listImages?[indexPath.item] {
+            cell.confifure(imgStr: imgStr)
+        }
         return cell
     }
     
@@ -208,14 +246,20 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
+        guard let uid = Auth.auth().currentUser?.uid else {return}
         if picker.sourceType == .photoLibrary {
             let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-            let imgStr = img?.toJpegString(compressionQuality: 0) ?? ""
-            if imgStr.count > 0 {
-                DatabaseManager.shared.addImgAvata(string: imgStr)
-            }
-            print(imgStr)
-            imgAvt?.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            
+            img?.upload(uid: uid, folder: "avata", completion: { (url) in
+                DatabaseManager.auth.addAvataUser(url: url ) { (bool) in
+                    if bool {
+                        print("Save Image Succesfull")
+                    }else {
+                        print("NO")
+                    }
+                }
+            })
+            imgAvt.image = img
         }
         
         picker.dismiss(animated: true, completion: nil)

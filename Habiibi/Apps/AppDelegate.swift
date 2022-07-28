@@ -8,6 +8,8 @@
 import UIKit
 import FBSDKCoreKit
 import IQKeyboardManagerSwift
+import FirebaseCore
+import FirebaseFirestore
 @main
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     didFinishLaunchingWithOptions: launchOptions
                 )
         IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.disabledDistanceHandlingClasses.append(ChatViewController.self)
+        FirebaseApp.configure()
         // Override point for customization after application launch.
         return true
     }

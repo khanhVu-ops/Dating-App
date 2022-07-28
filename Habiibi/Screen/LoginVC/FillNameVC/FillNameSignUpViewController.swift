@@ -55,10 +55,9 @@ class FillNameSignUpViewController: BaseViewController {
             guard let self = self else{return}
             
             self.fillNameViewModel.saveFullName()
-            self.fillNameViewModel.addUserLoginSuccessfully()
-            let st = UIStoryboard(name: "Main", bundle: nil)
-            let vc = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController
-            self.navigationController?.pushViewController(vc, animated: true)
+            
+            self.fillNameViewModel.addUserRegister(VCC: self)
+            
         })
         .disposed(by: disposeBag)
     }

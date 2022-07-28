@@ -26,15 +26,15 @@ final class APIService {
 //        
 //        jsonResponseObject(url: url, method: .get, headers: [:], completionHandler: completionHandler)
 //    }
-    static func requestListUsers(completionHandler: (([UserModel]?, APIError?) -> Void)?) {
-        
-        guard let path = Bundle.main.path(forResource: "ListUser", ofType: "json") else {
-            return
-        }
-        let url = URL(fileURLWithPath: path)
-        
-        jsonResponseList(url: url, method: .get, headers: [:], completionHandler: completionHandler)
-    }
+//    static func requestListUsers(completionHandler: (([UserModel]?, APIError?) -> Void)?) {
+//        
+//        guard let path = Bundle.main.path(forResource: "ListUser", ofType: "json") else {
+//            return
+//        }
+//        let url = URL(fileURLWithPath: path)
+//        
+//        jsonResponseList(url: url, method: .get, headers: [:], completionHandler: completionHandler)
+//    }
 
     //MARK: BASE
     
