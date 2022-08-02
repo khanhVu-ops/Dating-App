@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>198454751482-64jbd9u8ovjj37717ctgjakhq9pdro0r.apps.googleusercontent.com</string>
+	<string>414824186323-32r5a3aqf12dqfjffduvqbhs9feits4a.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.198454751482-64jbd9u8ovjj37717ctgjakhq9pdro0r</string>
+	<string>com.googleusercontent.apps.414824186323-32r5a3aqf12dqfjffduvqbhs9feits4a</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBWaWlRWBknXyVJKZlBGYa5ZMmNzWqlPBc</string>
+	<string>AIzaSyDc_dNMWFlB90f5TZ9xrQGSqCDJaRQN4ZM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>198454751482</string>
+	<string>414824186323</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>aaa.Habiibi</string>
 	<key>PROJECT_ID</key>
-	<string>dating-app-725b8</string>
+	<string>habiibi-16be5</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dating-app-725b8.appspot.com</string>
+	<string>habiibi-16be5.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:198454751482:ios:118a0820a9ed8086349943</string>
+	<string>1:414824186323:ios:627640a94bcd811c026f26</string>
 </dict>
 </plist>

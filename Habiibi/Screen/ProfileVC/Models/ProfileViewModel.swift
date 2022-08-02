@@ -17,7 +17,7 @@ class ProfileViewModel {
     let disposeBag = DisposeBag()
     var imgAvata: UIImageView?
     
-    var listImg = [String]()
+    var listtImagesTemporary = BehaviorRelay<[String]>(value: [])
     var txtAboutMe: UITextView!
     var txtFvrFood: UITextView!
     var listItemWillSave = [ModelSetUpTBV]()
@@ -26,6 +26,7 @@ class ProfileViewModel {
     var listEducation = BehaviorRelay<[ModelSetUpTBV]>(value: [])
     var loadingBehavior = BehaviorRelay<Bool>(value: false)
     var userActiveRelay = BehaviorRelay<UserModels>(value: UserModels())
+    var listImageBehavior = BehaviorRelay<[String]>(value: [])
     
     func fetchDataProfile() {
         guard let uid = Auth.auth().currentUser?.uid else{return}
@@ -44,6 +45,8 @@ class ProfileViewModel {
         self.lbName?.text = text
         self.txtAboutMe.text = userActive.descripInfo
         self.txtFvrFood.text = userActive.favoriteFood
+        
+        self.listImageBehavior.accept(userActive.listImages ?? [])
         //        lbCountry?.text = userActive.country
         if userActive.avata == "img_avt_default" {
             
@@ -90,14 +93,23 @@ class ProfileViewModel {
     
     func getListImg() {
         let userActive = userActiveRelay.value
-        guard let listImage = userActive.listImages else{return}
-        if listImg.count == 0 {
-            for item in listImage {
-                listImg.append(item)
+        let listImages = userActive.listImages ?? []
+        var lists = listImages
+        if lists.count < 6 {
+            for _ in listImages.count..<6{
+                lists.append("")
+            }
+        }else {
+            let mul = (listImages.count/3 + 1)*3
+            for _ in lists.count..<mul {
+                lists.append("")
             }
         }
+        listtImagesTemporary.accept(lists)
         
     }
+    
+    
     
     
     func presentOptionsPopovered(vc: BaseViewController ,btn: UIButton) {
@@ -130,13 +142,13 @@ class ProfileViewModel {
             if mul == 1 {
                 res = mul * Int(height) + 10
             }else {
-                res = mul * Int(height) + 20
+                res = mul * Int(height) + 10*(mul+1)
             }
         }else {
             if mul == 0 {
                 res = (mul + 1) * Int(height) + 10
             }else {
-                res = (mul + 1) * Int(height) + 20
+                res = (mul + 1) * Int(height) + 10*(mul+2)
             }
             
         }

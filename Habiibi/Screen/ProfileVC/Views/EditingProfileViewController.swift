@@ -41,21 +41,23 @@ class EditingProfileViewController: BaseViewController {
         setUpObsevableTableView()
         subscribeToUpdateUI()
         subscribeToLoading()
+        subscribeListImage()
+        profileViewModel.fetchDataProfile()
         setUpView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        profileViewModel.fetchDataProfile()
-//        profileViewModel.getListImg()
+        
+        
     }
     
     override func setUpView() {
-//        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing(_:))))
+
         vTopGradient.layer.cornerRadius = vTopGradient.frame.width/3
         
-        cltvImage.dataSource = self
-        cltvImage.delegate = self
+//        cltvImage.dataSource = self
+//        cltvImage.delegate = self
         cltvImage.register(UINib(nibName: "EditProfileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EditProfileCollectionViewCell")
         cltvImage.register(UINib(nibName: "TakePhotoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TakePhotoCollectionViewCell")
         cltvImage.backgroundColor = .clear
@@ -136,6 +138,43 @@ class EditingProfileViewController: BaseViewController {
         })
         .disposed(by: disposeBag)
     }
+    
+    func subscribeListImage() {
+        
+        profileViewModel.listtImagesTemporary.bind(to: cltvImage.rx.items) {[weak self] _ ,index ,item -> UICollectionViewCell in
+            
+            let lists = self?.profileViewModel.listtImagesTemporary.value
+
+            let listImg = lists?.filter({$0 != ""})
+
+            let count = lists?.count ?? 6
+
+            let height = (self?.view.frame.width ?? 0 )/3
+            let heightCltv = Float(Int(height)*(count / 3) + 15)
+            self?.heightCltvConstraint.constant = CGFloat(heightCltv)
+            
+            let indexPath = IndexPath(row: index, section: 0)
+            if index == listImg?.count {
+                let cell = self?.cltvImage.dequeueReusableCell(withReuseIdentifier: "TakePhotoCollectionViewCell", for: indexPath) as! TakePhotoCollectionViewCell
+                cell.vc = self
+                return cell
+            }else {
+                let cell = self?.cltvImage.dequeueReusableCell(withReuseIdentifier: "EditProfileCollectionViewCell", for: indexPath) as! EditProfileCollectionViewCell
+                if index < listImg?.count ?? 0 {
+                    cell.confifure(imgStr: item)
+                    
+                }else {
+                    cell.confifure(imgStr: "")
+                }
+                
+                return cell
+            }
+        }.disposed(by: disposeBag)
+        
+        cltvImage.rx.setDelegate(self).disposed(by: disposeBag)
+        
+    }
+    
     func subscribeToLoading() {
         profileViewModel.loadingBehavior.subscribe(onNext: { isLoading in
             if isLoading {
@@ -162,7 +201,9 @@ class EditingProfileViewController: BaseViewController {
     
     @IBAction func didTapBtnSave(_ sender: Any) {
         view.endEditing(true)
-        DatabaseManager.auth.updateListImage(list: profileViewModel.listImg) { (bool) in
+        var listImg = profileViewModel.listtImagesTemporary.value
+        listImg = listImg.filter({$0 != ""})
+        DatabaseManager.auth.updateListImage(list: listImg) { (bool) in
             if bool {
                 print("oke")
             }else {
@@ -197,57 +238,17 @@ extension EditingProfileViewController: UICollectionViewDelegate, UICollectionVi
         return 15
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let count = profileViewModel.listImg.count
-        if indexPath.item < count {
-            profileViewModel.listImg.remove(at: indexPath.item)
-            cltvImage.deleteItems(at: [indexPath])
+        var newLists = profileViewModel.listtImagesTemporary.value
+        
+        if indexPath.item < newLists.count {
+            newLists.remove(at: indexPath.item)
+            newLists.append("")
+            profileViewModel.listtImagesTemporary.accept(newLists)
         }
         
     }
 }
-extension EditingProfileViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = profileViewModel.listImg.count
-        let height = (self.view.frame.width - 60)/3
-        if count < 6 {
-            heightCltvConstraint.constant = CGFloat(height*2 + 15)
-            return 6
-        }else {
-            let mul = count/3 + 1
-            heightCltvConstraint.constant = CGFloat(height * CGFloat(mul) + 15*CGFloat(mul-1))
-            return mul * 3
-        }
-        
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let count = profileViewModel.listImg.count
-        
-        
-        if indexPath.item == count {
-            let cell = cltvImage.dequeueReusableCell(withReuseIdentifier: "TakePhotoCollectionViewCell", for: indexPath) as! TakePhotoCollectionViewCell
-            cell.vc = self
-            return cell
-        }else {
-            let cell = cltvImage.dequeueReusableCell(withReuseIdentifier: "EditProfileCollectionViewCell", for: indexPath) as! EditProfileCollectionViewCell
-            if indexPath.item < count{
-                let imgStr = profileViewModel.listImg[indexPath.item]
-                cell.confifure(imgStr: imgStr)
-                
-            }else {
-                cell.confifure(imgStr: "")
-            }
-            
-            return cell
-        }
-        
-    }
-    
-    
-    
-}
+
 extension EditingProfileViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         guard  let text = textView.text else {
@@ -255,14 +256,10 @@ extension EditingProfileViewController: UITextViewDelegate {
         }
         if textView == txtAboutMe {
             profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "descripInfo", tfText: text, imgStr: ""))
-//            DatabaseManager.shared.updateProfileEditing(property: "about_me", text: text)
 
         }else {
             profileViewModel.listItemWillSave.append(ModelSetUpTBV(title: "favoriteFood", tfText: text, imgStr: ""))
-//            DatabaseManager.shared.updateProfileEditing(property: "favorite_food", text: text)
 
         }
     }
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//    }
 }

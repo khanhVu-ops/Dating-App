@@ -37,30 +37,27 @@ extension TakePhotoCollectionViewCell: UIImagePickerControllerDelegate, UINaviga
             guard let uid = Auth.auth().currentUser?.uid else {return}
             
 
-            img?.upload(uid: uid, folder: "listImages", completion: { (url) in
+            img?.upload(uid: uid, folder: "listImages", completion: { [weak self] (url) in
                 guard let urlStr = url else {return}
-                self.vc?.profileViewModel.listImg.append("\(urlStr)")
-//                self.vc?.profileViewModel.loadingBehavior.accept(false)
-                DispatchQueue.main.async {
-                    self.vc?.cltvImage.reloadData()
+                var newList = self?.vc?.profileViewModel.listtImagesTemporary.value ?? []
+                newList = newList.filter({$0 != ""})
+                newList.append("\(urlStr)")
+                
+                if (newList.count) < 6 {
+                    for _ in newList.count..<6 {
+                        newList.append("")
+                    }
+                }else {
+                    let mul = (newList.count/3 + 1)*3
+                    for _ in newList.count..<mul {
+                        newList.append("")
+                    }
                 }
-//                let db = Firestore.firestore()
-//                let listImagesRef = db.collection("users").document(uid)
-//                listImagesRef.updateData([
-//                    "listImages": FieldValue.arrayUnion(["\(urlStr)"])
-//                ])
+                self?.vc?.profileViewModel.listtImagesTemporary.accept(newList)
+                
+               
+                self?.vc?.profileViewModel.loadingBehavior.accept(false)
             })
-            vc?.profileViewModel.loadingBehavior.accept(false)
-//            let imgStr = img?.toJpegString(compressionQuality: 0) ?? ""
-            
-//            if imgStr.count > 0 {
-////                profileViewModel.listImg.append(imgStr)
-//
-////                print(profileViewModel.listImg.count)
-////                DatabaseManager.shared.addListImage(imgStr: imgStr)
-////                print(profileViewModel.userActive.listImage.count)
-//
-//            }
         }
         
         picker.dismiss(animated: true, completion: nil)

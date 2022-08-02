@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseCore
+import FBSDKLoginKit
 //protocol DatabaseManagerProtocol {
 //    func addUser(userActive: Int, phoneNumber: String, gender: String, firstName: String, lastName: String)
 //    func loginUser(phoneNumber: String) ->Bool
@@ -26,6 +27,7 @@ import FirebaseCore
 protocol DataBaseAuthProtocol {
     func registerAccount(completion: @escaping (Bool) -> Void)
     func checkAccountExists(uid: String, completion: @escaping (Bool) -> Void)
+    func registerFacbook(userData: NSDictionary, completion: @escaping (Bool) -> Void)
     func addAvataUser(url: URL?, completion: @escaping (Bool) -> Void)
     func fetchDataUser(uid: String, completion: @escaping (UserModels?, Error?) -> Void)
     func updateProfileEditing(property: String, text: String, completion: @escaping (Bool) -> Void)
@@ -54,7 +56,8 @@ class AuthFirebaseManager: DataBaseAuthProtocol {
         guard let userId = user?.uid else{return}
         
         let newUser = [
-            "phoneNumber" : GobalData.phoneNumber,
+            "uid": userId,
+            "account" : GobalData.phoneNumber,
             "userName" : "\(GobalData.firstName) \(GobalData.lastName)",
             "age": "",
             "gender": GobalData.gender,
@@ -82,11 +85,47 @@ class AuthFirebaseManager: DataBaseAuthProtocol {
                 print("Document successfully written!")
             }
         }
-        
-        
-        
-        
     }
+    
+    func registerFacbook(userData: NSDictionary, completion: @escaping (Bool) -> Void) {
+        let user = Auth.auth().currentUser
+        guard let userId = user?.uid else{return}
+        let picture = userData.object(forKey: "picture") as? NSDictionary
+        let data = picture?.object(forKey: "data") as? NSDictionary
+        let avata = data?.object(forKey: "url") as? String ?? ""
+        print(avata)
+        let newUser = [
+            "uid": userId,
+            "account" : userData.object(forKey: "email") as? String ?? "",
+            "userName" : userData.object(forKey: "name") as? String ?? "",
+            "age": "",
+            "gender": "Male",
+            "country": "",
+            "descripInfo": "",
+            "favoritFood": "",
+            "height": "",
+            "children": "",
+            "matrial_status": "",
+            "smoker": "",
+            "bodyType": "",
+            "education": "",
+            "profession": "",
+            "avata": avata,
+            "listImages": [],
+        ] as [String : Any]
+        
+        db.collection("users").document(userId).setData(newUser)
+        { err in
+            if let err = err {
+                completion(false)
+                print("Error writing document: \(err)")
+            } else {
+                completion(true)
+                print("Document successfully written!")
+            }
+        }
+    }
+
     
     func checkAccountExists(uid: String, completion: @escaping (Bool) -> Void) {
         //        guard let userId = user?.uid else{return}
@@ -145,21 +184,21 @@ class AuthFirebaseManager: DataBaseAuthProtocol {
     }
     
     func fetchDataUser(uid: String, completion: @escaping (UserModels?, Error?) -> Void){
-//        let user = Auth.auth().currentUser
-//        guard let uid = user?.uid else{return}
         
         db.collection("users").document(uid).getDocument { (document, error) in
-            guard let document = document else {
-                print("Error fetching document: \(error!)")
+            if let document = document, document.exists {
+                let data = UserModels(json: document.data() ?? [:])
+                
+                completion(data,nil)
+                print(" data: \(document.data() ?? [:])")
+            } else {
+                print("Error fetching document: \(String(describing: error?.localizedDescription))")
                 completion(nil,error)
                 return
             }
            
             
-            let data = UserModels(json: document.data() ?? [:])
             
-            completion(data,nil)
-            print(" data: \(document.data() ?? [:])")
         }
         
         //
@@ -208,7 +247,7 @@ class AuthFirebaseManager: DataBaseAuthProtocol {
         
         let userRef = db.collection("users").document(userId)
         
-        if like {
+        if like, uid != "" {
             let userLiked: [String:Any] = [
                 "uid": uid,
                 "userName": username,
@@ -222,30 +261,6 @@ class AuthFirebaseManager: DataBaseAuthProtocol {
                 }
             }
            
-            
-//            userRef.getDocument { (snapshot, error) in
-//                guard let document = snapshot?.data(), error == nil else{
-//                    return
-//                }
-////                var listLiked = [FriendModel]()
-////                let userData = UserModels(json: document)
-////                listLiked = userData.listUserLiked ?? []
-//
-////                if listLiked.filter({$0.uid == uid}).count == 0{
-////                    listLiked.append(FriendModel(uid: uid, userName: username, avata: avata))
-////                }
-//
-////                userRef.updateData([
-////                    "listUserLiked": listLiked
-////                ]) { err in
-////                    if let err = err {
-////                        print("Error updating document: \(err)")
-////                    } else {
-////                        print("Document successfully updated")
-////                    }
-////                }
-//            }
-//
         }else {
             userRef.updateData(["listUserDisLiked": FieldValue.arrayUnion([uid])])
         }
@@ -254,7 +269,7 @@ class AuthFirebaseManager: DataBaseAuthProtocol {
 
     func fetchListChatAvailble(uid: String, completion: @escaping ([Chat]?, [DocumentReference]?, Error?) -> Void) {
         let db = Firestore.firestore().collection("Chats")
-                .whereField("users", arrayContains: Auth.auth().currentUser?.uid ?? "Not Found User 1")
+                .whereField("users", arrayContains: uid)
         
         
         db.getDocuments { (chatQuerySnap, error) in
@@ -296,6 +311,11 @@ class AuthFirebaseManager: DataBaseAuthProtocol {
     }
     
     func logOutUser(completion: @escaping (Bool) -> Void) {
+        
+        if let _ = AccessToken.current {
+            let loginManager = LoginManager()
+            loginManager.logOut()
+        }
         let firebaseAuth = Auth.auth()
         do {
             try firebaseAuth.signOut()

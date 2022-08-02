@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		05D9998F37C5FF4BACE61A74 /* Pods_Habiibi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D66B8AE15293D8C4FFCA2506 /* Pods_Habiibi.framework */; };
 		3300F7D0286BF366009CDE07 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3300F7CF286BF366009CDE07 /* APIService.swift */; };
-		33059A262889092A0038FC6A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33059A252889092A0038FC6A /* GoogleService-Info.plist */; };
 		33113B572862AFFB00C0CD7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33113B562862AFFB00C0CD7F /* AppDelegate.swift */; };
 		33113B592862AFFB00C0CD7F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33113B582862AFFB00C0CD7F /* SceneDelegate.swift */; };
 		33113B5B2862AFFB00C0CD7F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33113B5A2862AFFB00C0CD7F /* BaseViewController.swift */; };
@@ -57,6 +56,7 @@
 		339148212869688900495999 /* GobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339148202869688900495999 /* GobalData.swift */; };
 		3391482528696C9400495999 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3391482428696C9400495999 /* ProfileViewController.swift */; };
 		33AF1589288A7F48003D8D4F /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AF1588288A7F48003D8D4F /* UserModels.swift */; };
+		33BBF9FA2897D4580094015D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33BBF9F92897D4580094015D /* GoogleService-Info.plist */; };
 		33BFAC7C287BC45D00F95F1F /* ListUser.json in Resources */ = {isa = PBXBuildFile; fileRef = 33BFAC7B287BC45D00F95F1F /* ListUser.json */; };
 		33BFAC80287C031200F95F1F /* CustomNavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC7F287C031200F95F1F /* CustomNavigationVC.swift */; };
 		33BFAC83287C0DB000F95F1F /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BFAC82287C0DB000F95F1F /* FilterViewController.swift */; };
@@ -81,7 +81,6 @@
 
 /* Begin PBXFileReference section */
 		3300F7CF286BF366009CDE07 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		33059A252889092A0038FC6A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33113B532862AFFB00C0CD7F /* Habiibi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Habiibi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33113B562862AFFB00C0CD7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		33113B582862AFFB00C0CD7F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +131,7 @@
 		339148202869688900495999 /* GobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GobalData.swift; sourceTree = "<group>"; };
 		3391482428696C9400495999 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		33AF1588288A7F48003D8D4F /* UserModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModels.swift; sourceTree = "<group>"; };
+		33BBF9F92897D4580094015D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33BFAC7B287BC45D00F95F1F /* ListUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListUser.json; sourceTree = "<group>"; };
 		33BFAC7F287C031200F95F1F /* CustomNavigationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationVC.swift; sourceTree = "<group>"; };
 		33BFAC82287C0DB000F95F1F /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -183,6 +183,7 @@
 			children = (
 				3300F7CF286BF366009CDE07 /* APIService.swift */,
 				33DC6F9228913CED000ADA02 /* Utilities */,
+				332EE8B62876C118008C0BEA /* CustomFile */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -215,13 +216,12 @@
 				3300F7C9286BF1E9009CDE07 /* Data */,
 				3314FD572864675000B1AB1D /* Models */,
 				3300F7CE286BF341009CDE07 /* Services */,
-				332EE8B62876C118008C0BEA /* CustomFile */,
 				33298DF92885534C00351F92 /* Screen */,
 				33113B5C2862AFFB00C0CD7F /* Main.storyboard */,
 				33113B5F2862AFFD00C0CD7F /* Assets.xcassets */,
 				33113B612862AFFD00C0CD7F /* LaunchScreen.storyboard */,
 				33113B642862AFFD00C0CD7F /* Info.plist */,
-				33059A252889092A0038FC6A /* GoogleService-Info.plist */,
+				33BBF9F92897D4580094015D /* GoogleService-Info.plist */,
 			);
 			path = Habiibi;
 			sourceTree = "<group>";
@@ -240,11 +240,11 @@
 		33298DF92885534C00351F92 /* Screen */ = {
 			isa = PBXGroup;
 			children = (
-				333C729B28900D1700B7496D /* ChatVC */,
 				3391481B2869611A00495999 /* CustomTabbarController.swift */,
+				33298E0A288554A200351F92 /* LoginVC */,
+				333C729B28900D1700B7496D /* ChatVC */,
 				33298DFF288553E900351F92 /* SwipeVC */,
 				334FA2A828767FC00060C7F3 /* ProfileVC */,
-				33298E0A288554A200351F92 /* LoginVC */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -615,13 +615,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				33DC6F582890D193000ADA02 /* ListFriendCollectionViewCell.xib in Resources */,
+				33BBF9FA2897D4580094015D /* GoogleService-Info.plist in Resources */,
 				33DC6F652890D1D5000ADA02 /* ListChatTableViewCell.xib in Resources */,
 				331693EA28783A0E0044D44F /* EditProfileCollectionViewCell.xib in Resources */,
 				33D45C20287ADFA0003443A8 /* TakePhotoCollectionViewCell.xib in Resources */,
 				33BFAC7C287BC45D00F95F1F /* ListUser.json in Resources */,
 				33EB4A862892487200D4F59C /* SearchTableViewCell.xib in Resources */,
 				33113B632862AFFD00C0CD7F /* LaunchScreen.storyboard in Resources */,
-				33059A262889092A0038FC6A /* GoogleService-Info.plist in Resources */,
 				33113B602862AFFD00C0CD7F /* Assets.xcassets in Resources */,
 				33631833287574E100A03242 /* ListImageTableViewCell.xib in Resources */,
 				33113B5E2862AFFB00C0CD7F /* Main.storyboard in Resources */,

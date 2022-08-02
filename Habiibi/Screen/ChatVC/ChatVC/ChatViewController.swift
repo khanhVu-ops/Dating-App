@@ -16,9 +16,14 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = chatViewModel.user2Name ?? "Chat"
+        self.title = chatViewModel.user2Name 
         subscribeMessages()
+        chatViewModel.loadChat()
+        setUpView()
         
+    }
+    
+    func setUpView() {
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
         } else {
@@ -35,15 +40,15 @@ class ChatViewController: MessagesViewController, InputBarAccessoryViewDelegate,
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
         
-        chatViewModel.loadChat()
-        self.messagesCollectionView.contentInset = UIEdgeInsets(top: 100, left: 0, bottom: 100, right: 0)
+        
+        self.messagesCollectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 100, right: 0)
         
         setUpTopView()
     }
     
     
     func setUpTopView() {
-        let vTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
+        let vTop = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 70))
        
         
         let btnBack = UIButton()

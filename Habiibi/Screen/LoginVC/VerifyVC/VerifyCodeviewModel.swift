@@ -14,6 +14,7 @@ import FirebaseAuth
 class VerifyCodeViewModel {
     var stvOTP: OTPStackView!
     var loadingBehavior = BehaviorRelay<Bool>(value: false)
+    var showLbError = BehaviorRelay<Bool>(value: false)
     func checkOTPSuccessfull() -> Bool {
         if stvOTP.getOTPString() == "111111" {
             return true
@@ -40,11 +41,15 @@ class VerifyCodeViewModel {
             verificationCode: veriCode
         )
         
-        Auth.auth().signIn(with: credential) { (result, error) in
+        Auth.auth().signIn(with: credential) {[weak self] (result, error) in
+            guard let self = self else{
+                return
+            }
             if let result = result, error == nil {
+                self.showLbError.accept(false)
                 print(result)
                 print("Signed in")
-                print("UID: \(Auth.auth().currentUser?.uid)")
+                print("UID: \(String(describing: Auth.auth().currentUser?.uid))")
 
                 DatabaseManager.auth.checkAccountExists(uid: result.user.uid) { (bool) in
                     self.loadingBehavior.accept(false)
@@ -64,6 +69,7 @@ class VerifyCodeViewModel {
 //
             }else {
                 self.loadingBehavior.accept(false)
+                self.showLbError.accept(true)
                 print("Some thing error: \(String(describing: error?.localizedDescription))")
             }
         }

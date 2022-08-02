@@ -32,7 +32,7 @@ class HomeScreenViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("UID: \(Auth.auth().currentUser?.uid)")
+        print("UID: \(String(describing: Auth.auth().currentUser?.uid))")
 
         setUpView()
         subscribeToLoading()
@@ -173,13 +173,17 @@ class HomeScreenViewController: BaseViewController {
     
     @IBAction func didTapBtnMid(_ sender: Any) {
         
-        let st = UIStoryboard(name: "Main", bundle: nil)
-        let vc = st.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        if homeViewModel.getUidUserDidShow() != "" {
+            let st = UIStoryboard(name: "Main", bundle: nil)
+            let vc = st.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+            
+            vc.chatViewModel.user2UID = homeViewModel.getUidUserDidShow()
+            vc.chatViewModel.user2ImgUrl = homeViewModel.getAvataUrlUserDidShow()
+            vc.chatViewModel.user2Name = homeViewModel.getNameUserDidShow()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         
-        vc.chatViewModel.user2UID = homeViewModel.getUidUserDidShow()
-        vc.chatViewModel.user2ImgUrl = homeViewModel.getAvataUrlUserDidShow()
-        vc.chatViewModel.user2Name = homeViewModel.getNameUserDidShow()
-        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     @IBAction func didTapBtnRight(_ sender: Any) {
         vKoloda.swipe(.right)
@@ -205,6 +209,9 @@ extension HomeScreenViewController: KolodaViewDataSource {
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int {
         let count = homeViewModel.listItemsBehavior.value.count
         if count == 0 {
+            homeViewModel.uidUserDidShow = ""
+            homeViewModel.nameUserDidShow = ""
+            homeViewModel.avataUrlDidShow = ""
             lbNoPerson.isHidden = false
             heightTbvConstraint.constant = CGFloat(0)
         }

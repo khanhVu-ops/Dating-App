@@ -32,26 +32,26 @@ class HomeScreenViewModel {
         
         loadingBehavior.accept(true)
         DatabaseManager.auth.fetchDataListUsers { [weak self] (data, error) in
-            
+
             guard let self = self else{return}
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "")
                 return
             }
             self.loadingBehavior.accept(false)
-            
+
             var items = data
             var listDisLiked = [String]()
             guard let uid = Auth.auth().currentUser?.uid else{return}
-            DatabaseManager.auth.fetchDataUser(uid: uid) { (dataUser, error) in
+            DatabaseManager.auth.fetchDataUser(uid: uid) {  (dataUser, error) in
                 guard let dataUser = dataUser, error == nil else {
                     return
-                    
+
                 }
-                
+//                guard let self = self else{return}
                 listDisLiked = dataUser.listUserDisLiked ?? []
-                
-                
+
+
                 for uid in listDisLiked {
     //               / print("IDDDD: \(id)")
                     items = items.filter() {$0.uid != uid}
@@ -62,27 +62,27 @@ class HomeScreenViewModel {
                 if filterValue.gender != "" {
                     items = items.filter() {$0.gender == filterValue.gender}
                 }
-                
+
                 if items.count > 0 {
                     self.listItemsBehavior.accept(items)
-                    
-                    
+
+
                 }else {
                     self.listImagesBehavior.accept([])
                     self.listItemsBehavior.accept([])
                     self.txtDescrip.accept("")
                     self.txtName.accept("^__^")
                 }
-                
+
                 DispatchQueue.main.async {
                     self.vKoloda.reloadData()
                     self.vKoloda.resetCurrentCardIndex()
                 }
-                
-                
+
+
             }
-            
-            
+
+
         }
         
         
@@ -100,9 +100,18 @@ class HomeScreenViewModel {
     }
     
     func setUserDidShow(index: Int) {
-        guard let uidUser = listItemsBehavior.value[index].uid else {return}
-        guard let nameUser = listItemsBehavior.value[index].userName else {return}
-        guard let avataUser = listItemsBehavior.value[index].avata else {return}
+        guard let uidUser = listItemsBehavior.value[index].uid else {
+            return
+            
+        }
+        guard let nameUser = listItemsBehavior.value[index].userName else {
+            return
+            
+        }
+        guard let avataUser = listItemsBehavior.value[index].avata else {
+            return
+            
+        }
         uidUserDidShow = uidUser
         nameUserDidShow = nameUser
         avataUrlDidShow = avataUser
@@ -120,7 +129,8 @@ class HomeScreenViewModel {
     
     func getListUserTym() {
         let db = Firestore.firestore()
-        let uid = ManagerUserdefaults.shared.getUid()
+//        let uid = ManagerUserdefaults.shared.getUid()
+        let uid = Auth.auth().currentUser?.uid ?? ""
         db.collection("users").getDocuments { [weak self] (document, error) in
             guard let document = document, error == nil else {
                 return

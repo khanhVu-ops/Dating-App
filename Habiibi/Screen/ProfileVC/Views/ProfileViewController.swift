@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import FirebaseAuth
 
-class ProfileViewController: BaseViewController {
+class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     @IBOutlet weak var imgAvt: UIImageView!
     @IBOutlet weak var lbName: UILabel!
     //    @IBOutlet weak var lbCountry: UILabel!
@@ -49,12 +49,13 @@ class ProfileViewController: BaseViewController {
         super.viewDidLoad()
         
         print("UID: \(String(describing: Auth.auth().currentUser?.uid))")
-
+        
         setUpView()
         
         setUpUIListBasicInfo()
         subscribeToUpdateUI()
         subscribeToLoading()
+        subscribeListImageCltv()
         imagePickerController.delegate = self
     }
     
@@ -62,7 +63,7 @@ class ProfileViewController: BaseViewController {
         super.viewWillAppear(true)
         profileViewModel.fetchDataProfile()
         profileViewModel.updateUI()
-//        profileViewModel.getListImg()
+        //        profileViewModel.getListImg()
         profileViewModel.setUpTBV()
         DispatchQueue.main.async {
             self.cltvListImage.reloadData()
@@ -95,7 +96,7 @@ class ProfileViewController: BaseViewController {
         
         profileViewModel.lbName = lbName
         profileViewModel.imgAvata = imgAvt
-//        profileViewModel.updateAvata()
+        //        profileViewModel.updateAvata()
         btnLogOut.layer.cornerRadius = 20
         
         heightTxtAboutMe.isActive = false
@@ -118,8 +119,8 @@ class ProfileViewController: BaseViewController {
         profileViewModel.txtAboutMe = txtAboutMe
         profileViewModel.txtFvrFood = txtFvrFood
         
-        cltvListImage.dataSource = self
-        cltvListImage.delegate = self
+        //        cltvListImage.dataSource = self
+        //        cltvListImage.delegate = self
         cltvListImage.register(UINib(nibName: "EditProfileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "EditProfileCollectionViewCell")
         tbvListEdit.register(UINib(nibName: "ProfileTableViewCell", bundle: nil), forCellReuseIdentifier: "ProfileTableViewCell")
         tbvListEdit.backgroundColor = .clear
@@ -150,10 +151,33 @@ class ProfileViewController: BaseViewController {
         .disposed(by: disposeBag)
     }
     
+    func subscribeListImageCltv() {
+        profileViewModel.listImageBehavior.bind(to: cltvListImage.rx.items(cellIdentifier: "EditProfileCollectionViewCell", cellType: EditProfileCollectionViewCell.self)) {  row, item, cell in
+            
+            cell.confifure(imgStr: item)
+            
+        }.disposed(by: disposeBag)
+        
+        cltvListImage.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        profileViewModel.listImageBehavior.subscribe(onNext: { [weak self] listItems in
+            let height = self?.profileViewModel.configureHeightCltvImage(view: self?.view ?? UIView())
+            self?.heightCltvListImage.constant = CGFloat(height ?? 0)
+            if listItems.count == 0 {
+                self?.lbNoImage.isHidden = false
+            }else {
+                self?.lbNoImage.isHidden = true
+            }
+            
+        }).disposed(by: disposeBag)
+        
+        
+    }
+    
     func subscribeToUpdateUI() {
         profileViewModel.userActiveRelay.subscribe(onNext: { [weak self] data in
             self?.profileViewModel.updateUI()
-//            self?.profileViewModel.getListImg()
+            //            self?.profileViewModel.getListImg()
             self?.profileViewModel.setUpTBV()
             DispatchQueue.main.async {
                 self?.cltvListImage.reloadData()
@@ -173,12 +197,8 @@ class ProfileViewController: BaseViewController {
         })
         .disposed(by: disposeBag)
     }
-        
+    
     @IBAction func didTapLogOut(_ sender: Any) {
-//        let loginManager = LoginManager()
-//        loginManager.logOut()
-//        DatabaseManager.shared.logOutUser()
-        
         DatabaseManager.auth.logOutUser { (bool) in
             if bool{
                 let st = UIStoryboard(name: "Main", bundle: nil)
@@ -187,16 +207,27 @@ class ProfileViewController: BaseViewController {
             }
         }
         
-        
-        
-        
-        //        self.navigationController?.popToRootViewController(animated: true)
     }
     
     @IBAction func didTapBtnEditAvata(_ sender: Any) {
-        self.imagePickerController.sourceType = .photoLibrary
-        //        self.imagePickerController.sourceType = .camera
-        self.present(self.imagePickerController, animated: true, completion: nil)
+        let alert = UIAlertController(title: nil, message: "Choose your source", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Camera", style: .default) {[weak self] (result : UIAlertAction) -> Void in
+            print("Camera selected")
+            self?.imagePickerController.sourceType = .camera
+            self?.present((self?.imagePickerController)!, animated: true, completion: nil)
+        })
+        alert.addAction(UIAlertAction(title: "Photo library", style: .default) {[weak self] (result : UIAlertAction) -> Void in
+            print("Photo selected")
+            self?.imagePickerController.sourceType = .photoLibrary
+            self?.present((self?.imagePickerController)!, animated: true, completion: nil)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (result) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+        
     }
     
     @IBAction func didTapBtnEditting(_ sender: Any) {
@@ -205,11 +236,11 @@ class ProfileViewController: BaseViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-  
+    
     
 }
 
-extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (self.view.frame.width - 60)/3, height: (self.view.frame.width - 60)/3)
     }
@@ -217,50 +248,30 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 15
     }
-    
 }
-extension ProfileViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = profileViewModel.userActiveRelay.value.listImages?.count else {return 0}
-        if count == 0 {
-            lbNoImage.isHidden = false
-            return 0
-            
-        }
-        lbNoImage.isHidden = true
-        let height = profileViewModel.configureHeightCltvImage(view: self.view)
-        heightCltvListImage.constant = CGFloat(height)
-        return count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = cltvListImage.dequeueReusableCell(withReuseIdentifier: "EditProfileCollectionViewCell", for: indexPath) as! EditProfileCollectionViewCell
-        if let imgStr = self.profileViewModel.userActiveRelay.value.listImages?[indexPath.item] {
-            cell.confifure(imgStr: imgStr)
-        }
-        return cell
-    }
-    
-}
+
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        if picker.sourceType == .photoLibrary {
-            let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-            
-            img?.upload(uid: uid, folder: "avata", completion: { (url) in
-                DatabaseManager.auth.addAvataUser(url: url ) { (bool) in
-                    if bool {
-                        print("Save Image Succesfull")
-                    }else {
-                        print("NO")
-                    }
+        
+        profileViewModel.loadingBehavior.accept(true)
+        let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        
+        img?.upload(uid: uid, folder: "avata", completion: { (url) in
+            DatabaseManager.auth.addAvataUser(url: url ) {[weak self] (bool) in
+                self?.profileViewModel.loadingBehavior.accept(false)
+                if bool {
+                    self?.imgAvt.image = img
+                    print("Save Image Succesfull")
+                }else {
+                    print("NO")
                 }
-            })
-            imgAvt.image = img
-        }
+            }
+        })
+        
+        
+        
         
         picker.dismiss(animated: true, completion: nil)
     }

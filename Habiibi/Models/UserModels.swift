@@ -10,7 +10,7 @@ import Foundation
 class UserModels {
     
     var uid : String?
-    var phoneNumber : String?
+    var account : String?
     var userName : String?
     var age : String?
     var gender : String?
@@ -29,7 +29,7 @@ class UserModels {
     var listUserDisLiked : [String]?
     var listUserLiked : [FriendModel]?
     convenience init(uid : String?,
-                     phoneNumber : String?,
+                     account : String?,
                      userName : String?,
                      age : String?,
                      gender : String?,
@@ -50,7 +50,7 @@ class UserModels {
     ) {
         self.init()
         self.uid = uid
-        self.phoneNumber = phoneNumber
+        self.account = account
         self.userName = userName
         self.age = age
         self.gender = gender
@@ -78,9 +78,9 @@ class UserModels {
                 let jsonValue = wrapValue
                 self.uid = jsonValue
             }
-            if key == "phoneNumber", let wrapValue = value as? String {
+            if key == "account", let wrapValue = value as? String {
                 let jsonValue = wrapValue
-                self.phoneNumber = jsonValue
+                self.account = jsonValue
             }
             if key == "userName", let wrapValue = value as? String {
                 let jsonValue = wrapValue

@@ -24,6 +24,7 @@ class VerifyCodeViewController: BaseViewController {
         super.viewDidLoad()
         setUpView()
         subscribeToLoading()
+        subscribeToShowError()
         // Do any additional setup after loading the view.
     }
     
@@ -50,6 +51,20 @@ class VerifyCodeViewController: BaseViewController {
         
         
         stvOTP.textFieldArray[0].becomeFirstResponder()
+    }
+    
+    func subscribeToShowError() {
+        verifyCodeViewModel.showLbError.subscribe(onNext: { [weak self] isEnable in
+            guard let self = self else{
+                return
+            }
+            if isEnable {
+                self.showError(lbError: self.lbError, enable: true, text: "Error: Verify Code invalid!!!")
+            }else{
+                self.showError(lbError: self.lbError, enable: false, text: "")
+            }
+            
+        }).disposed(by: disposeBag)
     }
     
     func subscribeToLoading() {

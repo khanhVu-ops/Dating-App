@@ -13,7 +13,12 @@ class CustomNavigationVC: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         if Auth.auth().currentUser != nil {
+            guard  let uid = Auth.auth().currentUser?.uid else {
+                return
+            }
+            ManagerUserdefaults.shared.setUid(uid: uid)
             let st = UIStoryboard(name: "Main", bundle: nil)
 //            print(Auth.auth().currentUser?.uid )
             let vc = st.instantiateViewController(withIdentifier: "CustomTabbarController") as! CustomTabbarController

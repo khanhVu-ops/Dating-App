@@ -33,7 +33,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.198454751482-64jbd9u8ovjj37717ctgjakhq9pdro0r</string>
+				<string>com.googleusercontent.apps.414824186323-32r5a3aqf12dqfjffduvqbhs9feits4a</string>
 			</array>
 		</dict>
 	</array>
@@ -77,6 +77,8 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow camera!</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

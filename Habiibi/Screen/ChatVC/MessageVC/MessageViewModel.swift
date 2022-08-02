@@ -19,10 +19,13 @@ class MessageViewModel {
     var listResSearch = BehaviorRelay<[FriendModel]>(value: [])
     
 //    var listItemFriendBehavior = BehaviorRelay<Message>(value: Message())
-    let uid = Auth.auth().currentUser?.uid
+    
     func getListFriend() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
         let db = Firestore.firestore()
-        db.collection("users").document(uid ?? "").collection("threadLiked").getDocuments { [weak self] (snapshot, error) in
+        db.collection("users").document(uid).collection("threadLiked").getDocuments { [weak self] (snapshot, error) in
             guard let snapshot = snapshot, error == nil else{
                 return
             }
@@ -37,7 +40,10 @@ class MessageViewModel {
     }
     
     func getListChat() {
-        DatabaseManager.auth.fetchListChatAvailble(uid: uid ?? "") { (data, listdoc, error) in
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        DatabaseManager.auth.fetchListChatAvailble(uid: uid) { (data, listdoc, error) in
             guard let data = data, let listDoc = listdoc, error == nil else {return}
             
             let listChats = data
