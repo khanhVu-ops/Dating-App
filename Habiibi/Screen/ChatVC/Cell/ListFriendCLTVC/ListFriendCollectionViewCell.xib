@@ -24,8 +24,8 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Ae2-M4-JlO">
-                        <rect key="frame" x="30" y="60" width="0.0" height="20"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <rect key="frame" x="0.0" y="60" width="60" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -35,7 +35,9 @@
             <constraints>
                 <constraint firstItem="Ae2-M4-JlO" firstAttribute="top" secondItem="bfV-3l-CvV" secondAttribute="bottom" id="3ia-cd-jOi"/>
                 <constraint firstAttribute="bottom" secondItem="Ae2-M4-JlO" secondAttribute="bottom" id="83O-gP-lqn"/>
+                <constraint firstItem="Ae2-M4-JlO" firstAttribute="trailing" secondItem="bfV-3l-CvV" secondAttribute="trailing" id="Esa-JS-IXa"/>
                 <constraint firstItem="bfV-3l-CvV" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="EzE-wM-dMM"/>
+                <constraint firstItem="Ae2-M4-JlO" firstAttribute="leading" secondItem="bfV-3l-CvV" secondAttribute="leading" id="LT9-Fy-jth"/>
                 <constraint firstItem="Ae2-M4-JlO" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Uz5-SI-fFr"/>
                 <constraint firstAttribute="trailing" secondItem="bfV-3l-CvV" secondAttribute="trailing" id="WOY-aM-Ngy"/>
                 <constraint firstItem="bfV-3l-CvV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="oiI-8c-xsG"/>

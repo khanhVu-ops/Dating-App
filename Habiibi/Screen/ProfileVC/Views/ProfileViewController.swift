@@ -258,17 +258,23 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
         profileViewModel.loadingBehavior.accept(true)
         let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
         
-        img?.upload(uid: uid, folder: "avata", completion: { (url) in
-            DatabaseManager.auth.addAvataUser(url: url ) {[weak self] (bool) in
-                self?.profileViewModel.loadingBehavior.accept(false)
-                if bool {
-                    self?.imgAvt.image = img
-                    print("Save Image Succesfull")
-                }else {
-                    print("NO")
+        if img == nil {
+            self.profileViewModel.loadingBehavior.accept(false)
+            self.view.makeToast("Can't upload pictures")
+        }else{
+            img?.upload(uid: uid, folder: "avata", completion: { (url) in
+                DatabaseManager.auth.addAvataUser(url: url ) {[weak self] (bool) in
+                    self?.profileViewModel.loadingBehavior.accept(false)
+                    if bool {
+                        self?.imgAvt.image = img
+                        print("Save Image Succesfull")
+                    }else {
+                        print("NO")
+                    }
                 }
-            }
-        })
+            })
+        }
+        
         
         
         

@@ -38,6 +38,7 @@ extension UIImage {
                 if let error = error {
                     // Handle any errors
                     print(error)
+                    
                     completion(nil)
                 }
                 else {

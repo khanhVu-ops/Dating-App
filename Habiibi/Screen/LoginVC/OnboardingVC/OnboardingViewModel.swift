@@ -40,7 +40,7 @@ class OnboardingViewModel {
                 loginManager.logIn(permissions:["public_profile","email"], from:vc){ (facebookData, error)in
                     if let facebookData = facebookData, error == nil {
                         if (AccessToken.current != nil) {
-                            let token = AccessToken.current?.tokenString ?? ""
+                            _ = AccessToken.current?.tokenString ?? ""
                         }
                       
                         let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current?.tokenString ?? "" )

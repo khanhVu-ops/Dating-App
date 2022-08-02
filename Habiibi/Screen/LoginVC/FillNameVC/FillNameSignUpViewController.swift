@@ -14,6 +14,7 @@ class FillNameSignUpViewController: BaseViewController {
     @IBOutlet weak var tfFirstName: UITextField!
     @IBOutlet weak var tfLastName: UITextField!
     @IBOutlet weak var btnNext: UIButton!
+    @IBOutlet weak var btnBack: UIButton!
     
     let disposeBag = DisposeBag()
     let fillNameViewModel = FillNameSignUpViewModel()
@@ -25,7 +26,7 @@ class FillNameSignUpViewController: BaseViewController {
         setUpView()
         subscribeToLoading()
         bindToFillNameViewModel()
-        subscribeIsBtnContinue()
+        subscribeButton()
         // Do any additional setup after loading the view.
     }
     
@@ -42,7 +43,7 @@ class FillNameSignUpViewController: BaseViewController {
         tfLastName.rx.text.orEmpty.bind(to: fillNameViewModel.txtLastName).disposed(by: disposeBag)
     }
     
-    func subscribeIsBtnContinue() {
+    func subscribeButton() {
         fillNameViewModel.isBtnContinureEnable.subscribe(onNext: { enable in
             self.btnNext.isEnabled = enable
             self.btnNext.backgroundColor = enable ? .blue : UIColor.blue.withAlphaComponent(0.3)
@@ -60,6 +61,12 @@ class FillNameSignUpViewController: BaseViewController {
             
         })
         .disposed(by: disposeBag)
+        
+        btnBack.rx.tap.subscribe(onNext: { [weak self] in
+            
+            self?.navigationController?.popViewController(animated: true)
+            
+        }).disposed(by: disposeBag)
     }
     
     func subscribeToLoading() {

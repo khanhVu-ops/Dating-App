@@ -13,7 +13,6 @@ class LoginViewController: BaseViewController {
 
     @IBOutlet weak var vEnterNumber: UIView!
     @IBOutlet weak var btnContinue: UIButton!
-    @IBOutlet weak var btnLoginWithFb: UIButton!
     @IBOutlet weak var tfPhoneNumber: UITextField!
     @IBOutlet weak var lbError: UILabel!
     let loginViewModel = LoginViewModel()
@@ -39,11 +38,7 @@ class LoginViewController: BaseViewController {
         vEnterNumber.layer.masksToBounds = true
         
         btnContinue.layer.cornerRadius = 20
-        btnLoginWithFb.layer.cornerRadius = 20
-        btnLoginWithFb.layer.borderWidth = 0.5
-        btnLoginWithFb.layer.borderColor = UIColor.gray.cgColor
 
-       
     }
     
     func subscribeToLoading() {

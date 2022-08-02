@@ -34,30 +34,46 @@ extension TakePhotoCollectionViewCell: UIImagePickerControllerDelegate, UINaviga
             vc?.profileViewModel.loadingBehavior.accept(true)
             let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
             
-            guard let uid = Auth.auth().currentUser?.uid else {return}
+            guard let uid = Auth.auth().currentUser?.uid else {
+                self.vc?.profileViewModel.loadingBehavior.accept(false)
+                return
+                
+            }
             
-
-            img?.upload(uid: uid, folder: "listImages", completion: { [weak self] (url) in
-                guard let urlStr = url else {return}
-                var newList = self?.vc?.profileViewModel.listtImagesTemporary.value ?? []
-                newList = newList.filter({$0 != ""})
-                newList.append("\(urlStr)")
+            if img == nil {
+                self.vc?.profileViewModel.loadingBehavior.accept(false)
+                self.vc?.view.makeToast("Can't upload pictures")
                 
-                if (newList.count) < 6 {
-                    for _ in newList.count..<6 {
-                        newList.append("")
+            }else {
+                img?.upload(uid: uid, folder: "listImages", completion: { [weak self] (url) in
+                    guard let urlStr = url else {
+                        self?.vc?.profileViewModel.loadingBehavior.accept(false)
+                        return
+                        
                     }
-                }else {
-                    let mul = (newList.count/3 + 1)*3
-                    for _ in newList.count..<mul {
-                        newList.append("")
+                    var newList = self?.vc?.profileViewModel.listtImagesTemporary.value ?? []
+                    newList = newList.filter({$0 != ""})
+                    newList.append("\(urlStr)")
+                    
+                    if (newList.count) < 6 {
+                        for _ in newList.count..<6 {
+                            newList.append("")
+                        }
+                    }else {
+                        let mul = (newList.count/3 + 1)*3
+                        for _ in newList.count..<mul {
+                            newList.append("")
+                        }
                     }
-                }
-                self?.vc?.profileViewModel.listtImagesTemporary.accept(newList)
-                
-               
-                self?.vc?.profileViewModel.loadingBehavior.accept(false)
-            })
+                    self?.vc?.profileViewModel.listtImagesTemporary.accept(newList)
+                    
+                   
+                    self?.vc?.profileViewModel.loadingBehavior.accept(false)
+                })
+            }
+            
+        } else {
+            self.vc?.profileViewModel.loadingBehavior.accept(false)
         }
         
         picker.dismiss(animated: true, completion: nil)

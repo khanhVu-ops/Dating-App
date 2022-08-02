@@ -55,7 +55,7 @@ class SearchViewController: BaseViewController {
             .subscribe(onNext: { [unowned self] query in // Here we subscribe to every new value, that is not empty (thanks to filter above).
                 let list = messageViewModel.listFriendBehavior.value
                 
-                let newVal = list.filter({($0.userName?.lowercased() ?? "").hasPrefix(query)})
+                let newVal = list.filter({($0.userName?.lowercased() ?? "").hasPrefix(query.lowercased())})
                 if newVal.count>0 {
                     tbvListResult.isHidden = false
                 }else{

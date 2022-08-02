@@ -24,18 +24,18 @@
                             <constraint firstAttribute="height" constant="60" id="gcJ-ov-IyF"/>
                         </constraints>
                     </imageView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vmz-ZT-VwE">
-                        <rect key="frame" x="75" y="5" width="243" height="110"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="vmz-ZT-VwE">
+                        <rect key="frame" x="75" y="5" width="243" height="60"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Aby-HI-0gs">
-                                <rect key="frame" x="0.0" y="0.0" width="243" height="50"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Aby-HI-0gs">
+                                <rect key="frame" x="0.0" y="0.0" width="243" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="6JI-W0-aVr">
-                                <rect key="frame" x="0.0" y="60" width="243" height="50"/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="6JI-W0-aVr">
+                                <rect key="frame" x="0.0" y="36" width="243" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -43,8 +43,10 @@
                     </stackView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Aby-HI-0gs" firstAttribute="height" secondItem="R0y-Fd-XCs" secondAttribute="height" multiplier="0.6" id="6J5-tJ-isa"/>
                     <constraint firstItem="R0y-Fd-XCs" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Lhb-kM-10c"/>
                     <constraint firstItem="vmz-ZT-VwE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="T1V-rx-Dt7"/>
+                    <constraint firstItem="vmz-ZT-VwE" firstAttribute="bottom" secondItem="R0y-Fd-XCs" secondAttribute="bottom" id="eSJ-pQ-Cxc"/>
                     <constraint firstAttribute="trailing" secondItem="vmz-ZT-VwE" secondAttribute="trailing" constant="10" id="gjM-Tj-159"/>
                     <constraint firstItem="vmz-ZT-VwE" firstAttribute="leading" secondItem="R0y-Fd-XCs" secondAttribute="trailing" constant="10" id="hI6-j1-GV9"/>
                     <constraint firstItem="vmz-ZT-VwE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="jvZ-l8-yHB"/>
